@@ -1,0 +1,111 @@
+#
+# This is a File for the comand automation tool AnyMate
+# Author: Michael Abel 20.10.2009
+#
+# construction of options:
+#
+#   option := [ name , nickname , background , command_string ]
+#
+#   option[0] (string) : name (in the gui)
+#   option[1] (string) : nickname (in the console)
+#   option[2] (string) : background
+#   option[3] (string) : command string
+#
+# Example:
+#
+# [ # This is a configuration option
+# 'Greetings', 'greet', 'gray',
+# """cd ~/
+# echo "Hello World"
+# """
+# ],
+#
+# The command string is embedded into a python multiline comment. Thats's why
+# there are three " signs.
+#
+# To avoid Problems in commands please avoid the ' Character,
+# this would confuse bash.
+# To-Do Is there any way to avoid this Problem ???
+
+# This is the environment option it has the same syntax as other options.
+# The Environment ist executed before every other call.
+# Lots of commands assume that you chdir to your home directory here.
+environment=\
+[
+'Environment Settings', 'env', 'gray',
+"""cd ~/
+echo "Directory: $(pwd)"
+export TEST="This is a test!"
+"""
+]
+
+# This is the command list
+commandList= [
+# Enter insert options between here and the end of the list 
+
+[ # This is a configuration option
+'Greetings', 'greet', 'green',
+"""
+echo "Hello World"
+"""
+], 
+
+[ 
+'Top', 'top', 'green',
+"""
+top
+"""
+], 
+
+[ 
+'XClock', 'xclock', 'green',
+"""
+xclock
+"""
+], 
+
+[
+'Edit', 'edit', 'red',
+'# Edit this file.\n# This path is dynamically generated:\n'+
+'cd '+ abspath +';\n'+
+"""kwrite template.anymate
+"""
+],
+
+[
+'Test', 'test', 'red',
+"""echo Test
+echo $TEST 
+"""
+],
+
+[
+'Hello', 'hello', 'red',
+"""echo "Hello World"
+"""
+],
+
+[
+'Dock Laptop', 'dock', 'cyan',
+"""#This is an example. Just try this if you are familiar with xrandr
+#xrandr --output TMDS-1 --mode 1600x1200
+#xrandr --output TMDS-1 --right-of  LVDS"""
+],
+
+[
+'UnDock Laptop', 'undock', 'blue',
+"""#This is an example. Just try this if you are familiar with xrandr
+#xrandr --output TMDS-1 --mode 1440x900
+#xrandr --output LVDS --same-as TMDS-1
+#xrandr --output TMDS-1 --off
+#xrandr --output VGA --off"""
+],
+
+[
+'RGB Color', 'gray', '#ddddfd',
+"""echo "This is blue gray"
+"""
+],
+
+# End of the command list
+]
