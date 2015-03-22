@@ -3,7 +3,7 @@
 
 # AnyMate: Automate Anything - Version 1.0
 #
-# Automated execution of bash code snippets via Tkinter-GUI or Commandline.
+# Automated execution of bash code snippets via Tkinter-GUI or command-line.
 # Copyright (C) 2009 - 2015 Michael Abel
 #
 # See the README file for further explanation.

@@ -1,10 +1,15 @@
 
 This is a readme file for AnyMate  (Automate Anything)
+======================================================
 Copyright (C) 2009 - 2015 Michael Abel
 
-Anymate is a small desktop automation utility. It's purpose is the execution
-of bash script snippets. Sets of specific snippets can be configured via
-configuration files.
+Automated execution of bash code snippets via Tkinter-GUI or command-line.
+
+AnyMate is a small desktop automation utility for lazy people. It's purpose 
+is the execution of bash script snippets. It is target are scripts and 
+complicated commands that to complex to remember, but are not worth enough
+to write a real bash script for them. Snippets can be loaded from a 
+configuration file. Before execution, they can be edited in the GUI.
 
 Snippets can be executed via a GUI or via command-line. Before execution of a
 snippet a set of commands is inserted to serve as sort of environment. The
