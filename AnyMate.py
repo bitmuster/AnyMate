@@ -28,6 +28,7 @@
 # http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
 # http://effbot.org/tkinterbook/
 
+# TODO: There is a bug, when the windown is resized
 # TODO: Find solution for weird "environment" stuff
 # TODO: Combine environment and checkboxes for interpreter environment
 # TODO: Color Picker ?
@@ -334,8 +335,10 @@ class AnyMateGUI(object):
         #self.rootwin.iconbitmap(bitmap="@/mnt/Koffer/Projects/AnyMate/icon.xbm")
         #self.rootwin.iconbitmap(bitmap="@icon.xbm")
 
-        self.rootwin.resizable(width=True, height=True)
+        self.rootwin.resizable(width=False, height=True)
         self.basegrid = self.rootwin
+
+        self.basegrid.grid_rowconfigure(0, minsize= 28)
 
         self.optionsButton=Button( self.basegrid, text="Hide Options", command=self.hide_handler)
         self.optionsButton.grid(column=1,row=0)
@@ -343,7 +346,7 @@ class AnyMateGUI(object):
         if debug:
             self.hiddenButton=Button( self.basegrid, text="", command=self.hidden_handler)
             self.hiddenButton.grid(column=0,row=0)
-
+ 
 
         self.canvas= Canvas(
             self.basegrid,
@@ -370,6 +373,8 @@ class AnyMateGUI(object):
         self.mainframe= Frame(self.canvas)#, background="blue")
 
         def scrollWheel(event):
+            if debuglevel >0:
+                print 'scrollWheel %i'%event.num               
             if event.num == 4:
                 self.canvas.yview('scroll', -1, 'units')
             elif event.num == 5:
@@ -411,8 +416,10 @@ class AnyMateGUI(object):
         self.canvas.config (scrollregion=(0,0,width,height))
         if debuglevel >0 :
             print("The canvas should have now %ix%i pixels"%(width,height))
-        
-        
+            print("The basegrid has a size of %ix%i pixels"%
+                  (self.basegrid.winfo_width(),self.basegrid.winfo_height()))
+
+
     def hidden_handler(self):
             self.resizeCanvas()
         
