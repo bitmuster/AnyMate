@@ -143,15 +143,15 @@ class Config (object):
 
         # check for ' signs
         if self.text.count("'") > 0:
-            print "Warning the Command String \""+ \
-                self.name+"\" contains a ' sign, this might confuse bash"
+            print("Warning the Command String \""+ \
+                self.name+"\" contains a ' sign, this might confuse bash")
 
     def execute(self):
         """Execute configuration Option inside an rxvt/shell window
         """
         #os.system('rxvt -e echo hallo' )
         if debuglevel >0:
-            print 'Executing:"'+ self.name + '"'
+            print('Executing:"'+ self.name + '"')
         if self.envobj:
             c= shellPrefix + self.envobj.text+ self.text + shellSuffix
         else:
@@ -159,9 +159,9 @@ class Config (object):
             c= shellPrefix + self.text + shellSuffix
 
         if debuglevel >0:
-            print '****************'
-            print c
-            print '****************'
+            print('****************')
+            print(c)
+            print('****************')
         os.system(c)
 
     def __str__(self):
@@ -172,13 +172,13 @@ class Config (object):
         if self.envobj:
             self.text=cmd
         else:
-            print 'Command is not a environment Object'
+            print('Command is not a environment Object')
 
     def setEnvironment(self, env):
         if self.envobj==None:
             self.text=env
         else:
-            print 'Object is a environment Object'
+            print('Object is a environment Object')
 
 class AnyMate(object):
     """Class for Command execution"""
@@ -188,13 +188,13 @@ class AnyMate(object):
         self.conf=[]
 
         if os.path.isfile(filename) and ".taomate"==filename[-8:]:
-            print 'Loading TAOMate configuration file ' + filename
+            print('Loading TAOMate configuration file ' + filename)
             self.readLegacyTAOMate(filename)
         elif os.path.isfile(filename) and ".anymate"==filename[-8:]:
-            print 'Loading AnyMate configuration file ' + filename
+            print('Loading AnyMate configuration file ' + filename)
             self.readAnyMate(filename)
         else:
-            print 'Unkown configuration file' + sys.argv[1]
+            print('Unkown configuration file' + sys.argv[1])
             sys.exit()
 
     def getcolor(self,s):
@@ -225,13 +225,18 @@ class AnyMate(object):
             elif s[0]=='#':
                 return s
             else:
-                print 'Color type %s not found'%s
+                print('Color type %s not found'%s)
                 color=None
             return color
 
     def readLegacyTAOMate(self, filename):
         name=os.getcwd()+os.sep+filename
-        execfile(name,globals())
+        
+        if sys.version_info.major < 3:
+            execfile(name,globals())
+        else:
+            exec(compile(open(name).read(), name, 'exec'),globals())
+        
         #print locals()
         #print globals()
         fieldList=globals()['fieldList']
@@ -251,7 +256,10 @@ class AnyMate(object):
 
     def readAnyMate(self, filename):
         name=os.getcwd()+os.sep+filename
-        execfile(name,globals())
+        if sys.version_info.major < 3:
+            execfile(name,globals())
+        else:
+            exec(compile(open(name).read(), name, 'exec'),globals())
         #print locals()
         #print globals()
         commandList=globals()['commandList']
@@ -259,8 +267,8 @@ class AnyMate(object):
 
         field=environment
         if len(field) != 4:
-            print "Error in file " + filename
-            print "near field containing "+ field[0]
+            print("Error in file " + filename)
+            print("near field containing "+ field[0])
             sys.exit()
 
         color=self.getcolor( field[2] )
@@ -273,8 +281,8 @@ class AnyMate(object):
                 )
         for command in commandList:
             if len(command) != 4:
-                print "Error in file " + filename
-                print "near field containing "+ command[0]
+                print("Error in file " + filename)
+                print("near field containing "+ command[0])
                 sys.exit()
 
             color=self.getcolor( command[2] )
@@ -291,12 +299,12 @@ class AnyMate(object):
     def list(self):
         """just print what is inside here"""
         for i in self.conf:
-            print i
+            print(i)
 
     def commandList(self):
         """just print what is inside here"""
         for i in self.conf:
-            print i.command
+            print(i.command)
 
     def execute(self, command):
         """execute given command, only used in command line mode"""
@@ -312,7 +320,7 @@ class AnyMate(object):
             return True
 
         # when no item was found
-        print "Command not found"
+        print("Command not found")
         return False
 
 class AnyMateGUI(object):
@@ -374,7 +382,7 @@ class AnyMateGUI(object):
 
         def scrollWheel(event):
             if debuglevel >0:
-                print 'scrollWheel %i'%event.num               
+                print('scrollWheel %i'%event.num)
             if event.num == 4:
                 self.canvas.yview('scroll', -1, 'units')
             elif event.num == 5:
@@ -415,9 +423,9 @@ class AnyMateGUI(object):
         self.canvas.config ( height=height, width=width)
         self.canvas.config (scrollregion=(0,0,width,height))
         if debuglevel >0 :
-            print("The canvas should have now %ix%i pixels"%(width,height))
-            print("The basegrid has a size of %ix%i pixels"%
-                  (self.basegrid.winfo_width(),self.basegrid.winfo_height()))
+            print(("The canvas should have now %ix%i pixels"%(width,height)))
+            print(("The basegrid has a size of %ix%i pixels"%
+                  (self.basegrid.winfo_width(),self.basegrid.winfo_height())))
 
 
     def hidden_handler(self):
@@ -446,7 +454,7 @@ class AnyMateGUI(object):
         self.rootwin.after(50, self.resizeCanvas)
         
     def quit(self):
-        print 'exiting...'
+        print('exiting...')
         #killall clients
         sys.exit()
 
@@ -487,12 +495,12 @@ class AnyMateGUI(object):
         self.updateTextfield(number)
         if number==0:
             if debuglevel >0:
-                print 'Executing Environment'
+                print('Executing Environment')
 
             self.environment.execute()
         else:
             if debuglevel >0:
-                print 'Executing %i'%number
+                print('Executing %i'%number)
             # currently the option list is one element smaller since there is no
             # environment in the options list from Anymate
             self.options[number -1].execute()
@@ -500,7 +508,7 @@ class AnyMateGUI(object):
     def updateTextfield(self, number):
             text=self.textfields[number].get("0.0",END)
             if debuglevel >0:
-                print text
+                print(text)
             if number==0:
                 self.environment.setEnvironment(text)
             else:
@@ -511,21 +519,25 @@ class AnyMateGUI(object):
                 self.options[number-1].setCommand(text)
 
 if __name__=='__main__':
-    print 'Starting AnyMate'
+    print('Starting AnyMate')
     #print  sys.argv
     #print os.path.dirname(sys.argv[0])
     abspath=os.path.abspath( os.path.dirname(sys.argv[0]) )
-    print 'Switching to directory ' + abspath
+    print('Switching to directory ' + abspath)
     os.chdir( abspath )
     
     
     # GUI version
     if len(sys.argv) ==2:
-        from Tkinter import *
+        
+        if sys.version_info.major < 3:
+            from Tkinter import *
+        else:
+            from tkinter import *
 
         filename=sys.argv[1]
         if not os.path.isfile(filename):
-            print "File not found."
+            print("File not found.")
             sys.exit()
 
         anymate=AnyMate(filename)
@@ -534,7 +546,7 @@ if __name__=='__main__':
         anymategui=AnyMateGUI( anymate )
         #Start the GTK Mainloop
         anymategui.rootwin.mainloop()
-        print 'Exiting...'
+        print('Exiting...')
 
     # Commandline version
     elif len(sys.argv) ==4:
@@ -546,7 +558,7 @@ if __name__=='__main__':
             #elif os.path.abspath( os.path.dirname(sys.argv[0]) ) + filename:
             #   pass
             else:
-                print "File not found."
+                print("File not found.")
 
             command=sys.argv[2]
 
@@ -554,6 +566,6 @@ if __name__=='__main__':
             anymate.execute(command)
     else:
         # wrong amount of parameters
-        print 'Please use "anymate [--nogui <cmd>] <file.anymate>"'+\
-            ' to call anymate GUI.'
+        print('Please use "anymate [--nogui <cmd>] <file.anymate>"'+\
+            ' to call anymate GUI.')
         sys.exit()
