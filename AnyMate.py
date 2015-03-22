@@ -23,9 +23,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+# Links
+# http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
+# http://effbot.org/tkinterbook/
+
 # TODO: Find solution for weird "environment" stuff
 # TODO: Combine environment and checkboxes for interpreter environment
-# TODO: Option to hide the command window, and settings
 # TODO: Color Picker ?
 # TODO: Add Checkboxes to choose interpreter and or command window, rxvt, gnome-shell, cmd, mintty, preambles
 # TODO: Add Windows / Cygwin profile to avoid ongoing pain
@@ -33,7 +37,6 @@
 # TODO: Buttons: Save, Revert, SaveAs, Open
 # TODO: Select terminal type per configuration
 # TODO: Other fonts
-# TODO: Possibility to hide the text frames
 # TODO: Remove Taomate dependencies
 
 # TODO:Problems with the ' Character,
@@ -59,8 +62,13 @@ import os.path
 import sys
 import time
 
+debug=False
+
 # Debuglevel 0: No debugging outputs, 1: debugging outputs
-debuglevel=0
+if debug:
+    debuglevel=1
+else:
+    debuglevel=0
 
 shell='xterm' # := xterm | urxvt | gnome-terminal | none
 
@@ -92,7 +100,7 @@ elif shell=='none':
     shellSuffix=\
     """ ' &"""
 else:
-    print 'Shell not found.'
+    print ('Shell not found.')
     sys.exit()
 
 # Path of this script
@@ -214,7 +222,7 @@ class AnyMate(object):
             elif s == 'kofferbg':
                 color=kofferbg
             elif s[0]=='#':
-                 return s
+                return s
             else:
                 print 'Color type %s not found'%s
                 color=None
@@ -317,6 +325,7 @@ class AnyMateGUI(object):
 
         self.buttons=[]
         self.textfields=[]
+        self.optionsHidden=False
 
         # Set up the GUI
         self.rootwin=Tk(className="AnyMate: "+ filename)
@@ -324,29 +333,40 @@ class AnyMateGUI(object):
         #self.rootwin.iconbitmap(default="/mnt/Koffer/Projects/AnyMate/icon.ico")
         #self.rootwin.iconbitmap(bitmap="@/mnt/Koffer/Projects/AnyMate/icon.xbm")
         #self.rootwin.iconbitmap(bitmap="@icon.xbm")
-        self.rootwin.resizable(width=False, height=True)
+
+        self.rootwin.resizable(width=True, height=True)
+        self.basegrid = self.rootwin
+
+        self.optionsButton=Button( self.basegrid, text="Hide Options", command=self.hide_handler)
+        self.optionsButton.grid(column=1,row=0)
+
+        if debug:
+            self.hiddenButton=Button( self.basegrid, text="", command=self.hidden_handler)
+            self.hiddenButton.grid(column=0,row=0)
+
 
         self.canvas= Canvas(
-            self.rootwin,
+            self.basegrid,
             #height=800,
             width=200,
-            scrollregion=(0,0,100,100)
-            #background="red"
+            scrollregion=(0,0,100,100),
+            #background="red",
+            #borderwidth=5
             )
         self.canvas.grid(
             column=1,
-            row=0,
+            row=1,
             sticky=N+S+E+W
             )
 
-        self.scrollbar=Scrollbar(self.rootwin,orient=VERTICAL)
+        self.scrollbar=Scrollbar(self.basegrid,orient=VERTICAL)
 
-        self.scrollbar.grid(row=0,column=0,sticky=N+S)
+        self.scrollbar.grid(row=1,column=0,sticky=N+S)
         self.scrollbar.config( command=self.canvas.yview )
         self.canvas.config(yscrollcommand=self.scrollbar.set)
-        self.rootwin.rowconfigure(0, weight=1)
-        self.rootwin.columnconfigure(0, weight=1)
-        self.rootwin.columnconfigure(1, weight=0)
+        self.basegrid.rowconfigure(0, weight=1)
+        self.basegrid.columnconfigure(0, weight=1)
+        self.basegrid.columnconfigure(1, weight=0)
         self.mainframe= Frame(self.canvas)#, background="blue")
 
         def scrollWheel(event):
@@ -358,15 +378,15 @@ class AnyMateGUI(object):
         self.scrollbar.bind('<Button-4>', scrollWheel)
         self.scrollbar.bind('<Button-5>', scrollWheel)
 
-        self.rootwin.bind_all('<Button-4>', scrollWheel)
-        self.rootwin.bind_all('<Button-5>', scrollWheel)
+        self.basegrid.bind_all('<Button-4>', scrollWheel)
+        self.basegrid.bind_all('<Button-5>', scrollWheel)
 
         #paint the frame on to the canvas -> posibillity for global scrollbar
         #http://tkinter.unpythonic.net/wiki/ScrolledFrame
         self.canvas.create_window(0,0, anchor='nw', window=self.mainframe)
         #use wait visibility later and resize the Canvas
 
-        self.useRow=0;
+        self.useRow=1;
         self.useRow+=1
         # generate the environment field
         self.generateOption(parent=self.mainframe, row=self.useRow,
@@ -379,15 +399,45 @@ class AnyMateGUI(object):
             self.generateOption(parent=self.mainframe, row=self.useRow,
                 option=option, number=k+1)
             self.useRow+=1
+        
+        self.basegrid.wait_visibility(self.mainframe)
+        self.resizeCanvas()
 
-        #resize the canvas after widget creation
-        self.rootwin.wait_visibility(self.mainframe)
+    def resizeCanvas(self):
+        """Set the canvas size equal to the size of the mainframe"""
         height= self.mainframe.winfo_height()
         width=self.mainframe.winfo_width()
         self.canvas.config ( height=height, width=width)
-        #self.canvas.config ( height=800, width=width)
         self.canvas.config (scrollregion=(0,0,width,height))
-
+        if debuglevel >0 :
+            print("The canvas should have now %ix%i pixels"%(width,height))
+        
+        
+    def hidden_handler(self):
+            self.resizeCanvas()
+        
+    def hide_handler (self):
+        if self.optionsHidden:
+            if debuglevel >0:
+                print ("Un-Hiding")
+            for field in self.textfields:
+                field.grid()
+            self.resizeCanvas()
+            self.optionsButton.config(text="Hide Options")
+            self.optionsHidden=False
+        else:
+            if debuglevel >0:
+                print ("Hiding")
+            for field in self.textfields:
+                field.grid_remove() # After that, the widget still exists & it doesn't forget its attributes
+            self.resizeCanvas()
+            self.optionsButton.config(text="Show Options")
+            self.optionsHidden=True
+        
+        # Fixme:
+        # we need to call resize after continuing in the mainloop to wait for the resize to prpopagate
+        self.rootwin.after(50, self.resizeCanvas)
+        
     def quit(self):
         print 'exiting...'
         #killall clients
