@@ -66,5 +66,20 @@ class TestClassAnyMate(unittest.TestCase):
         with self.assertRaises(Exception):
             AnyMate("empty.anymate_nix")
 
+    def test_getcolor(self):
+        a=AnyMate("empty.anymate")
+        self.assertEqual( a.getcolor("red"), red)
+        self.assertEqual( a.getcolor("green"), green)
+        self.assertEqual( a.getcolor("blue"), blue)
+        self.assertEqual( a.getcolor("gray"), gray)
+        self.assertEqual( a.getcolor("cyan"), cyan)
+
+        self.assertEqual( red, '#EFBFBF')
+
+    def test_getcolor_fail(self):
+        a=AnyMate("empty.anymate")
+        self.assertEqual( a.getcolor("colorofmagic"), None)
+
+
 if __name__ == '__main__':
     unittest.main()

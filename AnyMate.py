@@ -204,36 +204,39 @@ class AnyMate(object):
             raise SystemError("'Unkown configuration file' + filename")
 
     def getcolor(self,s):
-            if s == None:
-                color=None
-            elif s == 'red':
-                color=red
-            elif s == 'green':
-                color=green
-            elif s == 'blue':
-                color=blue
-            elif s == 'gray':
-                color=gray
-            elif s == 'cyan':
-                color=cyan
+        """Returns predefined color string
+        TODO: currently returns None when none was found -> Exepton ?
+        """
+        if s == None:
+            color=None
+        elif s == 'red':
+            color=red
+        elif s == 'green':
+            color=green
+        elif s == 'blue':
+            color=blue
+        elif s == 'gray':
+            color=gray
+        elif s == 'cyan':
+            color=cyan
 
-            # Old color stlye ( *.taomate)
-            elif s == 'redbg':
-                color=redbg
-            elif s == 'cmdbg':
-                color=cmdbg
-            elif s == 'cmdbg2':
-                color=cmdbg2
-            elif s == 'configbg':
-                color=configbg
-            elif s == 'kofferbg':
-                color=kofferbg
-            elif s[0]=='#':
-                return s
-            else:
-                print('Color type %s not found'%s)
-                color=None
-            return color
+        # Old color stlye ( *.taomate)
+        elif s == 'redbg':
+            color=redbg
+        elif s == 'cmdbg':
+            color=cmdbg
+        elif s == 'cmdbg2':
+            color=cmdbg2
+        elif s == 'configbg':
+            color=configbg
+        elif s == 'kofferbg':
+            color=kofferbg
+        elif s[0]=='#':
+            return s
+        else:
+            print('Color type %s not found'%s)
+            color=None
+        return color
 
     def readLegacyTAOMate(self, filename):
         name=os.getcwd()+os.sep+filename
