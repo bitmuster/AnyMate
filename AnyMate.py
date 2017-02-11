@@ -33,7 +33,7 @@
 # TODO: -> so try to enhance this first:
 # TODO: Add tests with full code coverage
 # TODO: Refractor
-# TODO: Find solution for weird "environment" stuff (?)
+# TODO: Find solution for weird "environment" stuff in class config
 # TODO: Combine environment and checkboxes for interpreter environment
 # TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
 #    gnome-shell, cmd, mintty, preambles -> Why?
@@ -44,6 +44,7 @@
 # TODO: Other fonts
 # TODO: Remove Taomate dependencies
 # TODO: Switch to python logger
+# TODO: Rename Config command to nick
 
 
 # Infos:
@@ -164,16 +165,21 @@ class Config (object):
         os.system(c)
 
     def __str__(self):
-        return ('Name: %s\nCommand: %s\nCode:\n%s')%\
+        return ('Name: %s Command: %s Code: %s')%\
             (self.name, self.command, self.text)
 
     def setCommand(self, cmd):
+        # Currently only allowed for environment objects (why ?)
         if self.envobj:
             self.text=cmd
         else:
             print('Command is not a environment Object')
 
+    def getCommand(self):
+        return self.text
+
     def setEnvironment(self, env):
+        # This can only happen when the Config object is of type envobject
         if self.envobj==None:
             self.text=env
         else:

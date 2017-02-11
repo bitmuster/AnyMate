@@ -23,7 +23,7 @@ class TestAnyMateConfig(unittest.TestCase):
     @patch("os.system")
     def test_execute(self, osmock):
         # Setup
-        c=Config("ls -l","name","command","color","")
+        c=Config("ls -l","name","command","color", None)
 
         # According to the current setting
         call='xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c \' \nls -l echo "Sleeping 5 seconds"\n sleep 5\' &'
@@ -33,6 +33,27 @@ class TestAnyMateConfig(unittest.TestCase):
 
         # Verify
         osmock.assert_called_once_with(call)
+
+    def test_str(self):
+        # Setup
+        c=Config("text","name","command","color", None)
+        expected="Name: name Command: command Code: text"
+
+        # Exercise
+        r=str(c)
+
+        # Verify
+        self.assertEqual(r, expected)
+
+    def test_getters(self):
+        c=Config("text","name","command","color", "Env")
+        cmd = "Whatever"
+        env= "Env"
+        c.setEnvironment(env)
+        c.setCommand(cmd)
+        r=c.getCommand()
+        self.assertEqual(r, cmd)
+
 
 if __name__ == '__main__':
     unittest.main()
