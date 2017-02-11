@@ -232,7 +232,10 @@ class AnyMate(object):
         elif s == 'kofferbg':
             color=kofferbg
         elif s[0]=='#':
-            return s
+            if len(s) == 7:
+                return s
+            else:
+                raise SystemError("Unknown color")
         else:
             print('Color type %s not found'%s)
             color=None
