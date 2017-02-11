@@ -187,6 +187,7 @@ class Config (object):
 
 class AnyMate(object):
     """Class for Command execution"""
+
     def __init__(self, filename):
         self.environment=None
         # Central list for configration options
@@ -199,8 +200,8 @@ class AnyMate(object):
             print('Loading AnyMate configuration file ' + filename)
             self.readAnyMate(filename)
         else:
-            print('Unkown configuration file' + sys.argv[1])
-            sys.exit()
+            print('Unkown configuration file' + filename)
+            raise SystemError("'Unkown configuration file' + filename")
 
     def getcolor(self,s):
             if s == None:

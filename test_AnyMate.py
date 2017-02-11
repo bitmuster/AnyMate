@@ -54,6 +54,17 @@ class TestAnyMateConfig(unittest.TestCase):
         r=c.getCommand()
         self.assertEqual(r, cmd)
 
+class TestClassAnyMate(unittest.TestCase):
+    """Here we re-use a real existing file with defined content"""
+
+    def test_init(self):
+        a=AnyMate("empty.anymate")
+        a.list()
+        a.commandList()
+
+    def test_fail(self):
+        with self.assertRaises(Exception):
+            AnyMate("empty.anymate_nix")
 
 if __name__ == '__main__':
     unittest.main()
