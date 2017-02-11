@@ -6,7 +6,7 @@ Copyright (C) 2009 - 2015 Michael Abel
 Automated execution of bash code snippets via Tkinter-GUI or command-line.
 
 AnyMate is a small desktop automation utility for lazy people. It's purpose 
-is the execution of bash script snippets. It is target are scripts and 
+is the execution of bash script snippets. It's target are scripts and 
 complicated commands that to complex to remember, but are not worth enough
 to write a real bash script for them. Snippets can be loaded from a 
 configuration file. Before execution, they can be edited in the GUI.
@@ -19,6 +19,10 @@ directory or insert environment variables.
 Command and environment can be executed in terminal windows or directly in the
 current shell. The variable "shell" in AnyMate.py controls this behavior. Good
 presets are available for urxvt and xterm.
+
+I use this tool now on a daily basis for lots of years. It helps me to organize
+all my tasks while swtiching pc's, synchronsize files and keep track of
+software that is not installed via debian's package management.
 
 Commandline:
 ------------
