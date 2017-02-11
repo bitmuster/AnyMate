@@ -29,34 +29,34 @@
 # http://effbot.org/tkinterbook/
 
 # TODO: There is a bug, when the windown is resized
-# TODO: Find solution for weird "environment" stuff
+# TODO:Problems with the ' Character,
+# TODO: -> so try to enhance this first:
+# TODO: Add tests with full code coverage
+# TODO: Refractor
+# TODO: Find solution for weird "environment" stuff (?)
 # TODO: Combine environment and checkboxes for interpreter environment
-# TODO: Color Picker ?
-# TODO: Add Checkboxes to choose interpreter and or command window, rxvt, gnome-shell, cmd, mintty, preambles
-# TODO: Add Windows / Cygwin profile to avoid ongoing pain
-# TODO: Read / Store from/to XML
+# TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
+#    gnome-shell, cmd, mintty, preambles -> Why?
+# TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
+# TODO: Read / Store from/to XML or another suitable format
 # TODO: Buttons: Save, Revert, SaveAs, Open
 # TODO: Select terminal type per configuration
 # TODO: Other fonts
 # TODO: Remove Taomate dependencies
 
-# TODO:Problems with the ' Character,
-# TODO: -> so try to enhance this first:
 
-#rxvt -e /bin/bash -c '
-#echo "Hello World"
-#read any-key' &
-
-# DONE: Permission denied
-# micha@ganymed:~/Koffer/Projects/AnyMate$ ./AnyMate.py template.anymate 
-# bash: ./AnyMate.py: /usr/bin/env: bad interpreter: Permission denied
-# mount -o remount,exec /dev/DEVICE solved it
-
-# Use this as as example for creating a button at the gnome panel
-# xterm -e /bin/bash -c 'cd /home/micha/Koffer/Projects/AnyMate; ./AnyMate.py Koffer.anymate; read any_key'
-
-# To avoid Problems in commands please avoid the ' Character,
-# this would confuse bash.
+# Infos:
+#  * Use this as as example for creating a button at the gnome panel
+#     xterm -e /bin/bash -c 'cd /home/micha/Koffer/Projects/AnyMate; ./AnyMate.py Koffer.anymate; read any_key'
+#  * To avoid Problems in commands please avoid the ' Character, 
+#     this would confuse bash.
+#
+# rxvt micro snippet with integrated waiting:
+"""
+rxvt -e /bin/bash -c '
+echo "Hello World"
+read' &
+"""
 
 import os
 import os.path
