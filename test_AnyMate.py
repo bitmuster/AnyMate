@@ -1,5 +1,10 @@
 
+# 4 Phase test pattern (from Osherove?)
+# Setup-Exercise-Verify-Cleanup
+
 import unittest
+from unittest.mock import MagicMock,patch
+
 from AnyMate import *
 
 class TestAnyMateConfig(unittest.TestCase):
@@ -15,7 +20,19 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(c.color,"color")
         self.assertEqual(c.envobj,"envobj")
 
+    @patch("os.system")
+    def test_execute(self, osmock):
+        # Setup
+        c=Config("ls -l","name","command","color","")
 
+        # According to the current setting
+        call='xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c \' \nls -l echo "Sleeping 5 seconds"\n sleep 5\' &'
+
+        # Execise
+        c.execute()
+
+        # Verify
+        osmock.assert_called_once_with(call)
 
 if __name__ == '__main__':
     unittest.main()

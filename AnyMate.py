@@ -43,6 +43,7 @@
 # TODO: Select terminal type per configuration
 # TODO: Other fonts
 # TODO: Remove Taomate dependencies
+# TODO: Switch to python logger
 
 
 # Infos:
@@ -149,13 +150,11 @@ class Config (object):
     def execute(self):
         """Execute configuration Option inside an rxvt/shell window
         """
-        #os.system('rxvt -e echo hallo' )
         if debuglevel >0:
             print('Executing:"'+ self.name + '"')
         if self.envobj:
             c= shellPrefix + self.envobj.text+ self.text + shellSuffix
         else:
-            #self.update()
             c= shellPrefix + self.text + shellSuffix
 
         if debuglevel >0:
