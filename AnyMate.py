@@ -220,10 +220,14 @@ class AnyMate(object):
 
     def readAnyMate(self, filename):
         name=os.getcwd()+os.sep+filename
+
+        # Check if we have python 2 or 3
         if sys.version_info.major < 3:
             execfile(name,globals())
         else:
+            #print(globals())
             exec(compile(open(name).read(), name, 'exec'),globals())
+
         #print locals()
         #print globals()
         commandList=globals()['commandList']

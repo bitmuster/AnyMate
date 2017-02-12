@@ -120,6 +120,19 @@ class TestClassAnyMate(unittest.TestCase):
         call='xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c \' \ncd ~/\necho "Directory: $(pwd)"\necho "Hello World!"\n echo "Sleeping 5 seconds"\n sleep 5\' &'
         osmock.assert_called_with(call)
 
+class TestClassAnyMate(unittest.TestCase):
+
+    def disabled_test_init(self):
+        """Just load it to see if it loads,
+        TODO: Remove abspath from this place
+        """
+        abspath=os.path.abspath( os.path.dirname(sys.argv[0]) )
+        print('Switching to directory ' + abspath)
+        os.chdir( abspath )
+        print(AnyMate.abspath)
+        AnyMate.abspath=abspath
+        print(AnyMmate.abspath)
+        a=AnyMate("template.anymate")
 
 if __name__ == '__main__':
     unittest.main()
