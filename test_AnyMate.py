@@ -37,7 +37,7 @@ class TestAnyMateConfig(unittest.TestCase):
     def test_str(self):
         # Setup
         c=Config("text","name","command","color", None)
-        expected="Name: name Command: command Code: text"
+        expected="Name: \"name\"; Command: \"command\"; Code: \"text\";"
 
         # Exercise
         r=str(c)
@@ -86,6 +86,28 @@ class TestClassAnyMate(unittest.TestCase):
         a=AnyMate("empty.anymate")
         with self.assertRaises( SystemError ):
             a.getcolor("#FF")
+
+    def test_readAnyMate(self):
+        """We read the example file, we know the content"""
+        a=AnyMate("empty.anymate")
+        self.assertEqual( a.conf[0].name, "Hello World" )
+        self.assertEqual( a.conf[0].command, "hello" )
+        self.assertEqual( a.conf[0].text, 'echo "Hello World!"\n' )
+        self.assertEqual( a.conf[0].color, '#ddffdd' )
+
+        self.assertEqual( a.conf[0].envobj.name, 'Environment Settings' )
+
+    @patch("AnyMate.Config.execute")
+    def test_execute(self, exmock):
+        a=AnyMate("empty.anymate")
+        a.execute("hello")
+
+    @patch("os.system")
+    def test_execute_os_mocked(self, osmock):
+        a=AnyMate("empty.anymate")
+        a.execute("hello")
+        call='xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c \' \ncd ~/\necho "Directory: $(pwd)"\necho "Hello World!"\n echo "Sleeping 5 seconds"\n sleep 5\' &'
+        osmock.assert_called_with(call)
 
 
 if __name__ == '__main__':

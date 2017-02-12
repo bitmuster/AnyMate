@@ -165,7 +165,7 @@ class Config (object):
         os.system(c)
 
     def __str__(self):
-        return ('Name: %s Command: %s Code: %s')%\
+        return ('Name: \"%s\"; Command: \"%s\"; Code: \"%s\";')%\
             (self.name, self.command, self.text)
 
     def setCommand(self, cmd):
