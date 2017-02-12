@@ -62,6 +62,10 @@ class TestClassAnyMate(unittest.TestCase):
         a.list()
         a.commandList()
 
+    def test_init_deprecated(self):
+        with self.assertRaises( SystemError ):
+            a=AnyMate("empty.taomate")
+
     def test_fail(self):
         with self.assertRaises( SystemError ):
             AnyMate("empty.anymate_nix")
@@ -82,6 +86,7 @@ class TestClassAnyMate(unittest.TestCase):
         self.assertEqual( a.getcolor(None), None)
         self.assertEqual( a.getcolor("#FFFFFF"), "#FFFFFF")
 
+
     def test_getcolor_badfail(self):
         a=AnyMate("empty.anymate")
         with self.assertRaises( SystemError ):
@@ -101,6 +106,12 @@ class TestClassAnyMate(unittest.TestCase):
     def test_execute(self, exmock):
         a=AnyMate("empty.anymate")
         a.execute("hello")
+
+    @patch("AnyMate.Config.execute")
+    def test_execute_fail(self, exmock):
+        a=AnyMate("empty.anymate")
+        with self.assertRaises(SystemError):
+            a.execute("no")
 
     @patch("os.system")
     def test_execute_os_mocked(self, osmock):

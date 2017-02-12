@@ -117,14 +117,6 @@ cyan=   '#BFEFEF'
 gray=   '#BFBFBF'
 blue=   '#BFBFEF'
 
-# Old color style (Taomate)
-redbg=      '#EFBFBF'
-cmdbg=      '#BFEFBF'
-cmdbg2=     '#BFEFEF'
-configbg=   '#BFBFBF'
-kofferbg=   '#BFBFEF'
-
-
 class Config (object):
     """This class represents configuration objects
     """
@@ -193,10 +185,7 @@ class AnyMate(object):
         # Central list for configration options
         self.conf=[]
 
-        if os.path.isfile(filename) and ".taomate"==filename[-8:]:
-            print('Loading TAOMate configuration file ' + filename)
-            self.readLegacyTAOMate(filename)
-        elif os.path.isfile(filename) and ".anymate"==filename[-8:]:
+        if os.path.isfile(filename) and ".anymate"==filename[-8:]:
             print('Loading AnyMate configuration file ' + filename)
             self.readAnyMate(filename)
         else:
@@ -219,18 +208,6 @@ class AnyMate(object):
             color=gray
         elif s == 'cyan':
             color=cyan
-
-        # Old color stlye ( *.taomate)
-        elif s == 'redbg':
-            color=redbg
-        elif s == 'cmdbg':
-            color=cmdbg
-        elif s == 'cmdbg2':
-            color=cmdbg2
-        elif s == 'configbg':
-            color=configbg
-        elif s == 'kofferbg':
-            color=kofferbg
         elif s[0]=='#':
             if len(s) == 7:
                 return s
@@ -240,31 +217,6 @@ class AnyMate(object):
             print('Color type %s not found'%s)
             color=None
         return color
-
-    def readLegacyTAOMate(self, filename):
-        name=os.getcwd()+os.sep+filename
-        
-        if sys.version_info.major < 3:
-            execfile(name,globals())
-        else:
-            exec(compile(open(name).read(), name, 'exec'),globals())
-        
-        #print locals()
-        #print globals()
-        fieldList=globals()['fieldList']
-        environment=globals()['environment']
-
-        field=environment
-        color=self.getcolor( field[3] )
-        self.environment=\
-            Config( field[0], field[1], field[2], color  )
-
-        for field in fieldList:
-            color=self.getcolor( field[3] )
-            self.conf.append(
-                Config( field[0], field[1], field[2], color, 
-                    envobj=self.environment )
-                )
 
     def readAnyMate(self, filename):
         name=os.getcwd()+os.sep+filename
@@ -333,7 +285,7 @@ class AnyMate(object):
 
         # when no item was found
         print("Command not found")
-        return False
+        raise SystemError("Command not found")
 
 class AnyMateGUI(object):
     """Responsible for creating the GUI"""
