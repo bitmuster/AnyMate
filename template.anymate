@@ -64,6 +64,7 @@ xclock
 """
 ], 
 
+# Automaticallyy inserted content
 [
 'Edit', 'edit', 'red',
 '# Edit this file.\n# This path is dynamically generated:\n'+

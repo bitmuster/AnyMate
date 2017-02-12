@@ -2,8 +2,11 @@
 
 run:
 	python3 AnyMate.py template.anymate
+
 test:
+	#python2 test_AnyMate.py
 	python3 test_AnyMate.py
+
 coverage:
 	python3-coverage run test_AnyMate.py
 	python3-coverage report
