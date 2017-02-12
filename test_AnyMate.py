@@ -120,7 +120,7 @@ class TestClassAnyMate(unittest.TestCase):
         call='xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c \' \ncd ~/\necho "Directory: $(pwd)"\necho "Hello World!"\n echo "Sleeping 5 seconds"\n sleep 5\' &'
         osmock.assert_called_with(call)
 
-class TestClassAnyMate(unittest.TestCase):
+class TestClassAnyMateTemplate(unittest.TestCase):
 
     def disabled_test_init(self):
         """Just load it to see if it loads,
