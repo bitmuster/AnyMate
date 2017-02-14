@@ -308,25 +308,21 @@ class AnyMateGUI(object):
         self.rootwin=Tk(className="AnyMate: "+ filename)
 
         # The alternatve wm_iconbitmap is buggywill never work
-
         iconfile=os.path.join(sys.path[0], "icon.png")
         self.rootwin.iconphoto(True, PhotoImage(file=iconfile))
-
         self.rootwin.resizable(width=False, height=True)
-        self.basegrid = self.rootwin
+        self.rootwin.grid_rowconfigure(0, minsize= 28)
 
-        self.basegrid.grid_rowconfigure(0, minsize= 28)
-
-        self.optionsButton=Button( self.basegrid, text="Hide Options", command=self.hide_handler)
+        self.optionsButton=Button( self.rootwin, text="Hide Options", command=self.hide_handler)
         self.optionsButton.grid(column=1,row=0)
 
         if debug:
-            self.hiddenButton=Button( self.basegrid, text="", command=self.hidden_handler)
+            self.hiddenButton=Button( self.rootwin, text="", command=self.hidden_handler)
             self.hiddenButton.grid(column=0,row=0)
  
 
         self.canvas= Canvas(
-            self.basegrid,
+            self.rootwin,
             #height=800,
             width=200,
             scrollregion=(0,0,100,100),
@@ -339,15 +335,15 @@ class AnyMateGUI(object):
             sticky=N+S+E+W
             )
 
-        self.scrollbar=Scrollbar(self.basegrid,orient=VERTICAL)
+        self.scrollbar=Scrollbar(self.rootwin,orient=VERTICAL)
 
         self.scrollbar.grid(row=1,column=0,sticky=N+S)
         self.scrollbar.config( command=self.canvas.yview )
         self.canvas.config(yscrollcommand=self.scrollbar.set)
-        self.basegrid.rowconfigure(0, weight=0)
-        self.basegrid.rowconfigure(1, weight=1)
-        self.basegrid.columnconfigure(0, weight=0)
-        self.basegrid.columnconfigure(1, weight=0)
+        self.rootwin.rowconfigure(0, weight=0)
+        self.rootwin.rowconfigure(1, weight=1)
+        self.rootwin.columnconfigure(0, weight=0)
+        self.rootwin.columnconfigure(1, weight=0)
         self.mainframe= Frame(self.canvas)#, background="blue")
 
         def scrollWheel(event):
@@ -361,8 +357,8 @@ class AnyMateGUI(object):
         self.scrollbar.bind('<Button-4>', scrollWheel)
         self.scrollbar.bind('<Button-5>', scrollWheel)
 
-        self.basegrid.bind_all('<Button-4>', scrollWheel)
-        self.basegrid.bind_all('<Button-5>', scrollWheel)
+        self.rootwin.bind_all('<Button-4>', scrollWheel)
+        self.rootwin.bind_all('<Button-5>', scrollWheel)
 
         #paint the frame on to the canvas -> posibillity for global scrollbar
         #http://tkinter.unpythonic.net/wiki/ScrolledFrame
@@ -383,7 +379,7 @@ class AnyMateGUI(object):
                 option=option, number=k+1)
             self.useRow+=1
         
-        self.basegrid.wait_visibility(self.mainframe)
+        self.rootwin.wait_visibility(self.mainframe)
         self.resizeCanvas()
 
     def resizeCanvas(self):
@@ -394,8 +390,8 @@ class AnyMateGUI(object):
         self.canvas.config (scrollregion=(0,0,width,height))
         if debuglevel >0 :
             print(("The canvas should have now %ix%i pixels"%(width,height)))
-            print(("The basegrid has a size of %ix%i pixels"%
-                  (self.basegrid.winfo_width(),self.basegrid.winfo_height())))
+            print(("The rootwin has a size of %ix%i pixels"%
+                  (self.rootwin.winfo_width(),self.rootwin.winfo_height())))
 
 
     def hidden_handler(self):
