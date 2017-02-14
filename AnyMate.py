@@ -41,7 +41,6 @@
 # TODO: Buttons: Save, Revert, SaveAs, Open
 # TODO: Select terminal type per configuration
 # TODO: Other fonts
-# TODO: Remove Taomate dependencies
 # TODO: Switch to python logger
 # TODO: Rename Config command to nick
 
@@ -291,7 +290,9 @@ class AnyMate(object):
         raise SystemError("Command not found")
 
 class AnyMateGUI(object):
-    """Responsible for creating the GUI"""
+    """Responsible for creating the GUI
+    TODO: How can we writetests for this class?
+    """
     
     def __init__(self, anymate):
         self.environment= anymate.environment;
@@ -305,10 +306,11 @@ class AnyMateGUI(object):
 
         # Set up the GUI
         self.rootwin=Tk(className="AnyMate: "+ filename)
-        #self.rootwin.resizable(width=True, height=True)
-        #self.rootwin.iconbitmap(default="/mnt/Koffer/Projects/AnyMate/icon.ico")
-        #self.rootwin.iconbitmap(bitmap="@/mnt/Koffer/Projects/AnyMate/icon.xbm")
-        #self.rootwin.iconbitmap(bitmap="@icon.xbm")
+
+        # The alternatve wm_iconbitmap is buggywill never work
+
+        iconfile=os.path.join(sys.path[0], "icon.png")
+        self.rootwin.iconphoto(True, PhotoImage(file=iconfile))
 
         self.rootwin.resizable(width=False, height=True)
         self.basegrid = self.rootwin
@@ -487,7 +489,7 @@ class AnyMateGUI(object):
                 self.options[number-1].setCommand(text)
 
 if __name__=='__main__':
-    print('Starting AnyMate')
+    print('Starting AnyMate from', sys.path[0])
     #print  sys.argv
     #print os.path.dirname(sys.argv[0])
     abspath=os.path.abspath( os.path.dirname(sys.argv[0]) )
