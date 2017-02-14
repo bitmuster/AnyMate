@@ -27,6 +27,7 @@
 # Links
 # http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
 # http://effbot.org/tkinterbook/
+# http://www.tkdocs.com/tutorial/grid.html
 
 # TODO: There is a bug, when the windown is resized
 # TODO:Problems with the ' Character,
@@ -343,8 +344,9 @@ class AnyMateGUI(object):
         self.scrollbar.grid(row=1,column=0,sticky=N+S)
         self.scrollbar.config( command=self.canvas.yview )
         self.canvas.config(yscrollcommand=self.scrollbar.set)
-        self.basegrid.rowconfigure(0, weight=1)
-        self.basegrid.columnconfigure(0, weight=1)
+        self.basegrid.rowconfigure(0, weight=0)
+        self.basegrid.rowconfigure(1, weight=1)
+        self.basegrid.columnconfigure(0, weight=0)
         self.basegrid.columnconfigure(1, weight=0)
         self.mainframe= Frame(self.canvas)#, background="blue")
 
@@ -417,8 +419,8 @@ class AnyMateGUI(object):
             self.optionsButton.config(text="Show Options")
             self.optionsHidden=True
         
-        # Fixme:
-        # we need to call resize after continuing in the mainloop to wait for the resize to prpopagate
+        # we need to call resize after continuing in the mainloop to
+        # wait for the resize to prpopagate
         self.rootwin.after(50, self.resizeCanvas)
         
     def quit(self):
