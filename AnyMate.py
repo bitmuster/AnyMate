@@ -4,7 +4,7 @@
 # AnyMate: Automate Anything - Version 1.0
 #
 # Automated execution of bash code snippets via Tkinter-GUI or command-line.
-# Copyright (C) 2009 - 2015 Michael Abel
+# Copyright (C) 2009 - 2017 Michael Abel
 #
 # See the README file for further explanation.
 #
@@ -29,11 +29,9 @@
 # http://effbot.org/tkinterbook/
 # http://www.tkdocs.com/tutorial/grid.html
 
-# TODO: There is a bug, when the windown is resized
 # TODO:Problems with the ' Character,
-# TODO: -> so try to enhance this first:
 # TODO: Add tests with full code coverage
-# TODO: Refractor
+# TODO: Refractor all
 # TODO: Find solution for weird "environment" stuff in class config
 # TODO: Combine environment and checkboxes for interpreter environment
 # TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
