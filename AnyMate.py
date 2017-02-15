@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# AnyMate: Automate Anything - Version 1.0
+# AnyMate: Automate Anything - Version 1.1 beta
 #
 # Automated execution of bash code snippets via Tkinter-GUI or command-line.
 # Copyright (C) 2009 - 2017 Michael Abel
@@ -72,7 +72,10 @@ else:
     debuglevel=0
 
 if sys.version_info.major < 3:
-    from Tkinter import *
+    print("Error: Please use python3 to execute."
+        "Python 2 is not supported well anymore.")
+    sys.exit()
+    #from Tkinter import *
 else:
     from tkinter import *
 
@@ -227,12 +230,8 @@ class AnyMate(object):
         #print(globals())
         #assert( abspath != None) #Would be nice,but we cannot test this well
 
-        # Check if we have python 2 or 3
-        if sys.version_info.major < 3:
-            execfile(name,globals())
-        else:
-            # TODO Use fake global not the real one !
-            exec(compile(open(name).read(), name, 'exec'),globals())
+        # TODO Use fake global not the real one !
+        exec(compile(open(name).read(), name, 'exec'),globals())
 
         #print locals()
         #print globals()

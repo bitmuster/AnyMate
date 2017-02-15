@@ -24,6 +24,10 @@ I use this tool now on a daily basis for lots of years. It helps me to organize
 all my tasks while swtiching pc's, synchronsize files and keep track of
 software that is not installed via debian's package management.
 
+Prerequisites
+-------------
+Anymate needs python3
+
 Commandline:
 ------------
 
@@ -56,7 +60,7 @@ Desktop integration:
 For integration into desktop systems I prefer to use a command like this one:
 
 rxvt -e bash -c 'cd <PATH_TO_ANYMATE>/AnyMate; \
-      python AnyMate.py  template.anymate; read'
+      python3 AnyMate.py  template.anymate; read'
 
 This command can be used for example for a custom launcher in the gnome panel.
 It opens an extra shell window in which Anymate is executed.
