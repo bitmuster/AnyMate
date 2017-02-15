@@ -523,7 +523,7 @@ def main(argv):
     # Commandline version
     elif len(argv) ==4:
         if argv[1] == '--nogui':
-            filename=sys.argv[3]
+            filename=argv[3]
 
             if os.path.isfile(filename):
                 pass
@@ -531,11 +531,14 @@ def main(argv):
             #   pass
             else:
                 print("File not found.")
+                sys.exit()
 
-            command=sys.argv[2]
+            command=argv[2]
 
             anymate=AnyMate(filename)
             anymate.execute(command)
+        else:
+            sys.exit()
     else:
         # wrong amount of parameters: allowed 4 or 5
         print('Please use "AnyMate [--nogui <cmd>] <file.anymate>"'+\

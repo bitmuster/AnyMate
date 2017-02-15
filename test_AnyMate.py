@@ -165,6 +165,10 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(SystemExit):
             main(["one", "two", "three"])
 
+    def test_main_fife_param(self):
+        with self.assertRaises(SystemExit):
+            main(["bad"]*5)
+
     @patch("AnyMate.AnyMateGUI")
     @patch("AnyMate.AnyMate")
     def test_main_two_real_param(self, mock, guimock):
@@ -215,6 +219,54 @@ class TestMain(unittest.TestCase):
         #validate
         anymock.assert_called_once_with(f)
         gui.rootwin.mainloop.assert_called_once_with()
+
+    @patch("AnyMate.AnyMate")
+    def test_main_four_real_param(self, mock):
+        #setup
+        f='template.anymate'
+        c='hello'
+        anym=MagicMock()
+        mock.return_value=anym
+        #exercise
+        main(['./AnyMate.py', '--nogui', c, f])
+        #validate
+        mock.assert_called_once_with(f)
+        anym.execute.assert_called_once_with(c)
+
+    @patch("AnyMate.AnyMate")
+    def test_main_four_wrong_param(self, mock):
+        #setup
+        f='template.anymate'
+        c='hello'
+        anym=MagicMock()
+        mock.return_value=anym
+        #exercise
+        with self.assertRaises(SystemExit):
+            main(['./AnyMate.py', 'BAM', c, f])
+
+    @patch("AnyMate.AnyMate")
+    def test_main_four_wrong_file(self, mock):
+        #setup
+        f='nofile'
+        c='hello'
+        anym=MagicMock()
+        mock.return_value=anym
+        #exercise
+        with self.assertRaises(SystemExit):
+            main(['./AnyMate.py', '--nogui', c, f])
+
+    @patch("os.path.isfile")
+    @patch("AnyMate.AnyMate")
+    def test_main_four_wrong_file_mocked(self, mock, filemock):
+        #setup
+        f='template.anymate'
+        c='hello'
+        anym=MagicMock()
+        mock.return_value=anym
+        filemock.return_value=False
+        #exercise
+        with self.assertRaises(SystemExit):
+            main(['./AnyMate.py', 'BAM', c, f])
 
 if __name__ == '__main__':
     unittest.main()
