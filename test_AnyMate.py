@@ -147,5 +147,27 @@ class TestClassAnyMateTemplate(unittest.TestCase):
         print(AnyMmate.abspath)
         a=AnyMate("template.anymate")
 
+class TestMain(unittest.TestCase):
+
+    def test_main_noparam(self):
+        with self.assertRaises(TypeError):
+            main()
+
+    def test_main_listparam(self):
+        with self.assertRaises(SystemExit):
+            main([])
+
+    def test_main_one_param(self):
+        with self.assertRaises(SystemExit):
+            main(["one"])
+
+    def test_main_three_param(self):
+        with self.assertRaises(SystemExit):
+            main(["one", "two", "three"])
+
+    def test_main_two_real_param(self):
+            main(['./AnyMate.py', 'template.anymate'])
+
+
 if __name__ == '__main__':
     unittest.main()

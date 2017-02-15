@@ -101,7 +101,9 @@ read any-key' &
 Test
 ----
 
-Anymate uses python unittest. To run all the tests please execute:
+Anymate gets an update in the test driven manner. You will observe
+lots of tests. To perform this Anymate uses python unittest.
+To run all the tests please execute:
 
 $ python3 test_AnyMate.py
 

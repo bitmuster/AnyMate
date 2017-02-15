@@ -491,19 +491,23 @@ class AnyMateGUI(object):
                 # in the options list from Anymate
                 self.options[number-1].setCommand(text)
 
-def main():
+def main(argv):
     print('Starting AnyMate from', sys.path[0])
-    #print  sys.argv
-    #print os.path.dirname(sys.argv[0])
+
+    if type(argv)!=list:
+            sys.exit()
+    if len(argv)<2:
+            sys.exit()
+
     global abspath
-    abspath=os.path.abspath( os.path.dirname(sys.argv[0]) )
+    abspath=os.path.abspath( os.path.dirname(argv[0]) )
     print('Switching to directory ' + abspath)
     os.chdir( abspath )
-    
-    # GUI version
-    if len(sys.argv) ==2:
 
-        filename=sys.argv[1]
+    # GUI version
+    if len(argv) ==2:
+
+        filename=argv[1]
         if not os.path.isfile(filename):
             print("File not found.")
             sys.exit()
@@ -517,8 +521,8 @@ def main():
         print('Exiting...')
 
     # Commandline version
-    elif len(sys.argv) ==4:
-        if sys.argv[1] == '--nogui':
+    elif len(argv) ==4:
+        if argv[1] == '--nogui':
             filename=sys.argv[3]
 
             if os.path.isfile(filename):
@@ -533,10 +537,11 @@ def main():
             anymate=AnyMate(filename)
             anymate.execute(command)
     else:
-        # wrong amount of parameters
-        print('Please use "anymate [--nogui <cmd>] <file.anymate>"'+\
+        # wrong amount of parameters: allowed 4 or 5
+        print('Please use "AnyMate [--nogui <cmd>] <file.anymate>"'+\
             ' to call anymate GUI.')
         sys.exit()
 
 if __name__=='__main__':
-    main()
+    print(sys.argv)
+    main(sys.argv)
