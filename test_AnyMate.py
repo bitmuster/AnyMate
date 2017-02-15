@@ -153,6 +153,10 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(TypeError):
             main()
 
+    def test_main_intparam(self):
+        with self.assertRaises(SystemExit):
+            main(88)
+
     def test_main_listparam(self):
         with self.assertRaises(SystemExit):
             main([])
