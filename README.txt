@@ -98,3 +98,15 @@ echo "Press the Any-Key to Continue "
 # Postfix:
 read any-key' &
 
+Test
+----
+
+Anymate uses python unittest. To run all the tests please execute:
+
+$ python3 test_AnyMate.py
+
+Here are the commands to get a simple code coverage analysis:
+
+python3-coverage run test_AnyMate.py
+python3-coverage report
+python3-coverage html

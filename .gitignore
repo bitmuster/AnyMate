@@ -4,3 +4,5 @@
 /.svn
 /htmlcov/*
 __pycache__/
+.coverage
+
