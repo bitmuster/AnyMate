@@ -71,6 +71,11 @@ if debug:
 else:
     debuglevel=0
 
+if sys.version_info.major < 3:
+    from Tkinter import *
+else:
+    from tkinter import *
+
 shell='xterm' # := xterm | urxvt | gnome-terminal | none
 
 # This prefix is put in front every command
@@ -219,11 +224,14 @@ class AnyMate(object):
     def readAnyMate(self, filename):
         name=os.getcwd()+os.sep+filename
 
+        #print(globals())
+        #assert( abspath != None) #Would be nice,but we cannot test this well
+
         # Check if we have python 2 or 3
         if sys.version_info.major < 3:
             execfile(name,globals())
         else:
-            #print(globals())
+            # TODO Use fake global not the real one !
             exec(compile(open(name).read(), name, 'exec'),globals())
 
         #print locals()
@@ -294,7 +302,7 @@ class AnyMateGUI(object):
     TODO: How can we writetests for this class?
     """
     
-    def __init__(self, anymate):
+    def __init__(self, anymate, filename):
         self.environment= anymate.environment;
         self.options= anymate.conf;
 
@@ -484,22 +492,17 @@ class AnyMateGUI(object):
                 # in the options list from Anymate
                 self.options[number-1].setCommand(text)
 
-if __name__=='__main__':
+def main():
     print('Starting AnyMate from', sys.path[0])
     #print  sys.argv
     #print os.path.dirname(sys.argv[0])
+    global abspath
     abspath=os.path.abspath( os.path.dirname(sys.argv[0]) )
     print('Switching to directory ' + abspath)
     os.chdir( abspath )
     
-    
     # GUI version
     if len(sys.argv) ==2:
-        
-        if sys.version_info.major < 3:
-            from Tkinter import *
-        else:
-            from tkinter import *
 
         filename=sys.argv[1]
         if not os.path.isfile(filename):
@@ -509,7 +512,7 @@ if __name__=='__main__':
         anymate=AnyMate(filename)
         #anymate.list()
         #anymate.commandList()
-        anymategui=AnyMateGUI( anymate )
+        anymategui=AnyMateGUI( anymate, filename )
         #Start the GTK Mainloop
         anymategui.rootwin.mainloop()
         print('Exiting...')
@@ -535,3 +538,6 @@ if __name__=='__main__':
         print('Please use "anymate [--nogui <cmd>] <file.anymate>"'+\
             ' to call anymate GUI.')
         sys.exit()
+
+if __name__=='__main__':
+    main()

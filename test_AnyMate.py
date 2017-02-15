@@ -2,6 +2,10 @@
 # 4 Phase test pattern (from Osherove?)
 # Setup-Exercise-Verify-Cleanup
 
+# See also:
+# https://docs.python.org/3.5/library/unittest.html
+# https://docs.python.org/3.5/library/unittest.mock.html
+
 import unittest
 from unittest.mock import MagicMock,patch
 
@@ -56,6 +60,15 @@ class TestAnyMateConfig(unittest.TestCase):
 
 class TestClassAnyMate(unittest.TestCase):
     """Here we re-use a real existing file with defined content"""
+
+#    def setUp(self):
+#        #The abspath is used to set values in the configfile
+#        global abspath
+#        abspath="SomePath"
+#
+#    def tearDown(self):
+#        global abspath
+#        abspath=None
 
     def test_init(self):
         a=AnyMate("empty.anymate")
