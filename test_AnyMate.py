@@ -165,9 +165,56 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(SystemExit):
             main(["one", "two", "three"])
 
-    def test_main_two_real_param(self):
-            main(['./AnyMate.py', 'template.anymate'])
+    @patch("AnyMate.AnyMateGUI")
+    @patch("AnyMate.AnyMate")
+    def test_main_two_real_param(self, mock, guimock):
+        #setup
+        f='template.anymate'
+        mock.return_value="Something"
+        #exercise
+        main(['./AnyMate.py', f])
+        #validate
+        mock.assert_called_once_with(f)
+        # We expect the gui to be called with the return value of AnyMate()
+        guimock.assert_called_once_with("Something",f)
 
+    @patch("os.path.isfile")
+    def test_main_nofile(self, mock):
+        #setup
+        f='nofile'
+        mock.return_value=False
+        #exercise
+        with self.assertRaises(SystemExit):
+            main(['./AnyMate.py', f])
+
+    @patch("os.path.isfile")
+    @patch("AnyMate.AnyMateGUI")
+    @patch("AnyMate.AnyMate")
+    def test_main_mockedfile(self, anymock, guimock, filemock):
+        #setup
+        f='nofile'
+        filemock.return_value=True
+        #exercise
+        main(['./AnyMate.py', f])
+        #validate
+        anymock.assert_called_once_with(f)
+
+    @patch("os.path.isfile")
+    @patch("AnyMate.AnyMateGUI")
+    @patch("AnyMate.AnyMate")
+    def test_main_mainloop(self, anymock, guimock, filemock):
+        #setup
+        f='nofile'
+        filemock.return_value=True
+        #Anymate() returns an AnymateObject
+        anymock.return_value=MagicMock(name='AnyMate')
+        gui=MagicMock(name='AnyMateGui')
+        guimock.return_value=gui
+        #exercise
+        main(['./AnyMate.py', f])
+        #validate
+        anymock.assert_called_once_with(f)
+        gui.rootwin.mainloop.assert_called_once_with()
 
 if __name__ == '__main__':
     unittest.main()
