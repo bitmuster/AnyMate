@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 # 4 Phase test pattern (from Osherove?)
 # Setup-Exercise-Verify-Cleanup
