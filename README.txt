@@ -26,7 +26,10 @@ software that is not installed via debian's package management.
 
 Prerequisites
 -------------
-Anymate needs python3
+Anymate needs
+- python3
+- TCL/TK ( Package on debian python3-tk)
+
 
 Commandline:
 ------------
