@@ -66,10 +66,10 @@ import os.path
 import sys
 import time
 
-debug = False
+DEBUG = False
 
 # Debuglevel 0: No debugging outputs, 1: debugging outputs
-if debug:
+if DEBUG:
     debuglevel = 1
 else:
     debuglevel = 0
@@ -327,7 +327,7 @@ class AnyMateGUI(object):
               command=self.hide_handler)
         self.optionsButton.grid(column=1, row=0)
 
-        if debug:
+        if debuglevel  > 0:
             self.hiddenButton = Button(self.rootwin, text="", command=self.hidden_handler)
             self.hiddenButton.grid(column=0, row=0)
 
