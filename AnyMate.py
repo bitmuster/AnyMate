@@ -155,15 +155,16 @@ class Config(object):
         if debuglevel > 0:
             print('Executing:"'+ self.name + '"')
         if self.envobj:
-            c = shellPrefix + self.envobj.text+ self.text + shellSuffix
+            command = shellPrefix + self.envobj.text \
+                + self.text + shellSuffix
         else:
-            c = shellPrefix + self.text + shellSuffix
+            command = shellPrefix + self.text + shellSuffix
 
         if debuglevel > 0:
             print('****************')
-            print(c)
+            print(command)
             print('****************')
-        os.system(c)
+        os.system(command)
 
     def __str__(self):
         return ('Name: \"%s\"; Command: \"%s\"; Code: \"%s\";')%\
@@ -181,7 +182,7 @@ class Config(object):
 
     def setEnvironment(self, env):
         # This can only happen when the Config object is of type envobject
-        if self.envobj == None:
+        if self.envobj is None:
             self.text = env
         else:
             print('Object is a environment Object')
@@ -194,36 +195,36 @@ class AnyMate(object):
         # Central list for configration options
         self.conf = []
 
-        if os.path.isfile(filename) and ".anymate" == filename[-8:]:
+        if os.path.isfile(filename) and filename[-8:] == ".anymate":
             print('Loading AnyMate configuration file ' + filename)
             self.readAnyMate(filename)
         else:
             print('Unkown configuration file' + filename)
             raise SystemError("'Unkown configuration file' + filename")
 
-    def getcolor(self, s):
+    def getcolor(self, colorString):
         """Returns predefined color string
         TODO: currently returns None when none was found -> Exepton ?
         """
-        if s == None:
+        if colorString is None:
             color = None
-        elif s == 'red':
+        elif colorString == 'red':
             color = red
-        elif s == 'green':
+        elif colorString == 'green':
             color = green
-        elif s == 'blue':
+        elif colorString == 'blue':
             color = blue
-        elif s == 'gray':
+        elif colorString == 'gray':
             color = gray
-        elif s == 'cyan':
+        elif colorString == 'cyan':
             color = cyan
-        elif s[0] == '#':
-            if len(s) == 7:
-                return s
+        elif colorString[0] == '#':
+            if len(colorString) == 7:
+                return colorString
             else:
                 raise SystemError("Unknown color")
         else:
-            print('Color type %s not found'%s)
+            print('Color type %s not found'%colorString)
             color = None
         return color
 
@@ -456,7 +457,7 @@ class AnyMateGUI(object):
         height = option.text.count('\n')
 
         if not self.save_space:
-            height += c1;
+            height += 1;
 
         self.textfield = Text(parent, width=80, height=height)
         self.textfield.insert(END, option.text)
