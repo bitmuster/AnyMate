@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+# This test file is kind of experimental!
+# Here we try to get everything under test-contorl before doing
+# anything important to the code.
+# This sometimes might lead to too complicated tests.
+
 # 4 Phase test pattern (from Osherove?)
 # Setup-Exercise-Verify-Cleanup
 
@@ -106,7 +111,7 @@ class TestClassAnyMate(unittest.TestCase):
         with self.assertRaises( SystemError ):
             a.getcolor("#FF")
 
-    def test_readAnyMate(self):
+    def test_AnyMate_real_file(self):
         """We read the example file, we know the content"""
         a=AnyMate("empty.anymate")
         self.assertEqual( a.conf[0].name, "Hello World" )
@@ -115,6 +120,17 @@ class TestClassAnyMate(unittest.TestCase):
         self.assertEqual( a.conf[0].color, '#ddffdd' )
 
         self.assertEqual( a.conf[0].envobj.name, 'Environment Settings' )
+
+
+# intention unclear
+#    @patch("__main__.exec")
+#    @patch("__main__.open")
+#    @patch("__main__.compile")
+#    def test_readAnyMate_faked(self, compilemock, openmock, execmock):
+#
+#        a=AnyMate("empty.anymate")
+#
+#        a.readAnyMate("somefile")
 
     @patch("AnyMate.Config.execute")
     def test_execute(self, exmock):
