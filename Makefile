@@ -7,6 +7,9 @@ test:
 	#python2 test_AnyMate.py
 	python3 test_AnyMate.py
 
+lint:
+	pylint3 AnyMate.py --disable=W
+
 coverage:
 	python3-coverage run test_AnyMate.py
 	python3-coverage report
