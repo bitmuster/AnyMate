@@ -78,7 +78,7 @@ if sys.version_info.major < 3:
     sys.exit()
     #from Tkinter import *
 else:
-    from tkinter import *
+    import tkinter as tk
 
 SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none
 
@@ -245,7 +245,7 @@ class AnyMate(object):
 
         #print locals()
         #print globals()
-        command_list = globals()['command_list']
+        command_list = globals()['commandList']
         environment = globals()['environment']
 
         field = environment
@@ -322,23 +322,23 @@ class AnyMateGUI(object):
         self.options_hidden = False
 
         # Set up the GUI
-        self.rootwin = Tk(className="AnyMate: "+ filename)
+        self.rootwin = tk.Tk(className="AnyMate: "+ filename)
 
         # The alternatve wm_iconbitmap is buggywill never work
         iconfile = os.path.join(sys.path[0], "icon.png")
-        self.rootwin.iconphoto(True, PhotoImage(file=iconfile))
+        self.rootwin.iconphoto(True, tk.PhotoImage(file=iconfile))
         self.rootwin.resizable(width=False, height=True)
         self.rootwin.grid_rowconfigure(0, minsize=28)
 
-        self.options_button = Button(self.rootwin, text="Hide Options", \
+        self.options_button = tk.Button(self.rootwin, text="Hide Options", \
               command=self.hide_handler)
         self.options_button.grid(column=1, row=0)
 
         if DEBUGLEVEL  > 0:
-            self.hidden_button = Button(self.rootwin, text="", command=self.hidden_handler)
+            self.hidden_button = tk.Button(self.rootwin, text="", command=self.hidden_handler)
             self.hidden_button.grid(column=0, row=0)
 
-        self.canvas = Canvas(
+        self.canvas = tk.Canvas(
             self.rootwin,
             #height=800,
             width=200,
@@ -349,19 +349,19 @@ class AnyMateGUI(object):
         self.canvas.grid(
             column=1,
             row=1,
-            sticky=N+S+E+W
+            sticky=tk.N+tk.S+tk.E+tk.W
             )
 
-        self.scrollbar = Scrollbar(self.rootwin, orient=VERTICAL)
+        self.scrollbar = tk.Scrollbar(self.rootwin, orient=tk.VERTICAL)
 
-        self.scrollbar.grid(row=1, column=0, sticky=N+S)
+        self.scrollbar.grid(row=1, column=0, sticky=tk.N+tk.S)
         self.scrollbar.config(command=self.canvas.yview)
         self.canvas.config(yscrollcommand=self.scrollbar.set)
         self.rootwin.rowconfigure(0, weight=0)
         self.rootwin.rowconfigure(1, weight=1)
         self.rootwin.columnconfigure(0, weight=0)
         self.rootwin.columnconfigure(1, weight=0)
-        self.mainframe = Frame(self.canvas) #, background="BLUE")
+        self.mainframe = tk.Frame(self.canvas) #, background="BLUE")
 
         def scroll_wheel(event):
             if DEBUGLEVEL > 0:
@@ -453,7 +453,7 @@ class AnyMateGUI(object):
         """Generates an option to click on
         """
 
-        self.button = Button(
+        self.button = tk.Button(
             parent,
             text=option.name + '\n' + option.command,
             #command= option.execute,
@@ -464,7 +464,7 @@ class AnyMateGUI(object):
             bg=option.color
             )
 
-        self.button.grid(column=0, row=row, rowspan=1, sticky=W+E+N+S)
+        self.button.grid(column=0, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
         self.buttons.append(self.button)
 
@@ -473,14 +473,14 @@ class AnyMateGUI(object):
         if not self.save_space:
             height += 1
 
-        self.textfield = Text(parent, width=80, height=height)
-        self.textfield.insert(END, option.text)
+        self.textfield = tk.Text(parent, width=80, height=height)
+        self.textfield.insert(tk.END, option.text)
         self.textfield.grid(
             column=1,
             columnspan=1,
             row=row,
             rowspan=1,
-            sticky=W+E
+            sticky=tk.W+tk.E
             )
         self.textfields.append(self.textfield)
 
@@ -502,7 +502,7 @@ class AnyMateGUI(object):
     def update_textfield(self, number):
         """Updater for a text field
         """
-        text = self.textfields[number].get("0.0", END)
+        text = self.textfields[number].get("0.0", tk.END)
         if DEBUGLEVEL > 0:
             print(text)
         if number == 0:
