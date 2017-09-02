@@ -59,27 +59,27 @@ class TestAnyMateConfig(unittest.TestCase):
         c=Config("text","name","command","color", "Env")
         cmd = "Whatever"
         env= "Env"
-        c.setEnvironment(env)
-        c.setCommand(cmd)
-        r=c.getCommand()
+        c.set_environment(env)
+        c.set_command(cmd)
+        r=c.get_command()
         self.assertEqual(r, cmd)
 
 class TestClassAnyMate(unittest.TestCase):
     """Here we re-use a real existing file with defined content"""
 
 #    def setUp(self):
-#        #The ABSPATH is used to set values in the configfile
-#        global ABSPATH
-#        ABSPATH="SomePath"
+#        #The abspath is used to set values in the configfile
+#        global abspath
+#        abspath="SomePath"
 #
 #    def tearDown(self):
-#        global ABSPATH
-#        ABSPATH=None
+#        global abspath
+#        abspath=None
 
     def test_init(self):
         a=AnyMate("empty.anymate")
         a.list()
-        a.commandList()
+        a.command_list()
 
     def test_init_deprecated(self):
         with self.assertRaises( SystemError ):
@@ -91,25 +91,25 @@ class TestClassAnyMate(unittest.TestCase):
 
     def test_getcolor(self):
         anymate=AnyMate("empty.anymate")
-        self.assertEqual( anymate.getcolor("RED"), RED)
-        self.assertEqual( anymate.getcolor("GREEN"), GREEN)
-        self.assertEqual( anymate.getcolor("BLUE"), BLUE)
-        self.assertEqual( anymate.getcolor("GREY"), GREY)
-        self.assertEqual( anymate.getcolor("CYAN"), CYAN)
+        self.assertEqual( anymate.get_color("RED"), RED)
+        self.assertEqual( anymate.get_color("GREEN"), GREEN)
+        self.assertEqual( anymate.get_color("BLUE"), BLUE)
+        self.assertEqual( anymate.get_color("GREY"), GREY)
+        self.assertEqual( anymate.get_color("CYAN"), CYAN)
 
         self.assertEqual( RED, '#EFBFBF')
 
     def test_getcolor_fail(self):
         anymate=AnyMate("empty.anymate")
-        self.assertEqual( anymate.getcolor("colorofmagic"), None)
-        self.assertEqual( anymate.getcolor(None), None)
-        self.assertEqual( anymate.getcolor("#FFFFFF"), "#FFFFFF")
+        self.assertEqual( anymate.get_color("colorofmagic"), None)
+        self.assertEqual( anymate.get_color(None), None)
+        self.assertEqual( anymate.get_color("#FFFFFF"), "#FFFFFF")
 
 
     def test_getcolor_badfail(self):
         anymate=AnyMate("empty.anymate")
         with self.assertRaises( SystemError ):
-            anymate.getcolor("#FF")
+            anymate.get_color("#FF")
 
     def test_AnyMate_real_file(self):
         """We read the example file, we know the content"""
@@ -154,13 +154,13 @@ class TestClassAnyMateTemplate(unittest.TestCase):
 
     def disabled_test_init(self):
         """Just load it to see if it loads,
-        TODO: Remove ABSPATH from this place
+        TODO: Remove abspath from this place
         """
-        ABSPATH=os.path.abspath( os.path.dirname(sys.argv[0]) )
-        print('Switching to directory ' + ABSPATH)
-        os.chdir( ABSPATH )
+        abspath=os.path.abspath( os.path.dirname(sys.argv[0]) )
+        print('Switching to directory ' + abspath)
+        os.chdir( abspath )
         print(AnyMate.abspath)
-        AnyMate.abspath=ABSPATH
+        AnyMate.abspath=abspath
         print(AnyMate.abspath)
         AnyMate("template.anymate")
 

@@ -115,7 +115,7 @@ else:
 
 # Path of this script
 # Can be used by other commands (is set automatically)
-ABSPATH = None
+abspath = None
 
 # predefined colors (Anymate)
 RED = '#EFBFBF'
@@ -168,7 +168,7 @@ class Config(object):
         return ('Name: \"%s\"; Command: \"%s\"; Code: \"%s\";')%\
             (self.name, self.nick, self.text)
 
-    def setCommand(self, cmd):
+    def set_command(self, cmd):
         """Set command and store into text
         """
         # Currently only allowed for environment objects (why ?)
@@ -177,12 +177,12 @@ class Config(object):
         else:
             print('Command is not a environment Object')
 
-    def getCommand(self):
+    def get_command(self):
         """Get a command
         """
         return self.text
 
-    def setEnvironment(self, env):
+    def set_environment(self, env):
         """Set environment entry
         This can only happen when the Config object is of type envobject
         """
@@ -201,49 +201,51 @@ class AnyMate(object):
 
         if os.path.isfile(filename) and filename[-8:] == ".anymate":
             print('Loading AnyMate configuration file ' + filename)
-            self.readAnyMate(filename)
+            self.read_config(filename)
         else:
             print('Unkown configuration file' + filename)
             raise SystemError("'Unkown configuration file' + filename")
 
-    def getcolor(self, colorString):
+    def get_color(self, color_string):
         """Returns predefined color string
-        TODO: currently returns None when none was found -> Exepton ?
+        TODO: currently returns None when none was found -> Exeption ?
         """
-        if colorString is None:
+        if color_string is None:
             color = None
-        elif colorString == 'RED':
+        elif color_string == 'RED':
             color = RED
-        elif colorString == 'GREEN':
+        elif color_string == 'GREEN':
             color = GREEN
-        elif colorString == 'BLUE':
+        elif color_string == 'BLUE':
             color = BLUE
-        elif colorString == 'GREY':
+        elif color_string == 'GREY':
             color = GREY
-        elif colorString == 'CYAN':
+        elif color_string == 'CYAN':
             color = CYAN
-        elif colorString[0] == '#':
-            if len(colorString) == 7:
-                return colorString
+        elif color_string[0] == '#':
+            if len(color_string) == 7:
+                return color_string
             else:
                 raise SystemError("Unknown color")
         else:
-            print('Color type %s not found'%colorString)
+            print('Color type %s not found'%color_string)
             color = None
         return color
 
-    def readAnyMate(self, filename):
+    def read_config(self, filename):
+        """Read confif file from disk and parse
+        """
         name = os.getcwd()+os.sep+filename
 
         #print(globals())
-        #assert( ABSPATH != None) #Would be nice,but we cannot test this well
+        #assert( abspath != None) #Would be nice,but we cannot test this well
 
         # TODO Use fake global not the real one !
         exec(compile(open(name).read(), name, 'exec'), globals())
 
         #print locals()
         #print globals()
-        commandList = globals()['commandList']
+        command_list = globals()['command_list']
         environment = globals()['environment']
 
         field = environment
@@ -252,7 +254,7 @@ class AnyMate(object):
             print("near field containing "+ field[0])
             sys.exit()
 
-        color = self.getcolor(field[2])
+        color = self.get_color(field[2])
         self.environment = \
             Config(
                 text=field[3],
@@ -260,13 +262,13 @@ class AnyMate(object):
                 nick=field[1],
                 color=color
                 )
-        for command in commandList:
+        for command in command_list:
             if len(command) != 4:
                 print("Error in file " + filename)
                 print("near field containing "+ command[0])
                 sys.exit()
 
-            color = self.getcolor(command[2])
+            color = self.get_color(command[2])
             self.conf.append(
                 Config(
                     text=command[3],
@@ -282,7 +284,7 @@ class AnyMate(object):
         for i in self.conf:
             print(i)
 
-    def commandList(self):
+    def command_list(self):
         """just print what is inside here"""
         for i in self.conf:
             print(i.nick)
@@ -317,7 +319,7 @@ class AnyMateGUI(object):
 
         self.buttons = []
         self.textfields = []
-        self.optionsHidden = False
+        self.options_hidden = False
 
         # Set up the GUI
         self.rootwin = Tk(className="AnyMate: "+ filename)
@@ -328,13 +330,13 @@ class AnyMateGUI(object):
         self.rootwin.resizable(width=False, height=True)
         self.rootwin.grid_rowconfigure(0, minsize=28)
 
-        self.optionsButton = Button(self.rootwin, text="Hide Options", \
+        self.options_button = Button(self.rootwin, text="Hide Options", \
               command=self.hide_handler)
-        self.optionsButton.grid(column=1, row=0)
+        self.options_button.grid(column=1, row=0)
 
         if DEBUGLEVEL  > 0:
-            self.hiddenButton = Button(self.rootwin, text="", command=self.hidden_handler)
-            self.hiddenButton.grid(column=0, row=0)
+            self.hidden_button = Button(self.rootwin, text="", command=self.hidden_handler)
+            self.hidden_button.grid(column=0, row=0)
 
         self.canvas = Canvas(
             self.rootwin,
@@ -361,45 +363,45 @@ class AnyMateGUI(object):
         self.rootwin.columnconfigure(1, weight=0)
         self.mainframe = Frame(self.canvas) #, background="BLUE")
 
-        def scrollWheel(event):
+        def scroll_wheel(event):
             if DEBUGLEVEL > 0:
-                print('scrollWheel %i'%event.num)
+                print('scroll_wheel %i'%event.num)
             if event.num == 4:
                 self.canvas.yview('scroll', -1, 'units')
             elif event.num == 5:
                 self.canvas.yview('scroll', 1, 'units')
 
-        self.scrollbar.bind('<Button-4>', scrollWheel)
-        self.scrollbar.bind('<Button-5>', scrollWheel)
+        self.scrollbar.bind('<Button-4>', scroll_wheel)
+        self.scrollbar.bind('<Button-5>', scroll_wheel)
 
-        self.rootwin.bind_all('<Button-4>', scrollWheel)
-        self.rootwin.bind_all('<Button-5>', scrollWheel)
+        self.rootwin.bind_all('<Button-4>', scroll_wheel)
+        self.rootwin.bind_all('<Button-5>', scroll_wheel)
 
         #paint the frame on to the canvas -> posibillity for global scrollbar
         #http://tkinter.unpythonic.net/wiki/ScrolledFrame
         self.canvas.create_window(0, 0, anchor='nw', window=self.mainframe)
         #use wait visibility later and resize the Canvas
 
-        self.useRow = 1
-        self.useRow += 1
+        self.use_row = 1
+        self.use_row += 1
         # generate the environment field
-        self.generateOption(
-            parent=self.mainframe, row=self.useRow,
+        self.generate_option(
+            parent=self.mainframe, row=self.use_row,
             option=self.environment, number=0)
-        self.useRow += 1
+        self.use_row += 1
 
         for k in range(len(self.options)):
         # generate an option field
             option = self.options[k]
-            self.generateOption(
-                parent=self.mainframe, row=self.useRow,
+            self.generate_option(
+                parent=self.mainframe, row=self.use_row,
                 option=option, number=k+1)
-            self.useRow += 1
+            self.use_row += 1
 
         self.rootwin.wait_visibility(self.mainframe)
-        self.resizeCanvas()
+        self.resize_canvas()
 
-    def resizeCanvas(self):
+    def resize_canvas(self):
         """Set the canvas size equal to the size of the mainframe"""
         height = self.mainframe.winfo_height()
         width = self.mainframe.winfo_width()
@@ -411,37 +413,45 @@ class AnyMateGUI(object):
                    (self.rootwin.winfo_width(), self.rootwin.winfo_height())))
 
     def hidden_handler(self):
-        self.resizeCanvas()
+        """Handler for hidden button (there in debug mode)
+        """
+        self.resize_canvas()
 
     def hide_handler(self):
-        if self.optionsHidden:
+        """Handler for hide button
+        """
+        if self.options_hidden:
             if DEBUGLEVEL > 0:
                 print("Un-Hiding")
             for field in self.textfields:
                 field.grid()
-            self.resizeCanvas()
-            self.optionsButton.config(text="Hide Options")
-            self.optionsHidden = False
+            self.resize_canvas()
+            self.options_button.config(text="Hide Options")
+            self.options_hidden = False
         else:
             if DEBUGLEVEL > 0:
                 print("Hiding")
             for field in self.textfields:
                 # After that, the widget still exists & it doesn't forget its attributes
                 field.grid_remove()
-            self.resizeCanvas()
-            self.optionsButton.config(text="Show Options")
-            self.optionsHidden = True
+            self.resize_canvas()
+            self.options_button.config(text="Show Options")
+            self.options_hidden = True
 
         # we need to call resize after continuing in the mainloop to
         # wait for the resize to prpopagate
-        self.rootwin.after(50, self.resizeCanvas)
+        self.rootwin.after(50, self.resize_canvas)
 
     def quit(self):
+        """Quit handler
+        """
         print('exiting...')
         #killall clients
         sys.exit()
 
-    def generateOption(self, parent, row, option, number):
+    def generate_option(self, parent, row, option, number):
+        """Generates an option to click on
+        """
 
         self.button = Button(
             parent,
@@ -450,7 +460,7 @@ class AnyMateGUI(object):
 
             # unfortunately Tkinter does not allow arguments for the Button
             # so we generate a pseudo function for that
-            command=lambda: self.executeOption(number),
+            command=lambda: self.execute_option(number),
             bg=option.color
             )
 
@@ -474,8 +484,9 @@ class AnyMateGUI(object):
             )
         self.textfields.append(self.textfield)
 
-    def executeOption(self, number):
-        self.updateTextfield(number)
+    def execute_option(self, number):
+        """Handler for an option - button"""
+        self.update_textfield(number)
         if number == 0:
             if DEBUGLEVEL > 0:
                 print('Executing Environment')
@@ -488,20 +499,24 @@ class AnyMateGUI(object):
             # environment in the options list from Anymate
             self.options[number -1].execute()
 
-    def updateTextfield(self, number):
+    def update_textfield(self, number):
+        """Updater for a text field
+        """
         text = self.textfields[number].get("0.0", END)
         if DEBUGLEVEL > 0:
             print(text)
         if number == 0:
-            self.environment.setEnvironment(text)
+            self.environment.set_environment(text)
         else:
-            self.updateTextfield(0)
+            self.update_textfield(0)
             # currently the option list is one element smaller since
             # there is no environment Object at the beginning
             # in the options list from Anymate
-            self.options[number-1].setCommand(text)
+            self.options[number-1].set_command(text)
 
 def main(argv):
+    """Bam - Main
+    """
     print('Starting AnyMate from', sys.path[0])
 
     if type(argv) != list:
@@ -509,10 +524,10 @@ def main(argv):
     if len(argv) < 2:
         sys.exit()
 
-    global ABSPATH
-    ABSPATH = os.path.abspath(os.path.dirname(argv[0]))
-    print('Switching to directory ' + ABSPATH)
-    os.chdir(ABSPATH)
+    global abspath
+    abspath = os.path.abspath(os.path.dirname(argv[0]))
+    print('Switching to directory ' + abspath)
+    os.chdir(abspath)
 
     # GUI version
     if len(argv) == 2:
@@ -524,7 +539,7 @@ def main(argv):
 
         anymate = AnyMate(filename)
         #anymate.list()
-        #anymate.commandList()
+        #anymate.command_list()
         anymategui = AnyMateGUI(anymate, filename)
         #Start the GTK Mainloop
         anymategui.rootwin.mainloop()
@@ -537,7 +552,7 @@ def main(argv):
 
             if os.path.isfile(filename):
                 pass
-            #elif os.path.ABSPATH( os.path.dirname(sys.argv[0]) ) + filename:
+            #elif os.path.abspath( os.path.dirname(sys.argv[0]) ) + filename:
             #   pass
             else:
                 print("File not found.")
