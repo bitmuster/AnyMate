@@ -23,46 +23,47 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual( 1, 1)
 
     def test_init(self):
-        c=Config("text","name","nick","color","envobj")
-        self.assertEqual(c.text,"text")
-        self.assertEqual(c.name,"name")
-        self.assertEqual(c.nick,"nick")
-        self.assertEqual(c.color,"color")
-        self.assertEqual(c.envobj,"envobj")
+        conf=Config("text","name","nick","color","envobj")
+        self.assertEqual(conf.text,"text")
+        self.assertEqual(conf.name,"name")
+        self.assertEqual(conf.nick,"nick")
+        self.assertEqual(conf.color,"color")
+        self.assertEqual(conf.envobj,"envobj")
 
     @patch("os.system")
     def test_execute(self, osmock):
         # Setup
-        c=Config("ls -l","name","command","color", None)
+        conf=Config("ls -l","name","command","color", None)
 
         # According to the current setting
-        call='xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c \' \nls -l echo "Sleeping 5 seconds"\n sleep 5\' &'
+        call='xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash ' \
+            + '-c \' \nls -l echo "Sleeping 5 seconds"\n sleep 5\' &'
 
         # Execise
-        c.execute()
+        conf.execute()
 
         # Verify
         osmock.assert_called_once_with(call)
 
     def test_str(self):
         # Setup
-        c=Config("text","name","command","color", None)
+        conf=Config("text","name","command","color", None)
         expected="Name: \"name\"; Command: \"command\"; Code: \"text\";"
 
         # Exercise
-        r=str(c)
+        ret=str(conf)
 
         # Verify
-        self.assertEqual(r, expected)
+        self.assertEqual(ret, expected)
 
     def test_getters(self):
-        c=Config("text","name","command","color", "Env")
+        conf=Config("text","name","command","color", "Env")
         cmd = "Whatever"
         env= "Env"
-        c.set_environment(env)
-        c.set_command(cmd)
-        r=c.get_command()
-        self.assertEqual(r, cmd)
+        conf.set_environment(env)
+        conf.set_command(cmd)
+        ret=conf.get_command()
+        self.assertEqual(ret, cmd)
 
 class TestClassAnyMate(unittest.TestCase):
     """Here we re-use a real existing file with defined content"""
@@ -77,9 +78,9 @@ class TestClassAnyMate(unittest.TestCase):
 #        abspath=None
 
     def test_init(self):
-        a=AnyMate("empty.anymate")
-        a.list()
-        a.command_list()
+        anymate=AnyMate("empty.anymate")
+        anymate.list()
+        anymate.command_list()
 
     def test_init_deprecated(self):
         with self.assertRaises( SystemError ):
@@ -134,19 +135,19 @@ class TestClassAnyMate(unittest.TestCase):
 
     @patch("AnyMate.Config.execute")
     def test_execute(self, exmock):
-        a=AnyMate("empty.anymate")
-        a.execute("hello")
+        anymate=AnyMate("empty.anymate")
+        anymate.execute("hello")
 
     @patch("AnyMate.Config.execute")
     def test_execute_fail(self, exmock):
-        a=AnyMate("empty.anymate")
+        anymate=AnyMate("empty.anymate")
         with self.assertRaises(SystemError):
-            a.execute("no")
+            anymate.execute("no")
 
     @patch("os.system")
     def test_execute_os_mocked(self, osmock):
-        a=AnyMate("empty.anymate")
-        a.execute("hello")
+        anymate=AnyMate("empty.anymate")
+        anymate.execute("hello")
         call='xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c \' \ncd ~/\necho "Directory: $(pwd)"\necho "Hello World!"\n echo "Sleeping 5 seconds"\n sleep 5\' &'
         osmock.assert_called_with(call)
 
@@ -194,23 +195,23 @@ class TestMain(unittest.TestCase):
     @patch("AnyMate.AnyMate")
     def test_main_two_real_param(self, mock, guimock):
         #setup
-        f='template.anymate'
+        myfile='template.anymate'
         mock.return_value="Something"
         #exercise
-        main(['./AnyMate.py', f])
+        main(['./AnyMate.py', myfile])
         #validate
-        mock.assert_called_once_with(f)
+        mock.assert_called_once_with(myfile)
         # We expect the gui to be called with the return value of AnyMate()
-        guimock.assert_called_once_with("Something",f)
+        guimock.assert_called_once_with("Something", myfile)
 
     @patch("os.path.isfile")
     def test_main_nofile(self, mock):
         #setup
-        f='nofile'
+        myfile='nofile'
         mock.return_value=False
         #exercise
         with self.assertRaises(SystemExit):
-            main(['./AnyMate.py', f])
+            main(['./AnyMate.py', myfile])
 
     @patch("os.path.isfile")
     @patch("AnyMate.AnyMateGUI")
@@ -229,65 +230,65 @@ class TestMain(unittest.TestCase):
     @patch("AnyMate.AnyMate")
     def test_main_mainloop(self, anymock, guimock, filemock):
         #setup
-        f='nofile'
+        myfile='nofile'
         filemock.return_value=True
         #Anymate() returns an AnymateObject
         anymock.return_value=MagicMock(name='AnyMate')
         gui=MagicMock(name='AnyMateGui')
         guimock.return_value=gui
         #exercise
-        main(['./AnyMate.py', f])
+        main(['./AnyMate.py', myfile])
         #validate
-        anymock.assert_called_once_with(f)
+        anymock.assert_called_once_with(myfile)
         gui.rootwin.mainloop.assert_called_once_with()
 
     @patch("AnyMate.AnyMate")
     def test_main_four_real_param(self, mock):
         #setup
-        f='template.anymate'
-        c='hello'
+        myfile='template.anymate'
+        conf='hello'
         anym=MagicMock()
         mock.return_value=anym
         #exercise
-        main(['./AnyMate.py', '--nogui', c, f])
+        main(['./AnyMate.py', '--nogui', conf, myfile])
         #validate
-        mock.assert_called_once_with(f)
-        anym.execute.assert_called_once_with(c)
+        mock.assert_called_once_with(myfile)
+        anym.execute.assert_called_once_with(conf)
 
     @patch("AnyMate.AnyMate")
     def test_main_four_wrong_param(self, mock):
         #setup
-        f='template.anymate'
-        c='hello'
+        myfile='template.anymate'
+        conf='hello'
         anym=MagicMock()
         mock.return_value=anym
         #exercise
         with self.assertRaises(SystemExit):
-            main(['./AnyMate.py', 'BAM', c, f])
+            main(['./AnyMate.py', 'BAM', conf, myfile])
 
     @patch("AnyMate.AnyMate")
     def test_main_four_wrong_file(self, mock):
         #setup
-        f='nofile'
-        c='hello'
+        myfile='nofile'
+        conf='hello'
         anym=MagicMock()
         mock.return_value=anym
         #exercise
         with self.assertRaises(SystemExit):
-            main(['./AnyMate.py', '--nogui', c, f])
+            main(['./AnyMate.py', '--nogui', conf, myfile])
 
     @patch("os.path.isfile")
     @patch("AnyMate.AnyMate")
     def test_main_four_wrong_file_mocked(self, mock, filemock):
         #setup
-        f='template.anymate'
-        c='hello'
+        myfile='template.anymate'
+        conf='hello'
         anym=MagicMock()
         mock.return_value=anym
         filemock.return_value=False
         #exercise
         with self.assertRaises(SystemExit):
-            main(['./AnyMate.py', 'BAM', c, f])
+            main(['./AnyMate.py', 'BAM', conf, myfile])
 
 if __name__ == '__main__':
     unittest.main()
