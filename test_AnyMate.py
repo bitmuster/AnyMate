@@ -12,6 +12,8 @@
 # https://docs.python.org/3.5/library/unittest.html
 # https://docs.python.org/3.5/library/unittest.mock.html
 
+import os
+import sys
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -153,6 +155,7 @@ class TestClassAnyMate(unittest.TestCase):
         osmock.assert_called_with(call)
 
 class TestClassAnyMateTemplate(unittest.TestCase):
+    """A test class with yet unknown purpose"""
 
     def disabled_test_init(self):
         """Just load it to see if it loads,
@@ -161,12 +164,13 @@ class TestClassAnyMateTemplate(unittest.TestCase):
         abspath = os.path.abspath(os.path.dirname(sys.argv[0]))
         print('Switching to directory ' + abspath)
         os.chdir(abspath)
-        print(AnyMate.abspath)
-        AnyMate.abspath = abspath
-        print(AnyMate.abspath)
+        print(abspath)
+        abspath = abspath
+        print(abspath)
         AnyMate("template.anymate")
 
 class TestMain(unittest.TestCase):
+    """The main test class for AnyMate"""
 
     def test_main_noparam(self):
         with self.assertRaises(TypeError):

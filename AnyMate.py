@@ -338,7 +338,7 @@ class AnyMateGUI(object):
               command=self.hide_handler)
         self.options_button.grid(column=1, row=0)
 
-        if DEBUGLEVEL  > 0:
+        if DEBUGLEVEL > 0:
             self.hidden_button = tk.Button(self.rootwin, text="", command=self.hidden_handler)
             self.hidden_button.grid(column=0, row=0)
 
