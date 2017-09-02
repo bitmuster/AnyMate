@@ -8,7 +8,7 @@ test:
 	python3 test_AnyMate.py
 
 lint:
-	pylint3 *.py 
+	pylint3 --no-docstring-rgx=test_* *.py
 
 coverage:
 	python3-coverage run test_AnyMate.py
