@@ -36,7 +36,7 @@ class TestAnyMateConfig(unittest.TestCase):
         c=Config("ls -l","name","command","color", None)
 
         # According to the current setting
-        call='xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c \' \nls -l echo "Sleeping 5 seconds"\n sleep 5\' &'
+        call='xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c \' \nls -l echo "Sleeping 5 seconds"\n sleep 5\' &'
 
         # Execise
         c.execute()
@@ -68,13 +68,13 @@ class TestClassAnyMate(unittest.TestCase):
     """Here we re-use a real existing file with defined content"""
 
 #    def setUp(self):
-#        #The abspath is used to set values in the configfile
-#        global abspath
-#        abspath="SomePath"
+#        #The ABSPATH is used to set values in the configfile
+#        global ABSPATH
+#        ABSPATH="SomePath"
 #
 #    def tearDown(self):
-#        global abspath
-#        abspath=None
+#        global ABSPATH
+#        ABSPATH=None
 
     def test_init(self):
         a=AnyMate("empty.anymate")
@@ -91,13 +91,13 @@ class TestClassAnyMate(unittest.TestCase):
 
     def test_getcolor(self):
         anymate=AnyMate("empty.anymate")
-        self.assertEqual( anymate.getcolor("red"), red)
-        self.assertEqual( anymate.getcolor("green"), green)
-        self.assertEqual( anymate.getcolor("blue"), blue)
-        self.assertEqual( anymate.getcolor("gray"), gray)
-        self.assertEqual( anymate.getcolor("cyan"), cyan)
+        self.assertEqual( anymate.getcolor("RED"), RED)
+        self.assertEqual( anymate.getcolor("GREEN"), GREEN)
+        self.assertEqual( anymate.getcolor("BLUE"), BLUE)
+        self.assertEqual( anymate.getcolor("GREY"), GREY)
+        self.assertEqual( anymate.getcolor("CYAN"), CYAN)
 
-        self.assertEqual( red, '#EFBFBF')
+        self.assertEqual( RED, '#EFBFBF')
 
     def test_getcolor_fail(self):
         anymate=AnyMate("empty.anymate")
@@ -147,20 +147,20 @@ class TestClassAnyMate(unittest.TestCase):
     def test_execute_os_mocked(self, osmock):
         a=AnyMate("empty.anymate")
         a.execute("hello")
-        call='xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c \' \ncd ~/\necho "Directory: $(pwd)"\necho "Hello World!"\n echo "Sleeping 5 seconds"\n sleep 5\' &'
+        call='xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c \' \ncd ~/\necho "Directory: $(pwd)"\necho "Hello World!"\n echo "Sleeping 5 seconds"\n sleep 5\' &'
         osmock.assert_called_with(call)
 
 class TestClassAnyMateTemplate(unittest.TestCase):
 
     def disabled_test_init(self):
         """Just load it to see if it loads,
-        TODO: Remove abspath from this place
+        TODO: Remove ABSPATH from this place
         """
-        abspath=os.path.abspath( os.path.dirname(sys.argv[0]) )
-        print('Switching to directory ' + abspath)
-        os.chdir( abspath )
+        ABSPATH=os.path.abspath( os.path.dirname(sys.argv[0]) )
+        print('Switching to directory ' + ABSPATH)
+        os.chdir( ABSPATH )
         print(AnyMate.abspath)
-        AnyMate.abspath=abspath
+        AnyMate.abspath=ABSPATH
         print(AnyMate.abspath)
         AnyMate("template.anymate")
 

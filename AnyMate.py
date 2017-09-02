@@ -35,7 +35,7 @@
 # TODO: Find solution for weird "environment" stuff in class config
 # TODO: Combine environment and checkboxes for interpreter environment
 # TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
-#    gnome-shell, cmd, mintty, preambles -> Why?
+#    gnome-SHELL, cmd, mintty, preambles -> Why?
 # TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
 # TODO: Read / Store from/to XML or another suitable format
 # TODO: Buttons: Save, Revert, SaveAs, Open
@@ -68,9 +68,9 @@ DEBUG = False
 
 # Debuglevel 0: No debugging outputs, 1: debugging outputs
 if DEBUG:
-    debuglevel = 1
+    DEBUGLEVEL = 1
 else:
-    debuglevel = 0
+    DEBUGLEVEL = 0
 
 if sys.version_info.major < 3:
     print("Error: Please use python3  to execute."
@@ -80,31 +80,31 @@ if sys.version_info.major < 3:
 else:
     from tkinter import *
 
-shell = 'xterm' # := xterm | urxvt | gnome-terminal | none
+SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none
 
 # This prefix is put in front every command
-if shell == 'xterm':
+if SHELL == 'xterm':
     shellPrefix = \
-    """xterm -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c ' \n"""
+    """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
 #    shellSuffix = \
 #    """echo "Press the Any-Key to Continue "\nread any-key' &"""
     shellSuffix = \
     """ echo "Sleeping 5 seconds"\n sleep 5' &"""
 
-elif shell == 'urxvt':
+elif SHELL == 'urxvt':
     shellPrefix = \
-    """urxvt -sl 10000 -cr blue -bg lightblue -fg black -e /bin/bash -c ' \n"""
+    """urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
     shellSuffix = \
     """echo "Press the Any-Key to Continue "\nread any-key' &"""
 
-elif shell == 'gnome-terminal':
+elif SHELL == 'gnome-terminal':
     shellPrefix = \
     """gnome-terminal --hide-menubar -x /bin/bash -c '\n"""
     shellSuffix = \
     """echo "Press the Any-Key to Continue "\nread any-key' &"""
 
-# Outputs in commands via echo get printed to the original shell
-elif shell == 'none':
+# Outputs in commands via echo get printed to the original SHELL
+elif SHELL == 'none':
     shellPrefix = \
     """/bin/bash -c ' \n"""
     shellSuffix = \
@@ -115,14 +115,14 @@ else:
 
 # Path of this script
 # Can be used by other commands (is set automatically)
-abspath = None
+ABSPATH = None
 
 # predefined colors (Anymate)
-red = '#EFBFBF'
-green = '#BFEFBF'
-cyan = '#BFEFEF'
-gray = '#BFBFBF'
-blue = '#BFBFEF'
+RED = '#EFBFBF'
+GREEN = '#BFEFBF'
+CYAN = '#BFEFEF'
+GREY = '#BFBFBF'
+BLUE = '#BFBFEF'
 
 class Config(object):
     """This class represents configuration objects
@@ -148,9 +148,9 @@ class Config(object):
                 self.name+"\" contains a ' sign, this might confuse bash")
 
     def execute(self):
-        """Execute configuration Option inside an rxvt/shell window
+        """Execute configuration Option inside an rxvt/SHELL window
         """
-        if debuglevel > 0:
+        if DEBUGLEVEL > 0:
             print('Executing:"'+ self.name + '"')
         if self.envobj:
             command = shellPrefix + self.envobj.text \
@@ -158,7 +158,7 @@ class Config(object):
         else:
             command = shellPrefix + self.text + shellSuffix
 
-        if debuglevel > 0:
+        if DEBUGLEVEL > 0:
             print('****************')
             print(command)
             print('****************')
@@ -206,16 +206,16 @@ class AnyMate(object):
         """
         if colorString is None:
             color = None
-        elif colorString == 'red':
-            color = red
-        elif colorString == 'green':
-            color = green
-        elif colorString == 'blue':
-            color = blue
-        elif colorString == 'gray':
-            color = gray
-        elif colorString == 'cyan':
-            color = cyan
+        elif colorString == 'RED':
+            color = RED
+        elif colorString == 'GREEN':
+            color = GREEN
+        elif colorString == 'BLUE':
+            color = BLUE
+        elif colorString == 'GREY':
+            color = GREY
+        elif colorString == 'CYAN':
+            color = CYAN
         elif colorString[0] == '#':
             if len(colorString) == 7:
                 return colorString
@@ -230,7 +230,7 @@ class AnyMate(object):
         name = os.getcwd()+os.sep+filename
 
         #print(globals())
-        #assert( abspath != None) #Would be nice,but we cannot test this well
+        #assert( ABSPATH != None) #Would be nice,but we cannot test this well
 
         # TODO Use fake global not the real one !
         exec(compile(open(name).read(), name, 'exec'), globals())
@@ -326,7 +326,7 @@ class AnyMateGUI(object):
               command=self.hide_handler)
         self.optionsButton.grid(column=1, row=0)
 
-        if debuglevel  > 0:
+        if DEBUGLEVEL  > 0:
             self.hiddenButton = Button(self.rootwin, text="", command=self.hidden_handler)
             self.hiddenButton.grid(column=0, row=0)
 
@@ -335,7 +335,7 @@ class AnyMateGUI(object):
             #height=800,
             width=200,
             scrollregion=(0, 0, 100, 100),
-            #background="red",
+            #background="RED",
             #borderwidth=5
             )
         self.canvas.grid(
@@ -353,10 +353,10 @@ class AnyMateGUI(object):
         self.rootwin.rowconfigure(1, weight=1)
         self.rootwin.columnconfigure(0, weight=0)
         self.rootwin.columnconfigure(1, weight=0)
-        self.mainframe = Frame(self.canvas) #, background="blue")
+        self.mainframe = Frame(self.canvas) #, background="BLUE")
 
         def scrollWheel(event):
-            if debuglevel > 0:
+            if DEBUGLEVEL > 0:
                 print('scrollWheel %i'%event.num)
             if event.num == 4:
                 self.canvas.yview('scroll', -1, 'units')
@@ -399,7 +399,7 @@ class AnyMateGUI(object):
         width = self.mainframe.winfo_width()
         self.canvas.config(height=height, width=width)
         self.canvas.config(scrollregion=(0, 0, width, height))
-        if debuglevel > 0:
+        if DEBUGLEVEL > 0:
             print(("The canvas should have now %ix%i pixels"%(width, height)))
             print(("The rootwin has a size of %ix%i pixels"%
                    (self.rootwin.winfo_width(), self.rootwin.winfo_height())))
@@ -409,7 +409,7 @@ class AnyMateGUI(object):
 
     def hide_handler(self):
         if self.optionsHidden:
-            if debuglevel > 0:
+            if DEBUGLEVEL > 0:
                 print("Un-Hiding")
             for field in self.textfields:
                 field.grid()
@@ -417,7 +417,7 @@ class AnyMateGUI(object):
             self.optionsButton.config(text="Hide Options")
             self.optionsHidden = False
         else:
-            if debuglevel > 0:
+            if DEBUGLEVEL > 0:
                 print("Hiding")
             for field in self.textfields:
                 # After that, the widget still exists & it doesn't forget its attributes
@@ -471,12 +471,12 @@ class AnyMateGUI(object):
     def executeOption(self, number):
         self.updateTextfield(number)
         if number == 0:
-            if debuglevel > 0:
+            if DEBUGLEVEL > 0:
                 print('Executing Environment')
 
             self.environment.execute()
         else:
-            if debuglevel > 0:
+            if DEBUGLEVEL > 0:
                 print('Executing %i'%number)
             # currently the option list is one element smaller since there is no
             # environment in the options list from Anymate
@@ -484,7 +484,7 @@ class AnyMateGUI(object):
 
     def updateTextfield(self, number):
         text = self.textfields[number].get("0.0", END)
-        if debuglevel > 0:
+        if DEBUGLEVEL > 0:
             print(text)
         if number == 0:
             self.environment.setEnvironment(text)
@@ -503,10 +503,10 @@ def main(argv):
     if len(argv) < 2:
         sys.exit()
 
-    global abspath
-    abspath = os.path.abspath(os.path.dirname(argv[0]))
-    print('Switching to directory ' + abspath)
-    os.chdir(abspath)
+    global ABSPATH
+    ABSPATH = os.path.abspath(os.path.dirname(argv[0]))
+    print('Switching to directory ' + ABSPATH)
+    os.chdir(ABSPATH)
 
     # GUI version
     if len(argv) == 2:
@@ -531,7 +531,7 @@ def main(argv):
 
             if os.path.isfile(filename):
                 pass
-            #elif os.path.abspath( os.path.dirname(sys.argv[0]) ) + filename:
+            #elif os.path.ABSPATH( os.path.dirname(sys.argv[0]) ) + filename:
             #   pass
             else:
                 print("File not found.")
