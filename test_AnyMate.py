@@ -23,10 +23,10 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual( 1, 1)
 
     def test_init(self):
-        c=Config("text","name","command","color","envobj")
+        c=Config("text","name","nick","color","envobj")
         self.assertEqual(c.text,"text")
         self.assertEqual(c.name,"name")
-        self.assertEqual(c.command,"command")
+        self.assertEqual(c.nick,"nick")
         self.assertEqual(c.color,"color")
         self.assertEqual(c.envobj,"envobj")
 
@@ -115,7 +115,7 @@ class TestClassAnyMate(unittest.TestCase):
         """We read the example file, we know the content"""
         a=AnyMate("empty.anymate")
         self.assertEqual( a.conf[0].name, "Hello World" )
-        self.assertEqual( a.conf[0].command, "hello" )
+        self.assertEqual( a.conf[0].nick, "hello" )
         self.assertEqual( a.conf[0].text, 'echo "Hello World!"\n' )
         self.assertEqual( a.conf[0].color, '#ddffdd' )
 

@@ -128,7 +128,7 @@ class Config(object):
     """This class represents configuration objects
     """
 
-    def __init__(self, text, name, command, color, envobj=None):
+    def __init__(self, text, name, nick, color, envobj=None):
         """A configuration option
        text:   The command text that is stored as configuration
        name:   The name of the command
@@ -138,7 +138,7 @@ class Config(object):
        """
         self.text = text
         self.name = name
-        self.command = command # aka nick
+        self.nick = nick
         self.color = color
         self.envobj = envobj
 
@@ -166,9 +166,11 @@ class Config(object):
 
     def __str__(self):
         return ('Name: \"%s\"; Command: \"%s\"; Code: \"%s\";')%\
-            (self.name, self.command, self.text)
+            (self.name, self.nick, self.text)
 
     def setCommand(self, cmd):
+        """Set command and store into text
+        """
         # Currently only allowed for environment objects (why ?)
         if self.envobj:
             self.text = cmd
@@ -176,10 +178,14 @@ class Config(object):
             print('Command is not a environment Object')
 
     def getCommand(self):
+        """Get a command
+        """
         return self.text
 
     def setEnvironment(self, env):
-        # This can only happen when the Config object is of type envobject
+        """Set environment entry
+        This can only happen when the Config object is of type envobject
+        """
         if self.envobj is None:
             self.text = env
         else:
@@ -251,7 +257,7 @@ class AnyMate(object):
             Config(
                 text=field[3],
                 name=field[0],
-                command=field[1],
+                nick=field[1],
                 color=color
                 )
         for command in commandList:
@@ -265,7 +271,7 @@ class AnyMate(object):
                 Config(
                     text=command[3],
                     name=command[0],
-                    command=command[1],
+                    nick=command[1],
                     color=color,
                     envobj=self.environment
                     )
@@ -279,18 +285,18 @@ class AnyMate(object):
     def commandList(self):
         """just print what is inside here"""
         for i in self.conf:
-            print(i.command)
+            print(i.nick)
 
     def execute(self, command):
         """execute given command, only used in command line mode"""
 
         for item in self.conf:
-            if item.command == command:
+            if item.nick == command:
                 #print item
                 item.execute()
                 return True
 
-        if self.environment.command == command:
+        if self.environment.nick == command:
             self.environment.execute()
             return True
 
