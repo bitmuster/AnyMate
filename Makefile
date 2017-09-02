@@ -8,7 +8,7 @@ test:
 	python3 test_AnyMate.py
 
 lint:
-	pylint3 AnyMate.py
+	pylint3 *.py 
 
 coverage:
 	python3-coverage run test_AnyMate.py
