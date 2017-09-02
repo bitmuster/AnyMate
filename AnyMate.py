@@ -46,6 +46,9 @@
 
 
 # Infos:
+#
+#  Call it lile : python3 AnyMate.py empty.anymate
+#
 #  * Use this as as example for creating a button at the gnome panel
 #     xterm -e /bin/bash -c 'cd /home/micha/Koffer/Projects/AnyMate;
 #         ./AnyMate.py Koffer.anymate; read any_key'
@@ -117,13 +120,6 @@ else:
 # Can be used by other commands (is set automatically)
 abspath = None
 
-# predefined colors (Anymate)
-RED = '#EFBFBF'
-GREEN = '#BFEFBF'
-CYAN = '#BFEFEF'
-GREY = '#BFBFBF'
-BLUE = '#BFBFEF'
-
 class Config(object):
     """This class represents configuration objects
     """
@@ -194,6 +190,13 @@ class Config(object):
 class AnyMate(object):
     """Class for Command execution"""
 
+    # predefined colors (Anymate)
+    RED = '#EFBFBF'
+    GREEN = '#BFEFBF'
+    CYAN = '#BFEFEF'
+    GREY = '#BFBFBF'
+    BLUE = '#BFBFEF'
+
     def __init__(self, filename):
         self.environment = None
         # Central list for configration options
@@ -210,18 +213,19 @@ class AnyMate(object):
         """Returns predefined color string
         TODO: currently returns None when none was found -> Exeption ?
         """
+
         if color_string is None:
             color = None
-        elif color_string == 'RED':
-            color = RED
-        elif color_string == 'GREEN':
-            color = GREEN
-        elif color_string == 'BLUE':
-            color = BLUE
-        elif color_string == 'GREY':
-            color = GREY
-        elif color_string == 'CYAN':
-            color = CYAN
+        elif color_string == 'red':
+            color = self.RED
+        elif color_string == 'green':
+            color = self.GREEN
+        elif color_string == 'blue':
+            color = self.BLUE
+        elif color_string == 'gray':
+            color = self.GREY
+        elif color_string == 'cyan':
+            color = self.CYAN
         elif color_string[0] == '#':
             if len(color_string) == 7:
                 return color_string
@@ -455,7 +459,7 @@ class AnyMateGUI(object):
 
         self.button = tk.Button(
             parent,
-            text=option.name + '\n' + option.command,
+            text=option.name + '\n' + option.nick,
             #command= option.execute,
 
             # unfortunately Tkinter does not allow arguments for the Button
