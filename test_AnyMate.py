@@ -83,33 +83,33 @@ class TestClassAnyMate(unittest.TestCase):
 
     def test_init_deprecated(self):
         with self.assertRaises( SystemError ):
-            a=AnyMate("empty.taomate")
+            AnyMate("empty.taomate")
 
     def test_fail(self):
         with self.assertRaises( SystemError ):
             AnyMate("empty.anymate_nix")
 
     def test_getcolor(self):
-        a=AnyMate("empty.anymate")
-        self.assertEqual( a.getcolor("red"), red)
-        self.assertEqual( a.getcolor("green"), green)
-        self.assertEqual( a.getcolor("blue"), blue)
-        self.assertEqual( a.getcolor("gray"), gray)
-        self.assertEqual( a.getcolor("cyan"), cyan)
+        anymate=AnyMate("empty.anymate")
+        self.assertEqual( anymate.getcolor("red"), red)
+        self.assertEqual( anymate.getcolor("green"), green)
+        self.assertEqual( anymate.getcolor("blue"), blue)
+        self.assertEqual( anymate.getcolor("gray"), gray)
+        self.assertEqual( anymate.getcolor("cyan"), cyan)
 
         self.assertEqual( red, '#EFBFBF')
 
     def test_getcolor_fail(self):
-        a=AnyMate("empty.anymate")
-        self.assertEqual( a.getcolor("colorofmagic"), None)
-        self.assertEqual( a.getcolor(None), None)
-        self.assertEqual( a.getcolor("#FFFFFF"), "#FFFFFF")
+        anymate=AnyMate("empty.anymate")
+        self.assertEqual( anymate.getcolor("colorofmagic"), None)
+        self.assertEqual( anymate.getcolor(None), None)
+        self.assertEqual( anymate.getcolor("#FFFFFF"), "#FFFFFF")
 
 
     def test_getcolor_badfail(self):
-        a=AnyMate("empty.anymate")
+        anymate=AnyMate("empty.anymate")
         with self.assertRaises( SystemError ):
-            a.getcolor("#FF")
+            anymate.getcolor("#FF")
 
     def test_AnyMate_real_file(self):
         """We read the example file, we know the content"""
@@ -161,8 +161,8 @@ class TestClassAnyMateTemplate(unittest.TestCase):
         os.chdir( abspath )
         print(AnyMate.abspath)
         AnyMate.abspath=abspath
-        print(AnyMmate.abspath)
-        a=AnyMate("template.anymate")
+        print(AnyMate.abspath)
+        AnyMate("template.anymate")
 
 class TestMain(unittest.TestCase):
 

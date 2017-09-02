@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+    #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # AnyMate: Automate Anything - Version 1.1 beta
@@ -61,10 +61,8 @@ echo "Hello World"
 read' &
 """
 
-import os
 import os.path
 import sys
-import time
 
 DEBUG = False
 
@@ -306,8 +304,8 @@ class AnyMateGUI(object):
     """
 
     def __init__(self, anymate, filename):
-        self.environment = anymate.environment;
-        self.options = anymate.conf;
+        self.environment = anymate.environment
+        self.options = anymate.conf
 
         self.save_space = False
 
@@ -376,7 +374,7 @@ class AnyMateGUI(object):
         self.canvas.create_window(0, 0, anchor='nw', window=self.mainframe)
         #use wait visibility later and resize the Canvas
 
-        self.useRow = 1;
+        self.useRow = 1
         self.useRow += 1
         # generate the environment field
         self.generateOption(
@@ -407,7 +405,7 @@ class AnyMateGUI(object):
                    (self.rootwin.winfo_width(), self.rootwin.winfo_height())))
 
     def hidden_handler(self):
-            self.resizeCanvas()
+        self.resizeCanvas()
 
     def hide_handler(self):
         if self.optionsHidden:
@@ -457,7 +455,7 @@ class AnyMateGUI(object):
         height = option.text.count('\n')
 
         if not self.save_space:
-            height += 1;
+            height += 1
 
         self.textfield = Text(parent, width=80, height=height)
         self.textfield.insert(END, option.text)
@@ -485,25 +483,25 @@ class AnyMateGUI(object):
             self.options[number -1].execute()
 
     def updateTextfield(self, number):
-            text = self.textfields[number].get("0.0", END)
-            if debuglevel > 0:
-                print(text)
-            if number == 0:
-                self.environment.setEnvironment(text)
-            else:
-                self.updateTextfield(0)
-                # currently the option list is one element smaller since
-                # there is no environment Object at the beginning
-                # in the options list from Anymate
-                self.options[number-1].setCommand(text)
+        text = self.textfields[number].get("0.0", END)
+        if debuglevel > 0:
+            print(text)
+        if number == 0:
+            self.environment.setEnvironment(text)
+        else:
+            self.updateTextfield(0)
+            # currently the option list is one element smaller since
+            # there is no environment Object at the beginning
+            # in the options list from Anymate
+            self.options[number-1].setCommand(text)
 
 def main(argv):
     print('Starting AnyMate from', sys.path[0])
 
     if type(argv) != list:
-            sys.exit()
+        sys.exit()
     if len(argv) < 2:
-            sys.exit()
+        sys.exit()
 
     global abspath
     abspath = os.path.abspath(os.path.dirname(argv[0]))
