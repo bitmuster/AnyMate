@@ -1,0 +1,17 @@
+--- trace_orig.py	2017-09-03 17:08:26.967012770 +0200
++++ trace.py	2017-09-03 17:46:10.000000000 +0200
+@@ -602,8 +602,12 @@
+                             print((" --- modulename: %s, funcname: %s"
+                                    % (modulename, code.co_name)))
+                             # see inspect
+-                            print((" ---- modulename: %s, funcname: %s vars: %s"
+-                                   % (modulename, code.co_name, frame.f_locals()))
++                            if "self" in frame.f_locals:
++                                classname= frame.f_locals["self"].__class__
++                            else:
++                                classname=""
++                            print((" tttt modulename: %s, funcname: %s class: %s"
++                                   % (modulename, code.co_name, classname )))
+                         return self.localtrace
+             else:
+                 return None
