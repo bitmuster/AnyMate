@@ -296,4 +296,6 @@ class TestMain(unittest.TestCase):
             main(['./AnyMate.py', 'BAM', conf, myfile])
 
 if __name__ == '__main__':
-    unittest.main()
+    # explicitly name the module so that pythons trace function cannot
+    # mess around with unittest test discovery
+    unittest.main(module="test_AnyMate")
