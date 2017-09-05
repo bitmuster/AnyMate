@@ -94,12 +94,12 @@ echo $TEST
 ],
 
 [
-'Status Kallisto', 'gem', 'kofferbg',
+'Status Kallisto', 'gem', 'gray',
 """ssh kallisto \"cd /home/wasteland/Gemeinsame_Dokumente; ls; git status" """
 ],
 
 [
-'Slic3r', 'slic3r', 'kofferbg',
+'Slic3r', 'slic3r', 'gray',
 """/home/micha/Dump/2016/2016_MeinePrusa/Slic3r/bin/slic3r
 """
 ],
@@ -114,7 +114,7 @@ echo $TEST
 ],
 
 [
-'SshTunnel', 'sshtunnel', 'kofferbg',
+'SshTunnel', 'sshtunnel', 'gray',
 """#root@Phobos:~# ssh -p 222 -L 12345:192.168.1.1:80  94.216.106.38
 ssh -p 222 micha@kallistoweb
 """
