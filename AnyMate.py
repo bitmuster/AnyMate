@@ -43,17 +43,18 @@
 # http://effbot.org/tkinterbook/
 # http://www.tkdocs.com/tutorial/grid.html
 
-# TODO: Problems with the ' Character
+# TODO: Avoid Problems with the ' Character
 # TODO: Add tests with full code coverage
 # TODO: Refractor all
 # TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
-#    gnome-SHELL, cmd, mintty -> Why?
+#    gnome-shell, cmd, mintty, python -> Why?
 # TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
 # TODO: Read / Store from/to XML or another suitable format
 # TODO: Buttons: Save, Revert, SaveAs, Open
 # TODO: Select terminal type per configuration
 # TODO: Switch to python logger
 # TODO: Rename Config command to nick
+# TODO: Read configs from separate files in subfolder
 
 
 """
@@ -275,10 +276,9 @@ class AnyMate(object):
         print("Command not found")
         raise SystemError("Command not found")
 
+# TODO: How can we write tests for this class?
 class AnyMateGUI(object):
-    """Responsible for creating the GUI
-    TODO: How can we write tests for this class?
-    """
+    """Responsible for creating the GUI"""
 
     def __init__(self, anymate, filename):
         self.options = anymate.conf
@@ -292,7 +292,7 @@ class AnyMateGUI(object):
         # Set up the GUI
         self.rootwin = tk.Tk(className="AnyMate: "+ filename)
 
-        # The alternatve wm_iconbitmap is buggywill never work
+        # The alternatve wm_iconbitmap is buggy - will never work
         iconfile = os.path.join(sys.path[0], "icon.png")
         self.rootwin.iconphoto(True, tk.PhotoImage(file=iconfile))
         self.rootwin.resizable(width=False, height=True)
@@ -332,6 +332,7 @@ class AnyMateGUI(object):
         self.mainframe = tk.Frame(self.canvas) #, background="BLUE")
 
         def scroll_wheel(event):
+            """The mouse scroll event handler"""
             if DEBUGLEVEL > 0:
                 print('scroll_wheel %i'%event.num)
             if event.num == 4:
@@ -471,7 +472,7 @@ def main(argv):
         sys.exit()
 
     abspath = os.path.abspath(os.path.dirname(argv[0]))
-    # Everything we do now happens in this directory 
+    # Everything we do now happens in this directory
     print('Switching to directory ' + abspath)
     os.chdir(abspath)
 
