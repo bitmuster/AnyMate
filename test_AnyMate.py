@@ -17,7 +17,7 @@ import sys
 import unittest
 from unittest.mock import MagicMock, patch
 
-from AnyMate import main, AnyMate, AnyMateGUI, Config, Interpreter, abspath
+from AnyMate import main, AnyMate, AnyMateGUI, Config, Interpreter
 
 class TestAnyMateConfig(unittest.TestCase):
 
@@ -146,21 +146,6 @@ class TestClassAnyMate(unittest.TestCase):
             + '-c \' \necho "Hello World!"\n ' \
             + 'echo "Sleeping 5 seconds"\n sleep 5\' &'
         osmock.assert_called_with(call)
-
-class TestClassAnyMateTemplate(unittest.TestCase):
-    """A test class with yet unknown purpose"""
-
-    def disabled_test_init(self):
-        """Just load it to see if it loads,
-        TODO: Remove abspath from this place
-        """
-        abspath = os.path.abspath(os.path.dirname(sys.argv[0]))
-        print('Switching to directory ' + abspath)
-        os.chdir(abspath)
-        print(abspath)
-        abspath = abspath
-        print(abspath)
-        AnyMate("template.anymate")
 
 class TestMain(unittest.TestCase):
     """The main test class for AnyMate"""

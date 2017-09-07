@@ -53,12 +53,10 @@ xclock
 """
 ], 
 
-# Automatically inserted content in variable abspath below!
 [
 'Edit', 'edit', 'red',
 '# Edit this file.\n# This path is dynamically generated:\n'+
-'cd '+ abspath +';\n'+
-"""kwrite template.anymate
+"""pluma template.anymate
 """
 ],
 

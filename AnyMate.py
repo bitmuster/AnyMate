@@ -132,10 +132,6 @@ class Interpreter:
         """Return current shell prefix"""
         return self.shell_prefix
 
-# Path of this script
-# Can be used by other commands (is set automatically)
-abspath = None
-
 class Config(object):
     """This class represents configuration objects
     """
@@ -233,9 +229,6 @@ class AnyMate(object):
         """
         name = os.getcwd()+os.sep+filename
 
-        #print(globals())
-        #assert( abspath != None) #Would be nice,but we cannot test this well
-
         # TODO Use fake global not the real one !
         exec(compile(open(name).read(), name, 'exec'), globals())
 
@@ -284,7 +277,7 @@ class AnyMate(object):
 
 class AnyMateGUI(object):
     """Responsible for creating the GUI
-    TODO: How can we writetests for this class?
+    TODO: How can we write tests for this class?
     """
 
     def __init__(self, anymate, filename):
@@ -470,8 +463,8 @@ def main(argv):
     if len(argv) < 2:
         sys.exit()
 
-    global abspath
     abspath = os.path.abspath(os.path.dirname(argv[0]))
+    # Everything we do now happens in this directory 
     print('Switching to directory ' + abspath)
     os.chdir(abspath)
 
@@ -498,8 +491,6 @@ def main(argv):
 
             if os.path.isfile(filename):
                 pass
-            #elif os.path.abspath( os.path.dirname(sys.argv[0]) ) + filename:
-            #   pass
             else:
                 print("File not found.")
                 sys.exit()
