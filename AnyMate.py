@@ -83,36 +83,54 @@ else:
 
 SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none
 
-# This prefix is put in front every command
-if SHELL == 'xterm':
-    shellPrefix = \
-    """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
-#    shellSuffix = \
-#    """echo "Press the Any-Key to Continue "\nread any-key' &"""
-    shellSuffix = \
-    """ echo "Sleeping 5 seconds"\n sleep 5' &"""
+class Interpreter:
+    """Class used to hide interpreter properties"""
 
-elif SHELL == 'urxvt':
-    shellPrefix = \
-    """urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
-    shellSuffix = \
-    """echo "Press the Any-Key to Continue "\nread any-key' &"""
+    def __init__(self, shell):
+        self.wait = False # wait with read for the any-key
+        if shell == 'xterm':
+            self.shell_prefix = \
+            """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
+            if self.wait:
+                self.shell_suffix = \
+                """echo "Press the Any-Key to Continue "\nread any-key' &"""
+            else:
+                self.shell_suffix = \
+                """ echo "Sleeping 5 seconds"\n sleep 5' &"""
 
-elif SHELL == 'gnome-terminal':
-    shellPrefix = \
-    """gnome-terminal --hide-menubar -x /bin/bash -c '\n"""
-    shellSuffix = \
-    """echo "Press the Any-Key to Continue "\nread any-key' &"""
+        elif shell == 'urxvt':
+            self.shell_prefix = \
+            """urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
+            self.shell_suffix = \
+            """echo "Press the Any-Key to Continue "\nread any-key' &"""
 
-# Outputs in commands via echo get printed to the original SHELL
-elif SHELL == 'none':
-    shellPrefix = \
-    """/bin/bash -c ' \n"""
-    shellSuffix = \
-    """ ' &"""
-else:
-    print('Shell not found.')
-    sys.exit()
+        elif shell == 'gnome-terminal':
+            self.shell_prefix = \
+            """gnome-terminal --hide-menubar -x /bin/bash -c '\n"""
+            self.shell_suffix = \
+            """echo "Press the Any-Key to Continue "\nread any-key' &"""
+
+        elif shell == 'none':
+            self.shell_prefix = \
+            """/bin/bash -c ' \n"""
+            self.shell_suffix = \
+            """ ' &"""
+        else:
+            msg = 'Shell %s not found.'%shell
+            print(msg)
+            raise SystemError(msg)
+
+    def decorate_command(self, command):
+        """Add shell pre- and suffix"""
+        return  self.shell_prefix + command + self.shell_suffix
+
+    def get_suffix(self):
+        """Return current shell suffix"""
+        return self.shell_suffix
+
+    def get_prefix(self):
+        """Return current shell prefix"""
+        return self.shell_prefix
 
 # Path of this script
 # Can be used by other commands (is set automatically)
@@ -133,6 +151,7 @@ class Config(object):
         self.name = name
         self.nick = nick
         self.color = color
+        self.interpreter = Interpreter(SHELL)
 
         # check for ' signs
         if self.text.count("'") > 0:
@@ -144,8 +163,7 @@ class Config(object):
         """
         if DEBUGLEVEL > 0:
             print('Executing:"'+ self.name + '"')
-
-        command = shellPrefix + self.text + shellSuffix
+        command = self.interpreter.decorate_command(self.text)
 
         if DEBUGLEVEL > 0:
             print('****************')
