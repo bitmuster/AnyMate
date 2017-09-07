@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# AnyMate: Automate Anything - Version 1.1 beta
+# AnyMate: Automate Anything - Version 1.2 beta
 #
 # Automated execution of bash code snippets via Tkinter-GUI or command-line.
 # Copyright (C) 2009 - 2017 Michael Abel
@@ -17,7 +17,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -57,12 +57,6 @@
 # TODO: Read configs from separate files in subfolder
 
 
-"""
-rxvt -e /bin/bash -c '
-echo "Hello World"
-read' &
-"""
-
 import os.path
 import sys
 
@@ -78,7 +72,6 @@ if sys.version_info.major < 3:
     print("Error: Please use python3  to execute."
           "Python 2 is not supported well anymore.")
     sys.exit()
-    #from Tkinter import *
 else:
     import tkinter as tk
 
