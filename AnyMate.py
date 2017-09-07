@@ -23,6 +23,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+# Infos:
+#
+#  * Call it like :
+#       python3 AnyMate.py empty.anymate
+#       python3 AnyMate.py --nogui xclock template.anymate
+#
+#  * Use this as as example for creating a button at the gnome panel
+#     xterm -e /bin/bash -c 'cd /home/micha/Koffer/Projects/AnyMate;
+#         ./AnyMate.py Koffer.anymate; read any_key'
+#
+#  * To avoid Problems in commands please avoid the ' Character,
+#     this would confuse bash.
+#
+# rxvt micro snippet with integrated waiting:
 
 # Links:
 # http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
@@ -33,28 +47,14 @@
 # TODO: Add tests with full code coverage
 # TODO: Refractor all
 # TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
-#    gnome-SHELL, cmd, mintty, preambles -> Why?
+#    gnome-SHELL, cmd, mintty -> Why?
 # TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
 # TODO: Read / Store from/to XML or another suitable format
 # TODO: Buttons: Save, Revert, SaveAs, Open
 # TODO: Select terminal type per configuration
-# TODO: Other fonts
 # TODO: Switch to python logger
 # TODO: Rename Config command to nick
 
-
-# Infos:
-#
-#  Call it lile : python3 AnyMate.py empty.anymate
-#
-#  * Use this as as example for creating a button at the gnome panel
-#     xterm -e /bin/bash -c 'cd /home/micha/Koffer/Projects/AnyMate;
-#         ./AnyMate.py Koffer.anymate; read any_key'
-#
-#  * To avoid Problems in commands please avoid the ' Character,
-#     this would confuse bash.
-#
-# rxvt micro snippet with integrated waiting:
 
 """
 rxvt -e /bin/bash -c '
