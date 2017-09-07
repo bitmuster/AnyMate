@@ -27,17 +27,6 @@
 # this would confuse bash.
 # To-Do Is there any way to avoid this Problem ???
 
-# This is the environment option it has the same syntax as other options.
-# The Environment ist executed before every other call.
-# Lots of commands assume that you chdir to your home directory here.
-environment=\
-[
-'Environment Settings', 'env', 'gray',
-"""cd ~/
-echo "Directory: $(pwd)"
-export TEST="This is a test!"
-"""
-]
 
 # This is the command list
 commandList= [

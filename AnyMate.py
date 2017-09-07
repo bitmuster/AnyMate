@@ -32,8 +32,6 @@
 # TODO: Problems with the ' Character
 # TODO: Add tests with full code coverage
 # TODO: Refractor all
-# TODO: Find solution for weird "environment" stuff in class config
-# TODO: Combine environment and checkboxes for interpreter environment
 # TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
 #    gnome-SHELL, cmd, mintty, preambles -> Why?
 # TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
@@ -124,19 +122,17 @@ class Config(object):
     """This class represents configuration objects
     """
 
-    def __init__(self, text, name, nick, color, envobj=None):
+    def __init__(self, text, name, nick, color):
         """A configuration option
        text:   The command text that is stored as configuration
        name:   The name of the command
        nick:   The nickname of the command
        color:  The color of the execution button
-       envobj: An environment object of class config
        """
         self.text = text
         self.name = name
         self.nick = nick
         self.color = color
-        self.envobj = envobj
 
         # check for ' signs
         if self.text.count("'") > 0:
@@ -148,11 +144,8 @@ class Config(object):
         """
         if DEBUGLEVEL > 0:
             print('Executing:"'+ self.name + '"')
-        if self.envobj:
-            command = shellPrefix + self.envobj.text \
-                + self.text + shellSuffix
-        else:
-            command = shellPrefix + self.text + shellSuffix
+
+        command = shellPrefix + self.text + shellSuffix
 
         if DEBUGLEVEL > 0:
             print('****************')
@@ -164,28 +157,10 @@ class Config(object):
         return ('Name: \"%s\"; Command: \"%s\"; Code: \"%s\";')%\
             (self.name, self.nick, self.text)
 
-    def set_command(self, cmd):
-        """Set command and store into text
-        """
-        # Currently only allowed for environment objects (why ?)
-        if self.envobj:
-            self.text = cmd
-        else:
-            print('Command is not a environment Object')
-
     def get_command(self):
         """Get a command
         """
         return self.text
-
-    def set_environment(self, env):
-        """Set environment entry
-        This can only happen when the Config object is of type envobject
-        """
-        if self.envobj is None:
-            self.text = env
-        else:
-            print('Object is a environment Object')
 
 class AnyMate(object):
     """Class for Command execution"""
@@ -198,7 +173,6 @@ class AnyMate(object):
     BLUE = '#BFBFEF'
 
     def __init__(self, filename):
-        self.environment = None
         # Central list for configration options
         self.conf = []
 
@@ -250,22 +224,7 @@ class AnyMate(object):
         #print locals()
         #print globals()
         command_list = globals()['commandList']
-        environment = globals()['environment']
 
-        field = environment
-        if len(field) != 4:
-            print("Error in file " + filename)
-            print("near field containing "+ field[0])
-            sys.exit()
-
-        color = self.get_color(field[2])
-        self.environment = \
-            Config(
-                text=field[3],
-                name=field[0],
-                nick=field[1],
-                color=color
-                )
         for command in command_list:
             if len(command) != 4:
                 print("Error in file " + filename)
@@ -278,8 +237,7 @@ class AnyMate(object):
                     text=command[3],
                     name=command[0],
                     nick=command[1],
-                    color=color,
-                    envobj=self.environment
+                    color=color
                     )
                 )
 
@@ -302,10 +260,6 @@ class AnyMate(object):
                 item.execute()
                 return True
 
-        if self.environment.nick == command:
-            self.environment.execute()
-            return True
-
         # when no item was found
         print("Command not found")
         raise SystemError("Command not found")
@@ -316,7 +270,6 @@ class AnyMateGUI(object):
     """
 
     def __init__(self, anymate, filename):
-        self.environment = anymate.environment
         self.options = anymate.conf
 
         self.save_space = False
@@ -388,18 +341,13 @@ class AnyMateGUI(object):
 
         self.use_row = 1
         self.use_row += 1
-        # generate the environment field
-        self.generate_option(
-            parent=self.mainframe, row=self.use_row,
-            option=self.environment, number=0)
-        self.use_row += 1
 
         for k in range(len(self.options)):
         # generate an option field
             option = self.options[k]
             self.generate_option(
                 parent=self.mainframe, row=self.use_row,
-                option=option, number=k+1)
+                option=option, number=k)
             self.use_row += 1
 
         self.rootwin.wait_visibility(self.mainframe)
@@ -490,33 +438,9 @@ class AnyMateGUI(object):
 
     def execute_option(self, number):
         """Handler for an option - button"""
-        self.update_textfield(number)
-        if number == 0:
-            if DEBUGLEVEL > 0:
-                print('Executing Environment')
-
-            self.environment.execute()
-        else:
-            if DEBUGLEVEL > 0:
-                print('Executing %i'%number)
-            # currently the option list is one element smaller since there is no
-            # environment in the options list from Anymate
-            self.options[number -1].execute()
-
-    def update_textfield(self, number):
-        """Updater for a text field
-        """
-        text = self.textfields[number].get("0.0", tk.END)
         if DEBUGLEVEL > 0:
-            print(text)
-        if number == 0:
-            self.environment.set_environment(text)
-        else:
-            self.update_textfield(0)
-            # currently the option list is one element smaller since
-            # there is no environment Object at the beginning
-            # in the options list from Anymate
-            self.options[number-1].set_command(text)
+            print('Executing %i'%number)
+        self.options[number].execute()
 
 def main(argv):
     """Bam - Main

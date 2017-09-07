@@ -1,12 +1,5 @@
 # This is test file
 
-environment= [
-'Environment Settings', 'env', 'gray', 
-"""cd ~/
-echo "Directory: $(pwd)"
-"""
-]
-
 commandList= [
 [
 'Hello World', 'hello', '#ddffdd', 

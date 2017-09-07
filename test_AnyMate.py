@@ -25,17 +25,16 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(1, 1)
 
     def test_init(self):
-        conf = Config("text", "name", "nick", "color", "envobj")
+        conf = Config("text", "name", "nick", "color")
         self.assertEqual(conf.text, "text")
         self.assertEqual(conf.name, "name")
         self.assertEqual(conf.nick, "nick")
         self.assertEqual(conf.color, "color")
-        self.assertEqual(conf.envobj, "envobj")
 
     @patch("os.system")
     def test_execute(self, osmock):
         # Setup
-        conf = Config("ls -l", "name", "command", "color", None)
+        conf = Config("ls -l", "name", "command", "color")
 
         # According to the current setting
         call = 'xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash ' \
@@ -49,7 +48,7 @@ class TestAnyMateConfig(unittest.TestCase):
 
     def test_str(self):
         # Setup
-        conf = Config("text", "name", "command", "color", None)
+        conf = Config("text", "name", "command", "color")
         expected = "Name: \"name\"; Command: \"command\"; Code: \"text\";"
 
         # Exercise
@@ -59,13 +58,9 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(ret, expected)
 
     def test_getters(self):
-        conf = Config("text", "name", "command", "color", "Env")
-        cmd = "Whatever"
-        env = "Env"
-        conf.set_environment(env)
-        conf.set_command(cmd)
+        conf = Config("text", "name", "command", "color")
         ret = conf.get_command()
-        self.assertEqual(ret, cmd)
+        self.assertEqual(ret, 'text')
 
 class TestClassAnyMate(unittest.TestCase):
     """Here we re-use a real existing file with defined content"""
@@ -122,8 +117,6 @@ class TestClassAnyMate(unittest.TestCase):
         self.assertEqual(anymate.conf[0].text, 'echo "Hello World!"\n')
         self.assertEqual(anymate.conf[0].color, '#ddffdd')
 
-        self.assertEqual(anymate.conf[0].envobj.name, 'Environment Settings')
-
 # intention unclear
 #    @patch("__main__.exec")
 #    @patch("__main__.open")
@@ -150,7 +143,7 @@ class TestClassAnyMate(unittest.TestCase):
         anymate = AnyMate("empty.anymate")
         anymate.execute("hello")
         call = 'xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash ' \
-            + '-c \' \ncd ~/\necho "Directory: $(pwd)"\necho "Hello World!"\n ' \
+            + '-c \' \necho "Hello World!"\n ' \
             + 'echo "Sleeping 5 seconds"\n sleep 5\' &'
         osmock.assert_called_with(call)
 
