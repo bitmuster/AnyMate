@@ -17,7 +17,8 @@ import sys
 import unittest
 from unittest.mock import MagicMock, patch
 
-from AnyMate import main, AnyMate, AnyMateGUI, Config, Interpreter
+from AnyMate import AnyMate, AnyMateGUI, Config, Interpreter
+from AnyMate import main, print_help
 
 class TestAnyMateConfig(unittest.TestCase):
 
@@ -154,9 +155,20 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(TypeError):
             main()
 
-    def test_main_intparam(self):
+    def test_help(self):
+        print_help()
+
+    @patch('AnyMate.print_help')
+    def test_main_help(self, mock):
+        with self.assertRaises(SystemExit):
+            main('')
+        mock.assert_called_once_with()
+
+    @patch('AnyMate.print_help')
+    def test_main_intparam(self, mock):
         with self.assertRaises(SystemExit):
             main(88)
+        mock.assert_called_once_with()
 
     def test_main_listparam(self):
         with self.assertRaises(SystemExit):

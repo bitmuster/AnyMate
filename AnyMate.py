@@ -453,14 +453,21 @@ class AnyMateGUI(object):
             print('Executing %i'%number)
         self.options[number].execute()
 
+def print_help():
+    """Helper message"""
+    print('Please use "AnyMate [--nogui <cmd>] <file.anymate>"'+\
+            ' to call anymate GUI.')
+
 def main(argv):
     """Bam - Main
     """
     print('Starting AnyMate from', sys.path[0])
 
-    if type(argv) != list:
+    if not isinstance(argv, list):
+        print_help()
         sys.exit()
     if len(argv) < 2:
+        print_help()
         sys.exit()
 
     abspath = os.path.abspath(os.path.dirname(argv[0]))
@@ -500,12 +507,13 @@ def main(argv):
             anymate = AnyMate(filename)
             anymate.execute(command)
         else:
+            print_help()
             sys.exit()
     else:
         # wrong amount of parameters: allowed 4 or 5
-        print('Please use "AnyMate [--nogui <cmd>] <file.anymate>"'+\
-            ' to call anymate GUI.')
+        print_help()
         sys.exit()
+
 
 if __name__ == '__main__':
     print(sys.argv)
