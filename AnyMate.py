@@ -189,7 +189,7 @@ class AnyMate(object):
             self.read_config(filename)
         else:
             print('Unkown configuration file' + filename)
-            raise SystemError("'Unkown configuration file' + filename")
+            raise SystemError('Unkown configuration file', filename)
 
     def get_color(self, color_string):
         """Returns predefined color string
