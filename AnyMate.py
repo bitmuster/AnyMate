@@ -453,9 +453,9 @@ def print_help():
             ' to call anymate GUI.')
 
 def main(argv):
-    """Bam - Main
-    """
-    print('Starting AnyMate from', sys.path[0])
+    """Bam - Main"""
+
+    print('Starting AnyMate from', sys.path[0], 'with argv', sys.argv)
 
     if not isinstance(argv, list):
         print_help()
@@ -466,6 +466,7 @@ def main(argv):
 
     abspath = os.path.abspath(os.path.dirname(argv[0]))
     # Everything we do now happens in this directory
+
     print('Switching to directory ' + abspath)
     os.chdir(abspath)
 
@@ -510,5 +511,4 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    print(sys.argv)
     main(sys.argv)
