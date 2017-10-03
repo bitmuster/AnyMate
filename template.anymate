@@ -113,5 +113,15 @@ ssh -p 222 micha@kallistoweb
 """
 ],
 
+[ # This is a configuration option for Windows (experimental)
+'wintest1', 'wintest1', 'green',
+""" echo Winzigweich & echo Witzigweich & dir c:\\Users """
+],
+
+[ # This is a configuration option for Windows (experimental)
+'wintest2', 'wintest2', 'green',
+""" echo Winzigweich & echo Witzigweich """
+],
+
 # End of the command list
 ]

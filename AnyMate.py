@@ -55,7 +55,9 @@
 # TODO: Switch to python logger
 # TODO: Rename Config command to nick
 # TODO: Read configs from separate files in subfolder
-
+# TODO: Windows: avoid \U : SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 45-46: truncated \UXXXXXXXX escape
+# TODO: Improve Windwos support
+# TODO: Support mulitple lines under Windows (^) ?
 
 import os.path
 import sys
@@ -75,7 +77,7 @@ if sys.version_info.major < 3:
 else:
     import tkinter as tk
 
-SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none
+SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none | win | none_win
 
 class Interpreter:
     """Class used to hide interpreter properties"""
@@ -109,6 +111,21 @@ class Interpreter:
             """/bin/bash -c ' \n"""
             self.shell_suffix = \
             """ ' &"""
+
+        elif shell == 'none_win': # Windows cmd.exe without own window
+            self.shell_prefix = \
+            """cmd.exe /C  """
+            #self.shell_suffix = \
+            #""" & echo Press the any-key & pause"""
+            self.shell_suffix = \
+            """ """
+
+        elif shell == 'win': # Windows cmd.exe in own window
+            self.shell_prefix = \
+            """start cmd.exe /C " """
+            self.shell_suffix = \
+            """ & echo Press the any-key & pause " """
+
         else:
             msg = 'Shell %s not found.'%shell
             print(msg)
