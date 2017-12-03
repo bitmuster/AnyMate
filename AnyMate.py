@@ -71,8 +71,8 @@ else:
     DEBUGLEVEL = 0
 
 if sys.version_info.major < 3:
-    print("Error: Please use python3  to execute."
-          "Python 2 is not supported well anymore.")
+    print("Error: Please use python3 to execute. "
+          "Python 2 is not supported here anymore.")
     sys.exit()
 else:
     import tkinter as tk
@@ -427,6 +427,7 @@ class AnyMateGUI(object):
     def generate_option(self, parent, row, option, number):
         """Generates an option to click on
         """
+        textfield_width = 80
 
         self.button = tk.Button(
             parent,
@@ -444,11 +445,13 @@ class AnyMateGUI(object):
         self.buttons.append(self.button)
 
         height = option.text.count('\n')
-
+        if height==0:
+            height = len(option.text) // textfield_width
         if not self.save_space:
-            height += 1
+            height += 1 # looks a bit nicer
 
-        self.textfield = tk.Text(parent, width=80, height=height)
+        self.textfield = tk.Text(parent,
+                width=textfield_width, height=height)
         self.textfield.insert(tk.END, option.text)
         self.textfield.grid(
             column=1,

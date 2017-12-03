@@ -123,5 +123,13 @@ ssh -p 222 micha@kallistoweb
 """ echo Winzigweich & echo Witzigweich """
 ],
 
+[ # Should work everywhere but makes the win workaround nicer
+'winlong', 'winlong', 'green',
+"""echo thisisalonglonglonglonglonglonglonglonglonglonglonglonglong"""
+"""longlonglonglonglonglonglonglinewe wan to see that it gets """
+"""still displayed it is sooooooooo long but this is a very trashy"""
+"""workaround, yeah"""
+],
+
 # End of the command list
 ]
