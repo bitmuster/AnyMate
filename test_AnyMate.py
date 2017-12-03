@@ -313,6 +313,36 @@ class TestInterpreter(unittest.TestCase):
         exp = interp.get_prefix()+"Mate, go hom yur drunk"+interp.get_suffix()
         self.assertEqual(cmd, exp)
 
+class ConfigReader(unittest.TestCase):
+
+    #pain
+    @patch('builtins.globals')
+    @patch('builtins.open')
+    @patch('builtins.compile')
+    @patch('builtins.exec')
+    @patch('AnyMate.AnyMate.__init__')
+    def test_read_config_notabs(self, imock, emock, cmock, omock, gmock):
+        filename = 'afile'
+        imock.return_value = None # The constructor shall return None
+        gmock.return_value = {'commandList':[]} #return empty commandList
+        anymate = AnyMate()
+        anymate.read_config(filename)
+        omock.assert_called_once_with( os.path.abspath(filename))
+
+    #pain
+    @patch('builtins.globals')
+    @patch('builtins.open')
+    @patch('builtins.compile')
+    @patch('builtins.exec')
+    @patch('AnyMate.AnyMate.__init__')
+    def test_read_config_abs(self, imock, emock, cmock, omock, gmock):
+        filename = '/home/user/whereever/afile.anymate'
+        imock.return_value = None # The constructor shall return None
+        gmock.return_value = {'commandList':[]} #return empty commandList
+        anymate = AnyMate()
+        anymate.read_config(filename)
+        omock.assert_called_once_with( os.path.abspath(filename))
+
 if __name__ == '__main__':
     # explicitly name the module so that pythons trace function cannot
     # mess around with unittest test discovery

@@ -236,15 +236,16 @@ class AnyMate(object):
         return color
 
     def read_config(self, filename):
-        """Read confif file from disk and parse
+        """Read config file from disk and parse
         """
-        name = os.getcwd()+os.sep+filename
+
+        # Derive absolute path by current working directory
+        name = os.path.abspath( filename )
 
         # TODO Use fake global not the real one !
         exec(compile(open(name).read(), name, 'exec'), globals())
 
-        #print locals()
-        #print globals()
+        # Derive variable commandList from global dictionary
         command_list = globals()['commandList']
 
         for command in command_list:
