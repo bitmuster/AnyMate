@@ -472,7 +472,8 @@ def print_help():
 def main(argv):
     """Bam - Main"""
 
-    print('Starting AnyMate from', sys.path[0], 'with argv', sys.argv)
+    if DEBUGLEVEL > 0:
+        print('Starting AnyMate from', sys.path[0], 'with argv', sys.argv)
 
     if not isinstance(argv, list):
         print_help()
@@ -484,7 +485,8 @@ def main(argv):
     abspath = os.path.abspath(os.path.dirname(argv[0]))
     # Everything we do now happens in this directory
 
-    print('Switching to directory ' + abspath)
+    if DEBUGLEVEL > 0:
+        print('Switching to directory ' + abspath)
     os.chdir(abspath)
 
     # GUI version
@@ -501,7 +503,8 @@ def main(argv):
         anymategui = AnyMateGUI(anymate, filename)
         #Start the GTK Mainloop
         anymategui.rootwin.mainloop()
-        print('Exiting...')
+        if DEBUGLEVEL > 0:
+            print('Exiting...')
 
     # Commandline version
     elif len(argv) == 4:
