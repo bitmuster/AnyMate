@@ -62,7 +62,7 @@
 import os.path
 import sys
 
-DEBUG = False
+DEBUG = True
 
 # Debuglevel 0: No debugging outputs, 1: debugging outputs
 if DEBUG:
@@ -76,6 +76,7 @@ if sys.version_info.major < 3:
     sys.exit()
 else:
     import tkinter as tk
+    import tkinter.scrolledtext as tks
 
 SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none | win | none_win
 
@@ -313,6 +314,16 @@ class AnyMateGUI(object):
               command=self.hide_handler)
         self.options_button.grid(column=1, row=0)
 
+        self.terminal = tks.ScrolledText(
+            self.rootwin,
+            #background="GREEN",
+            borderwidth=5
+            )
+        self.terminal.insert(tk.END, "thats it ...")
+        self.terminal.grid(
+            column=2,
+            row=1)
+
         if DEBUGLEVEL > 0:
             self.hidden_button = tk.Button(self.rootwin, text="", command=self.hidden_handler)
             self.hidden_button.grid(column=0, row=0)
@@ -322,8 +333,8 @@ class AnyMateGUI(object):
             #height=800,
             width=200,
             scrollregion=(0, 0, 100, 100),
-            #background="RED",
-            #borderwidth=5
+            background="RED",
+            borderwidth=5
             )
         self.canvas.grid(
             column=1,
@@ -340,7 +351,7 @@ class AnyMateGUI(object):
         self.rootwin.rowconfigure(1, weight=1)
         self.rootwin.columnconfigure(0, weight=0)
         self.rootwin.columnconfigure(1, weight=0)
-        self.mainframe = tk.Frame(self.canvas) #, background="BLUE")
+        self.mainframe = tk.Frame(self.canvas, background="BLUE")
 
         def scroll_wheel(event):
             """The mouse scroll event handler"""
@@ -439,8 +450,19 @@ class AnyMateGUI(object):
             command=lambda: self.execute_option(number),
             bg=option.color
             )
+        self.button.grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
-        self.button.grid(column=0, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.run = tk.Button(
+            parent,
+            text= "run"
+            )
+        self.run.grid(column=1, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+
+        self.label = tk.Label(parent, text = "label")
+        self.label .grid(column=0, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+
+        self.label = tk.Label(parent, text = "state")
+        self.label .grid(column=3, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
         self.buttons.append(self.button)
 
@@ -454,7 +476,7 @@ class AnyMateGUI(object):
                 width=textfield_width, height=height)
         self.textfield.insert(tk.END, option.text)
         self.textfield.grid(
-            column=1,
+            column=4,
             columnspan=1,
             row=row,
             rowspan=1,
