@@ -86,7 +86,7 @@ else:
     import tkinter.ttk as ttk
 
 
-class AnyMate(object):
+class AnyMate:
     """Class for Command execution"""
 
     # predefined colors (Anymate)
@@ -96,9 +96,10 @@ class AnyMate(object):
     GREY = "#BFBFBF"
     BLUE = "#BFBFEF"
 
-    def __init__(self, filename):
+    def __init__(self, filename, debug=False):
         # Central list for configration options
         self.conf = []
+        self.debug = debug
 
         if os.path.isfile(filename) and filename[-8:] == ".anymate":
             print("Loading AnyMate configuration file " + filename)
@@ -155,7 +156,7 @@ class AnyMate(object):
 
             color = self.get_color(command[2])
             self.conf.append(
-                aconf.Config(text=command[3], name=command[0], nick=command[1], color=color)
+                aconf.Config(text=command[3], name=command[0], nick=command[1], color=color, debug=self.debug)
             )
 
     def list(self):
@@ -189,10 +190,10 @@ def print_help():
     )
 
 
-def main(argv):
+def main(argv, debug=False):
     """Bam - Main"""
 
-    if DEBUGLEVEL > 0:
+    if debug > 0:
         print("Starting AnyMate from", sys.path[0], "with argv", sys.argv)
 
     if not isinstance(argv, list):
@@ -205,7 +206,7 @@ def main(argv):
     abspath = os.path.abspath(os.path.dirname(argv[0]))
     # Everything we do now happens in this directory
 
-    if DEBUGLEVEL > 0:
+    if debug > 0:
         print("Switching to directory " + abspath)
     os.chdir(abspath)
 
@@ -223,7 +224,7 @@ def main(argv):
         anymategui = gui(anymate, filename)
         # Start the GTK Mainloop
         anymategui.rootwin.mainloop()
-        if DEBUGLEVEL > 0:
+        if debug > 0:
             print("Exiting...")
 
     # Commandline version
@@ -239,7 +240,7 @@ def main(argv):
 
             command = argv[2]
 
-            anymate = AnyMate(filename)
+            anymate = AnyMate(filename, debug)
             anymate.execute(command)
         else:
             print_help()
@@ -251,4 +252,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main(sys.argv, DEBUGLEVEL)

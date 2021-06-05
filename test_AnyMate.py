@@ -255,7 +255,7 @@ class TestMain(unittest.TestCase):
         # exercise
         main(["./AnyMate.py", "--nogui", conf, myfile])
         # validate
-        mock.assert_called_once_with(myfile)
+        mock.assert_called_once_with(myfile, False)
         anym.execute.assert_called_once_with(conf)
 
     @patch("AnyMate.AnyMate")

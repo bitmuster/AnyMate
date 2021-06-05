@@ -4,13 +4,11 @@ import os
 from interpreter import Interpreter
 from interpreter import SHELL
 
-DEBUGLEVEL = 1
-
-class Config(object):
+class Config:
     """This class represents configuration objects
     """
 
-    def __init__(self, text, name, nick, color):
+    def __init__(self, text, name, nick, color, debug=False):
         """A configuration option
        text:   The command text that is stored as configuration
        name:   The name of the command
@@ -22,6 +20,7 @@ class Config(object):
         self.nick = nick
         self.color = color
         self.interpreter = Interpreter(SHELL)
+        self.debug = debug
 
         # check for ' signs
         if self.text.count("'") > 0:
@@ -34,11 +33,11 @@ class Config(object):
     def execute(self):
         """Execute configuration Option inside an rxvt/SHELL window
         """
-        if DEBUGLEVEL > 0:
+        if self.debug > 0:
             print('Executing:"' + self.name + '"')
         command = self.interpreter.decorate_command(self.text)
 
-        if DEBUGLEVEL > 0:
+        if self.debug > 0:
             print("****************")
             print(command)
             print("****************")

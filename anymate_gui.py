@@ -13,14 +13,6 @@ else:
     import tkinter.scrolledtext as tks
     import tkinter.ttk as ttk
 
-DEBUG = True
-
-# Debuglevel 0: No debugging outputs, 1: debugging outputs
-if DEBUG:
-    DEBUGLEVEL = 1
-else:
-    DEBUGLEVEL = 0
-
 # TODO: How can we write tests for this class?
 class AnyMateGui(object):
     """Responsible for creating the GUI"""
