@@ -14,10 +14,10 @@ else:
     import tkinter.ttk as ttk
 
 # TODO: How can we write tests for this class?
-class AnyMateGui(object):
+class AnyMateGui:
     """Responsible for creating the GUI"""
 
-    def __init__(self, anymate, filename):
+    def __init__(self, anymate, filename, debug=False):
         self.options = anymate.conf
 
         self.save_space = False
@@ -25,6 +25,7 @@ class AnyMateGui(object):
         self.buttons = []
         self.textfields = []
         self.options_hidden = False
+        self.debug = debug
 
         # Set up the GUI
         self.rootwin = tk.Tk(className="AnyMate: " + filename)
@@ -66,7 +67,7 @@ class AnyMateGui(object):
         #    row=0)
         self.book.add(self.terminal, text="test")
 
-        if DEBUGLEVEL > 0:
+        if self.debug > 0:
             self.hidden_button = tk.Button(
                 self.rootwin, text="", command=self.hidden_handler
             )
@@ -128,7 +129,7 @@ class AnyMateGui(object):
 
         def scroll_wheel(event):
             """The mouse scroll event handler"""
-            if DEBUGLEVEL > 0:
+            if self.debug > 0:
                 print("scroll_wheel %i" % event.num)
             if event.num == 4:
                 self.canvas.yview("scroll", -1, "units")
@@ -137,7 +138,7 @@ class AnyMateGui(object):
 
         def run_scroll_wheel(event):
             """The mouse scroll event handler"""
-            if DEBUGLEVEL > 0:
+            if self.debug > 0:
                 print("scroll_wheel %i" % event.num)
             if event.num == 4:
                 self.proccanvas.yview("scroll", -1, "units")
@@ -186,7 +187,7 @@ class AnyMateGui(object):
         width = self.mainframe.winfo_width()
         self.canvas.config(height=height, width=width)
         self.canvas.config(scrollregion=(0, 0, width, height))
-        if DEBUGLEVEL > 0:
+        if self.debug > 0:
             print(("The canvas should have now %ix%i pixels" % (width, height)))
             print(
                 (
@@ -204,7 +205,7 @@ class AnyMateGui(object):
         """Handler for hide button
         """
         if self.options_hidden:
-            if DEBUGLEVEL > 0:
+            if self.debug > 0:
                 print("Un-Hiding")
             for field in self.textfields:
                 field.grid()
@@ -212,7 +213,7 @@ class AnyMateGui(object):
             self.options_button.config(text="Hide Options")
             self.options_hidden = False
         else:
-            if DEBUGLEVEL > 0:
+            if self.debug > 0:
                 print("Hiding")
             for field in self.textfields:
                 # After that, the widget still exists & it doesn't forget its attributes
@@ -287,7 +288,7 @@ class AnyMateGui(object):
 
     def print_option(self, number, text):
         """Handler for an option - button"""
-        if DEBUGLEVEL > 0:
+        if self.debug > 0:
             print("Executing %i" % number)
         print(text)
         self.terminal.insert(tk.END, text)
@@ -296,7 +297,7 @@ class AnyMateGui(object):
 
     def execute_option(self, number):
         """Handler for an option - button"""
-        if DEBUGLEVEL > 0:
+        if self.debug > 0:
             print("Executing %i" % number)
         self.options[number].execute()
         # self.terminal.insert(tk.END, text)

@@ -63,7 +63,6 @@ import os.path
 import sys
 
 from anymate_gui import AnyMateGui as gui
-from interpreter import SHELL
 import config as aconf
 
 DEBUG = True

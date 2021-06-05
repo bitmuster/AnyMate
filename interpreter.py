@@ -1,5 +1,4 @@
 
-SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 
 class Interpreter:
     """Class used to hide interpreter properties"""
