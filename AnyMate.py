@@ -328,7 +328,7 @@ class AnyMateGUI(object):
 
         self.book = tk.ttk.Notebook(self.rootwin)
         self.book.grid(
-            column=3,
+            column=4,
             row=1)
      
         self.terminal = tks.ScrolledText(
@@ -385,9 +385,8 @@ class AnyMateGUI(object):
             self.rootwin, orient=tk.VERTICAL, background="DARKGREEN",
             highlightcolor="GREEN")
 
-        self.runscrollbar.grid(row=1, column=1, sticky='ns')
-        self.runscrollbar.config(command=self.canvas.yview)
-        #self.canvas.config(yscrollcommand=self.scrollbar.set)
+        self.runscrollbar.grid(row=1, column=3, sticky='ns')
+  
 
 
         self.proccanvas = tk.Canvas(
@@ -405,31 +404,11 @@ class AnyMateGUI(object):
             )
         self.runframe = tk.Frame(self.proccanvas, background="GREEN")
 
-        self.b1 = tk.Button(
-             self.proccanvas,
-            text= "b1",
-            command=lambda: self.execute_option(number)
+        self.proccanvas.config(yscrollcommand=self.runscrollbar.set)
 
-            )
-        self.b1.grid(
-            column=2,
-            row=1,
-            sticky=tk.N+tk.S+tk.E+tk.W
-            )
-
-
-        self.b2 = tk.Button(
-            self.proccanvas,
-            text= "b2",
-            command=lambda: self.execute_option(number)
-
-            )
-        self.b2.grid(
-            column=0,
-            row=1,
-            sticky=tk.N+tk.S+tk.E+tk.W
-            )
-   
+        self.runscrollbar.config(command=self.proccanvas.yview)
+      
+  
         def scroll_wheel(event):
             """The mouse scroll event handler"""
             if DEBUGLEVEL > 0:
@@ -438,18 +417,57 @@ class AnyMateGUI(object):
                 self.canvas.yview('scroll', -1, 'units')
             elif event.num == 5:
                 self.canvas.yview('scroll', 1, 'units')
+        
+        def run_scroll_wheel(event):
+            """The mouse scroll event handler"""
+            if DEBUGLEVEL > 0:
+                print('scroll_wheel %i'%event.num)
+            if event.num == 4:
+                self.proccanvas.yview('scroll', -1, 'units')
+            elif event.num == 5:
+                self.proccanvas.yview('scroll', 1, 'units')
 
         self.scrollbar.bind('<Button-4>', scroll_wheel)
         self.scrollbar.bind('<Button-5>', scroll_wheel)
+        #self.canvas.bind_all('<Button-4>', scroll_wheel)
+        #self.canvas.bind_all('<Button-5>', scroll_wheel)
+        #self.rootwin.bind_all('<Button-4>', scroll_wheel)
+        #self.rootwin.bind_all('<Button-5>', scroll_wheel)
 
-        self.rootwin.bind_all('<Button-4>', scroll_wheel)
-        self.rootwin.bind_all('<Button-5>', scroll_wheel)
+        self.runscrollbar.bind('<Button-4>', run_scroll_wheel)
+        self.runscrollbar.bind('<Button-5>', run_scroll_wheel)
+
 
         #paint the frame on to the canvas -> posibillity for global scrollbar
         #http://tkinter.unpythonic.net/wiki/ScrolledFrame
         self.canvas.create_window(0, 0, anchor='nw', window=self.mainframe)
         #use wait visibility later and resize the Canvas
+        
+        self.proccanvas.create_window(0, 0, anchor='nw', window=self.runframe)
+        
+        
+        self.b1 = tk.Button(
+             self.runframe,
+            text= "b1",
 
+            )
+        self.b1.grid(
+            column=0,
+            row=0,
+            sticky=tk.N+tk.S+tk.E+tk.W
+            )
+        self.b2 = tk.Button(
+            self.runframe,
+            text= "b2",
+
+            )
+        self.b2.grid(
+            column=0,
+            row=1,
+            sticky=tk.N+tk.S+tk.E+tk.W
+            )
+        
+        
         self.use_row = 1
         self.use_row += 1
 
