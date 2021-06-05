@@ -92,6 +92,7 @@ class AnyMate:
     BLUE = "#BFBFEF"
 
     def __init__(self, filename, debug=False):
+
         # Central list for configration options
         self._config_list = []
         self.debug = debug
@@ -226,7 +227,7 @@ def main(argv, debug=False):
         # anymate.list()
         # anymate.command_list()
         anymategui = gui(anymate, filename)
-        # Start the GTK Mainloop
+        # Start the TK Mainloop
         anymategui.rootwin.mainloop()
         if debug > 0:
             print("Exiting...")

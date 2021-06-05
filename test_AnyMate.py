@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
 
-# This test file is kind of experimental!
-# Here we try to get everything under test-contorl before doing
-# anything important to the code.
-# This sometimes might lead to too complicated tests.
-
-# 4 Phase test pattern (from Osherove?)
-# Setup-Exercise-Verify-Cleanup
-
-# See also:
-# https://docs.python.org/3.5/library/unittest.html
-# https://docs.python.org/3.5/library/unittest.mock.html
-
 import os
 import sys
 import unittest
@@ -78,16 +66,6 @@ class TestClassAnyMate(unittest.TestCase):
         self.assertEqual(conflist[0].nick, "hello")
         self.assertEqual(conflist[0].text, 'echo "Hello World!"\n')
         self.assertEqual(conflist[0].color, "#ddffdd")
-
-    # intention unclear
-    #    @patch("__main__.exec")
-    #    @patch("__main__.open")
-    #    @patch("__main__.compile")
-    #    def test_readAnyMate_faked(self, compilemock, openmock, execmock):
-    #
-    #        a=AnyMate("empty.anymate")
-    #
-    #        a.readAnyMate("somefile")
 
     @patch.object(aconf.Config, "execute")
     def test_execute(self, exmock):
