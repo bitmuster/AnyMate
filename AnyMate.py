@@ -77,6 +77,7 @@ if sys.version_info.major < 3:
 else:
     import tkinter as tk
     import tkinter.scrolledtext as tks
+    import tkinter.ttk as ttk
 
 SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none | win | none_win
 
@@ -312,47 +313,123 @@ class AnyMateGUI(object):
 
         self.options_button = tk.Button(self.rootwin, text="Hide Options", \
               command=self.hide_handler)
-        self.options_button.grid(column=1, row=0)
+        self.options_button.grid(column=1, row=0, columnspan=2)
 
+        #self.terminal = tks.ScrolledText(
+        #    self.rootwin,
+        #    #background="GREEN",
+        #    borderwidth=5
+        #    )
+
+        #self.terminal.insert(tk.END, "thats it ...")
+        #self.terminal.grid(
+        #    column=2,
+        #    row=1)
+
+        self.book = tk.ttk.Notebook(self.rootwin)
+        self.book.grid(
+            column=3,
+            row=1)
+     
         self.terminal = tks.ScrolledText(
-            self.rootwin,
+            self.book,
             #background="GREEN",
             borderwidth=5
             )
-        self.terminal.insert(tk.END, "thats it ...")
-        self.terminal.grid(
-            column=2,
-            row=1)
 
+        self.terminal.insert(tk.END, "thats it ...")
+        #self.terminal.grid(
+        #    column=0,
+        #    row=0)
+        self.book.add(self.terminal, text="test")
+        
         if DEBUGLEVEL > 0:
             self.hidden_button = tk.Button(self.rootwin, text="", command=self.hidden_handler)
             self.hidden_button.grid(column=0, row=0)
+
+
 
         self.canvas = tk.Canvas(
             self.rootwin,
             #height=800,
             width=200,
             scrollregion=(0, 0, 100, 100),
-            #background="RED",
-            #borderwidth=5
+            background="RED",
+            borderwidth=5
             )
         self.canvas.grid(
-            column=1,
+            column=0,
             row=1,
             sticky=tk.N+tk.S+tk.E+tk.W
             )
 
-        self.scrollbar = tk.Scrollbar(self.rootwin, orient=tk.VERTICAL)
+        self.scrollbar = tk.Scrollbar(
+            self.rootwin, orient=tk.VERTICAL, background="DARKGREEN",
+            highlightcolor="GREEN")
 
-        self.scrollbar.grid(row=1, column=0, sticky=tk.N+tk.S)
+        self.scrollbar.grid(row=1, column=1, sticky='ns')
         self.scrollbar.config(command=self.canvas.yview)
         self.canvas.config(yscrollcommand=self.scrollbar.set)
+
         self.rootwin.rowconfigure(0, weight=0)
         self.rootwin.rowconfigure(1, weight=1)
-        self.rootwin.columnconfigure(0, weight=0)
-        self.rootwin.columnconfigure(1, weight=0)
+        self.rootwin.columnconfigure(0, weight=1)
+        self.rootwin.columnconfigure(1, weight=0) #scrollbar
+        self.rootwin.columnconfigure(2, weight=1)
+        
+        #place where we add the run buttons
         self.mainframe = tk.Frame(self.canvas, background="BLUE")
 
+
+        self.runscrollbar = tk.Scrollbar(
+            self.rootwin, orient=tk.VERTICAL, background="DARKGREEN",
+            highlightcolor="GREEN")
+
+        self.runscrollbar.grid(row=1, column=1, sticky='ns')
+        self.runscrollbar.config(command=self.canvas.yview)
+        #self.canvas.config(yscrollcommand=self.scrollbar.set)
+
+
+        self.proccanvas = tk.Canvas(
+            self.rootwin,
+            #height=800,
+            width=200,
+            scrollregion=(0, 0, 100, 100),
+            background="BLUE",
+            #borderwidth=5
+            )
+        self.proccanvas.grid(
+            column=2,
+            row=1,
+            sticky=tk.N+tk.S+tk.E+tk.W
+            )
+        self.runframe = tk.Frame(self.proccanvas, background="GREEN")
+
+        self.b1 = tk.Button(
+             self.proccanvas,
+            text= "b1",
+            command=lambda: self.execute_option(number)
+
+            )
+        self.b1.grid(
+            column=2,
+            row=1,
+            sticky=tk.N+tk.S+tk.E+tk.W
+            )
+
+
+        self.b2 = tk.Button(
+            self.proccanvas,
+            text= "b2",
+            command=lambda: self.execute_option(number)
+
+            )
+        self.b2.grid(
+            column=0,
+            row=1,
+            sticky=tk.N+tk.S+tk.E+tk.W
+            )
+   
         def scroll_wheel(event):
             """The mouse scroll event handler"""
             if DEBUGLEVEL > 0:
@@ -467,7 +544,7 @@ class AnyMateGUI(object):
             )
         self.print.grid(column=3, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
-        self.label = tk.Label(
+        self.label = tk.Button(
             parent, text =option.name, bg=option.color, borderwidth=2 )
         self.label .grid(column=0,
                          row=row,
