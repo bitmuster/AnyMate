@@ -17,9 +17,11 @@ import sys
 import unittest
 from unittest.mock import MagicMock, patch
 
-from AnyMate import AnyMate, Config, Interpreter
+from AnyMate import AnyMate
+from interpreter import Interpreter
 from anymate_gui import AnyMateGui as gui
 from AnyMate import main, print_help
+import config as aconf
 
 
 class TestAnyMateConfig(unittest.TestCase):
@@ -27,7 +29,7 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(1, 1)
 
     def test_init(self):
-        conf = Config("text", "name", "nick", "color")
+        conf = aconf.Config("text", "name", "nick", "color")
         self.assertEqual(conf.text, "text")
         self.assertEqual(conf.name, "name")
         self.assertEqual(conf.nick, "nick")
@@ -36,7 +38,7 @@ class TestAnyMateConfig(unittest.TestCase):
     @patch("os.system")
     def test_execute(self, osmock):
         # Setup
-        conf = Config("ls -l", "name", "command", "color")
+        conf = aconf.Config("ls -l", "name", "command", "color")
 
         # According to the current setting
         call = (
@@ -52,7 +54,7 @@ class TestAnyMateConfig(unittest.TestCase):
 
     def test_str(self):
         # Setup
-        conf = Config("text", "name", "command", "color")
+        conf = aconf.Config("text", "name", "command", "color")
         expected = 'Name: "name"; Command: "command"; Code: "text";'
 
         # Exercise
@@ -62,7 +64,7 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(ret, expected)
 
     def test_getters(self):
-        conf = Config("text", "name", "command", "color")
+        conf = aconf.Config("text", "name", "command", "color")
         ret = conf.get_command()
         self.assertEqual(ret, "text")
 
@@ -131,12 +133,12 @@ class TestClassAnyMate(unittest.TestCase):
     #
     #        a.readAnyMate("somefile")
 
-    @patch("AnyMate.Config.execute")
+    @patch.object(aconf.Config, "execute")
     def test_execute(self, exmock):
         anymate = AnyMate("empty.anymate")
         anymate.execute("hello")
 
-    @patch("AnyMate.Config.execute")
+    @patch.object(aconf.Config, "execute")
     def test_execute_fail(self, exmock):
         anymate = AnyMate("empty.anymate")
         with self.assertRaises(SystemError):
