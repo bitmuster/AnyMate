@@ -10,7 +10,6 @@ from AnyMate import main, print_help
 import config as aconf
 
 
-
 class TestInterpreter(unittest.TestCase):
     """The test class for the Interpreter"""
 

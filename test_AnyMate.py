@@ -23,6 +23,7 @@ from anymate_gui import AnyMateGui as gui
 from AnyMate import main, print_help
 import config as aconf
 
+
 class TestClassAnyMate(unittest.TestCase):
     """Here we re-use a real existing file with defined content"""
 
@@ -71,11 +72,12 @@ class TestClassAnyMate(unittest.TestCase):
 
     def test_AnyMate_real_file(self):
         """We read the example file, we know the content"""
-        anymate = AnyMate("empty.anymate")
-        self.assertEqual(anymate.conf[0].name, "Hello World")
-        self.assertEqual(anymate.conf[0].nick, "hello")
-        self.assertEqual(anymate.conf[0].text, 'echo "Hello World!"\n')
-        self.assertEqual(anymate.conf[0].color, "#ddffdd")
+        am = AnyMate("empty.anymate")
+        conflist = am.get_config_list()
+        self.assertEqual(conflist[0].name, "Hello World")
+        self.assertEqual(conflist[0].nick, "hello")
+        self.assertEqual(conflist[0].text, 'echo "Hello World!"\n')
+        self.assertEqual(conflist[0].color, "#ddffdd")
 
     # intention unclear
     #    @patch("__main__.exec")
@@ -108,6 +110,13 @@ class TestClassAnyMate(unittest.TestCase):
             + 'echo "Sleeping 5 seconds"\n sleep 5\' &'
         )
         osmock.assert_called_with(call)
+
+    def test_get_config_list(self):
+        am = AnyMate("empty.anymate")
+        ret = am.get_config_list()
+        self.assertTrue(isinstance(ret, list))
+        self.assertEqual(len(ret), 1)
+        self.assertTrue(isinstance(ret[0], aconf.Config))
 
 
 class AnyMateConfigReader(unittest.TestCase):

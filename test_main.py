@@ -1,4 +1,3 @@
-
 import os
 import sys
 import unittest
@@ -9,6 +8,7 @@ from interpreter import Interpreter
 from anymate_gui import AnyMateGui as gui
 from AnyMate import main, print_help
 import config as aconf
+
 
 class TestMain(unittest.TestCase):
     """The main test class for AnyMate"""

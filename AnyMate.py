@@ -93,7 +93,7 @@ class AnyMate:
 
     def __init__(self, filename, debug=False):
         # Central list for configration options
-        self.conf = []
+        self._config_list = []
         self.debug = debug
 
         if os.path.isfile(filename) and filename[-8:] == ".anymate":
@@ -150,7 +150,7 @@ class AnyMate:
                 sys.exit()
 
             color = self.get_color(command[2])
-            self.conf.append(
+            self._config_list.append(
                 aconf.Config(
                     text=command[3],
                     name=command[0],
@@ -162,18 +162,18 @@ class AnyMate:
 
     def list(self):
         """just print what is inside here"""
-        for i in self.conf:
+        for i in self._config_list:
             print(i)
 
     def command_list(self):
         """just print what is inside here"""
-        for i in self.conf:
+        for i in self._config_list:
             print(i.nick)
 
-    def execute(self, command):
+    def execute(self, command: str):
         """execute given command, only used in command line mode"""
 
-        for item in self.conf:
+        for item in self._config_list:
             if item.nick == command:
                 # print item
                 item.execute()
@@ -182,6 +182,9 @@ class AnyMate:
         # when no item was found
         print("Command not found")
         raise SystemError("Command not found")
+
+    def get_config_list(self):
+        return self._config_list
 
 
 def print_help():

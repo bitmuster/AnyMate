@@ -10,7 +10,7 @@ class AnyMateGui:
     """Responsible for creating the GUI"""
 
     def __init__(self, anymate, filename, debug=False):
-        self.options = anymate.conf
+        self.options = anymate.get_config_list()
 
         self.save_space = False
 
