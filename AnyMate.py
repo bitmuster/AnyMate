@@ -333,8 +333,8 @@ class AnyMateGUI(object):
             #height=800,
             width=200,
             scrollregion=(0, 0, 100, 100),
-            background="RED",
-            borderwidth=5
+            #background="RED",
+            #borderwidth=5
             )
         self.canvas.grid(
             column=1,
@@ -440,31 +440,45 @@ class AnyMateGUI(object):
         """
         textfield_width = 80
 
-        self.button = tk.Button(
-            parent,
-            text=option.name + '\n' + option.nick,
-            #command= option.execute,
+        #self.button = tk.Button(
+        #    parent,
+        #    text=option.name + '\n' + option.nick,
+        #    #command= option.execute,
 
-            # unfortunately Tkinter does not allow arguments for the Button
-            # so we generate a pseudo function for that
-            command=lambda: self.execute_option(number),
-            bg=option.color
-            )
-        self.button.grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+        #    # unfortunately Tkinter does not allow arguments for the Button
+        #    # so we generate a pseudo function for that
+        #    command=lambda: self.execute_option(number),
+        #    bg=option.color
+        #    )
+        #self.button.grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
         self.run = tk.Button(
             parent,
-            text= "run"
+            text= "run",
+            command=lambda: self.execute_option(number)
+
             )
         self.run.grid(column=1, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
-        self.label = tk.Label(parent, text = "label")
-        self.label .grid(column=0, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.print = tk.Button(
+            parent,
+            text= "print",
+            command=lambda: self.print_option(number, option.text)
+            )
+        self.print.grid(column=3, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+
+        self.label = tk.Label(
+            parent, text =option.name, bg=option.color, borderwidth=2 )
+        self.label .grid(column=0,
+                         row=row,
+                         rowspan=1,
+                         sticky=tk.W+tk.E+tk.N+tk.S,
+                         )
 
         self.label = tk.Label(parent, text = "state")
-        self.label .grid(column=3, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.label .grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
-        self.buttons.append(self.button)
+        #self.buttons.append(self.button)
 
         height = option.text.count('\n')
         if height==0:
@@ -472,23 +486,34 @@ class AnyMateGUI(object):
         if not self.save_space:
             height += 1 # looks a bit nicer
 
-        self.textfield = tk.Text(parent,
-                width=textfield_width, height=height)
-        self.textfield.insert(tk.END, option.text)
-        self.textfield.grid(
-            column=4,
-            columnspan=1,
-            row=row,
-            rowspan=1,
-            sticky=tk.W+tk.E
-            )
-        self.textfields.append(self.textfield)
+        #self.textfield = tk.Text(parent,
+        #        width=textfield_width, height=height)
+        #self.textfield.insert(tk.END, option.text)
+        #self.textfield.grid(
+        #    column=4,
+        #    columnspan=1,
+        #    row=row,
+        #    rowspan=1,
+        #    sticky=tk.W+tk.E
+        #    )
+        #self.textfields.append(self.textfield)
+
+    def print_option(self, number, text):
+        """Handler for an option - button"""
+        if DEBUGLEVEL > 0:
+            print('Executing %i'%number)
+        print(text)
+        self.terminal.insert(tk.END, text)
+
+        #self.options[number].execute()
 
     def execute_option(self, number):
         """Handler for an option - button"""
         if DEBUGLEVEL > 0:
             print('Executing %i'%number)
         self.options[number].execute()
+        #self.terminal.insert(tk.END, text)
+
 
 def print_help():
     """Helper message"""
