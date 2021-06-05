@@ -79,10 +79,6 @@ if sys.version_info.major < 3:
         "Python 2 is not supported here anymore."
     )
     sys.exit()
-else:
-    import tkinter as tk
-    import tkinter.scrolledtext as tks
-    import tkinter.ttk as ttk
 
 
 class AnyMate:
@@ -155,7 +151,13 @@ class AnyMate:
 
             color = self.get_color(command[2])
             self.conf.append(
-                aconf.Config(text=command[3], name=command[0], nick=command[1], color=color, debug=self.debug)
+                aconf.Config(
+                    text=command[3],
+                    name=command[0],
+                    nick=command[1],
+                    color=color,
+                    debug=self.debug,
+                )
             )
 
     def list(self):

@@ -1,9 +1,9 @@
-
 import os
 
 from interpreter import Interpreter
 
 SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
+
 
 class Config:
     """This class represents configuration objects

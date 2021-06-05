@@ -1,17 +1,9 @@
-
 import os.path
 import sys
 
-if sys.version_info.major < 3:
-    print(
-        "Error: Please use python3 to execute. "
-        "Python 2 is not supported here anymore."
-    )
-    sys.exit()
-else:
-    import tkinter as tk
-    import tkinter.scrolledtext as tks
-    import tkinter.ttk as ttk
+import tkinter as tk
+import tkinter.scrolledtext as tks
+import tkinter.ttk as ttk
 
 # TODO: How can we write tests for this class?
 class AnyMateGui:
@@ -301,5 +293,3 @@ class AnyMateGui:
             print("Executing %i" % number)
         self.options[number].execute()
         # self.terminal.insert(tk.END, text)
-
-

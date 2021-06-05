@@ -1,5 +1,3 @@
-
-
 class Interpreter:
     """Class used to hide interpreter properties"""
 
