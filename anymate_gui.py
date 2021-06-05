@@ -10,6 +10,7 @@ class AnyMateGui:
     """Responsible for creating the GUI"""
 
     def __init__(self, anymate, filename, debug=False):
+        """Build the UI"""
 
         self.options = anymate.get_config_list()
 
@@ -19,6 +20,17 @@ class AnyMateGui:
         self.textfields = []
         self.options_hidden = False
         self.debug = debug
+
+        self.build_rootwin(filename)
+        self.build_option_menue()
+        self.build_run_menue()
+        self.build_terminal()
+
+        self.rootwin.wait_visibility(self.mainframe)
+        self.resize_canvas()
+
+    def build_rootwin(self, filename):
+        """Build the main window"""
 
         # Set up the GUI
         self.rootwin = tk.Tk(className="AnyMate: " + filename)
@@ -46,14 +58,8 @@ class AnyMateGui:
         self.rootwin.columnconfigure(1, weight=0)  # scrollbar
         self.rootwin.columnconfigure(2, weight=1)
 
-        self.build_option_menue()
-        self.build_run_menue()
-        self.build_terminal()
-
-        self.rootwin.wait_visibility(self.mainframe)
-        self.resize_canvas()
-
     def build_option_menue(self):
+        """Build the option menue on the left"""
 
         self.canvas = tk.Canvas(
             self.rootwin,
@@ -111,6 +117,7 @@ class AnyMateGui:
             self.use_row += 1
 
     def build_run_menue(self):
+        """Build the run menue in the middle"""
 
         self.proccanvas = tk.Canvas(
             self.rootwin,
@@ -154,6 +161,7 @@ class AnyMateGui:
         self.b2.grid(column=0, row=1, sticky=tk.N + tk.S + tk.E + tk.W)
 
     def build_terminal(self):
+        """Build the terminal on the right"""
 
         # self.terminal = tks.ScrolledText(
         #    self.rootwin,
