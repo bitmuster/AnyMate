@@ -71,71 +71,67 @@ else:
     DEBUGLEVEL = 0
 
 if sys.version_info.major < 3:
-    print("Error: Please use python3 to execute. "
-          "Python 2 is not supported here anymore.")
+    print(
+        "Error: Please use python3 to execute. "
+        "Python 2 is not supported here anymore."
+    )
     sys.exit()
 else:
     import tkinter as tk
     import tkinter.scrolledtext as tks
     import tkinter.ttk as ttk
 
-SHELL = 'xterm' # := xterm | urxvt | gnome-terminal | none | win | none_win
+SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
+
 
 class Interpreter:
     """Class used to hide interpreter properties"""
 
     def __init__(self, shell):
-        self.wait = False # wait with read for the any-key
-        if shell == 'xterm':
-            self.shell_prefix = \
-            """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
+        self.wait = False  # wait with read for the any-key
+        if shell == "xterm":
+            self.shell_prefix = """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
             if self.wait:
-                self.shell_suffix = \
-                """echo "Press the Any-Key to Continue "\nread any-key' &"""
+                self.shell_suffix = (
+                    """echo "Press the Any-Key to Continue "\nread any-key' &"""
+                )
             else:
-                self.shell_suffix = \
-                """ echo "Sleeping 5 seconds"\n sleep 5' &"""
+                self.shell_suffix = """ echo "Sleeping 5 seconds"\n sleep 5' &"""
 
-        elif shell == 'urxvt':
-            self.shell_prefix = \
-            """urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
-            self.shell_suffix = \
-            """echo "Press the Any-Key to Continue "\nread any-key' &"""
+        elif shell == "urxvt":
+            self.shell_prefix = """urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
+            self.shell_suffix = (
+                """echo "Press the Any-Key to Continue "\nread any-key' &"""
+            )
 
-        elif shell == 'gnome-terminal':
-            self.shell_prefix = \
-            """gnome-terminal --hide-menubar -x /bin/bash -c '\n"""
-            self.shell_suffix = \
-            """echo "Press the Any-Key to Continue "\nread any-key' &"""
+        elif shell == "gnome-terminal":
+            self.shell_prefix = """gnome-terminal --hide-menubar -x /bin/bash -c '\n"""
+            self.shell_suffix = (
+                """echo "Press the Any-Key to Continue "\nread any-key' &"""
+            )
 
-        elif shell == 'none':
-            self.shell_prefix = \
-            """/bin/bash -c ' \n"""
-            self.shell_suffix = \
-            """ ' &"""
+        elif shell == "none":
+            self.shell_prefix = """/bin/bash -c ' \n"""
+            self.shell_suffix = """ ' &"""
 
-        elif shell == 'none_win': # Windows cmd.exe without own window
-            self.shell_prefix = \
-            """cmd.exe /C  """
-            #self.shell_suffix = \
-            #""" & echo Press the any-key & pause"""
-            self.shell_suffix = \
-            """ """
+        elif shell == "none_win":  # Windows cmd.exe without own window
+            self.shell_prefix = """cmd.exe /C  """
+            # self.shell_suffix = \
+            # """ & echo Press the any-key & pause"""
+            self.shell_suffix = """ """
 
-        elif shell == 'win': # Windows cmd.exe in own window
-            self.shell_prefix = \
-            """start cmd.exe /C " """
-            self.shell_suffix = \
-            """ & echo Press the any-key & pause " """
+        elif shell == "win":  # Windows cmd.exe in own window
+            self.shell_prefix = """start cmd.exe /C " """
+            self.shell_suffix = """ & echo Press the any-key & pause " """
 
         else:
-            msg = 'Shell %s not found.'%shell
+            msg = "Shell %s not found." % shell
             print(msg)
             raise SystemError(msg)
 
     def decorate_command(self, command):
         """Add shell pre- and suffix"""
-        return  self.shell_prefix + command + self.shell_suffix
+        return self.shell_prefix + command + self.shell_suffix
 
     def get_suffix(self):
         """Return current shell suffix"""
@@ -144,6 +140,7 @@ class Interpreter:
     def get_prefix(self):
         """Return current shell prefix"""
         return self.shell_prefix
+
 
 class Config(object):
     """This class represents configuration objects
@@ -164,51 +161,58 @@ class Config(object):
 
         # check for ' signs
         if self.text.count("'") > 0:
-            print("Warning the Command String \""+ \
-                self.name+"\" contains a ' sign, this might confuse bash")
+            print(
+                'Warning the Command String "'
+                + self.name
+                + "\" contains a ' sign, this might confuse bash"
+            )
 
     def execute(self):
         """Execute configuration Option inside an rxvt/SHELL window
         """
         if DEBUGLEVEL > 0:
-            print('Executing:"'+ self.name + '"')
+            print('Executing:"' + self.name + '"')
         command = self.interpreter.decorate_command(self.text)
 
         if DEBUGLEVEL > 0:
-            print('****************')
+            print("****************")
             print(command)
-            print('****************')
+            print("****************")
         os.system(command)
 
     def __str__(self):
-        return ('Name: \"%s\"; Command: \"%s\"; Code: \"%s\";')%\
-            (self.name, self.nick, self.text)
+        return ('Name: "%s"; Command: "%s"; Code: "%s";') % (
+            self.name,
+            self.nick,
+            self.text,
+        )
 
     def get_command(self):
         """Get a command
         """
         return self.text
 
+
 class AnyMate(object):
     """Class for Command execution"""
 
     # predefined colors (Anymate)
-    RED = '#EFBFBF'
-    GREEN = '#BFEFBF'
-    CYAN = '#BFEFEF'
-    GREY = '#BFBFBF'
-    BLUE = '#BFBFEF'
+    RED = "#EFBFBF"
+    GREEN = "#BFEFBF"
+    CYAN = "#BFEFEF"
+    GREY = "#BFBFBF"
+    BLUE = "#BFBFEF"
 
     def __init__(self, filename):
         # Central list for configration options
         self.conf = []
 
         if os.path.isfile(filename) and filename[-8:] == ".anymate":
-            print('Loading AnyMate configuration file ' + filename)
+            print("Loading AnyMate configuration file " + filename)
             self.read_config(filename)
         else:
-            print('Unkown configuration file' + filename)
-            raise SystemError('Unkown configuration file', filename)
+            print("Unkown configuration file" + filename)
+            raise SystemError("Unkown configuration file", filename)
 
     def get_color(self, color_string):
         """Returns predefined color string
@@ -217,23 +221,23 @@ class AnyMate(object):
 
         if color_string is None:
             color = None
-        elif color_string == 'red':
+        elif color_string == "red":
             color = self.RED
-        elif color_string == 'green':
+        elif color_string == "green":
             color = self.GREEN
-        elif color_string == 'blue':
+        elif color_string == "blue":
             color = self.BLUE
-        elif color_string == 'gray':
+        elif color_string == "gray":
             color = self.GREY
-        elif color_string == 'cyan':
+        elif color_string == "cyan":
             color = self.CYAN
-        elif color_string[0] == '#':
+        elif color_string[0] == "#":
             if len(color_string) == 7:
                 return color_string
             else:
                 raise SystemError("Unknown color")
         else:
-            print('Color type %s not found'%color_string)
+            print("Color type %s not found" % color_string)
             color = None
         return color
 
@@ -242,29 +246,24 @@ class AnyMate(object):
         """
 
         # Derive absolute path by current working directory
-        name = os.path.abspath( filename )
+        name = os.path.abspath(filename)
 
         # TODO Use fake global not the real one !
-        exec(compile(open(name).read(), name, 'exec'), globals())
+        exec(compile(open(name).read(), name, "exec"), globals())
 
         # Derive variable commandList from global dictionary
-        command_list = globals()['commandList']
+        command_list = globals()["commandList"]
 
         for command in command_list:
             if len(command) != 4:
                 print("Error in file " + filename)
-                print("near field containing "+ command[0])
+                print("near field containing " + command[0])
                 sys.exit()
 
             color = self.get_color(command[2])
             self.conf.append(
-                Config(
-                    text=command[3],
-                    name=command[0],
-                    nick=command[1],
-                    color=color
-                    )
-                )
+                Config(text=command[3], name=command[0], nick=command[1], color=color)
+            )
 
     def list(self):
         """just print what is inside here"""
@@ -281,13 +280,14 @@ class AnyMate(object):
 
         for item in self.conf:
             if item.nick == command:
-                #print item
+                # print item
                 item.execute()
                 return True
 
         # when no item was found
         print("Command not found")
         raise SystemError("Command not found")
+
 
 # TODO: How can we write tests for this class?
 class AnyMateGUI(object):
@@ -303,7 +303,7 @@ class AnyMateGUI(object):
         self.options_hidden = False
 
         # Set up the GUI
-        self.rootwin = tk.Tk(className="AnyMate: "+ filename)
+        self.rootwin = tk.Tk(className="AnyMate: " + filename)
 
         # The alternatve wm_iconbitmap is buggy - will never work
         iconfile = os.path.join(sys.path[0], "icon.png")
@@ -311,172 +311,146 @@ class AnyMateGUI(object):
         self.rootwin.resizable(width=False, height=True)
         self.rootwin.grid_rowconfigure(0, minsize=28)
 
-        self.options_button = tk.Button(self.rootwin, text="Hide Options", \
-              command=self.hide_handler)
+        self.options_button = tk.Button(
+            self.rootwin, text="Hide Options", command=self.hide_handler
+        )
         self.options_button.grid(column=1, row=0, columnspan=2)
 
-        #self.terminal = tks.ScrolledText(
+        # self.terminal = tks.ScrolledText(
         #    self.rootwin,
         #    #background="GREEN",
         #    borderwidth=5
         #    )
 
-        #self.terminal.insert(tk.END, "thats it ...")
-        #self.terminal.grid(
+        # self.terminal.insert(tk.END, "thats it ...")
+        # self.terminal.grid(
         #    column=2,
         #    row=1)
 
         self.book = tk.ttk.Notebook(self.rootwin)
-        self.book.grid(
-            column=4,
-            row=1)
-     
+        self.book.grid(column=4, row=1)
+
         self.terminal = tks.ScrolledText(
             self.book,
-            #background="GREEN",
-            borderwidth=5
-            )
+            # background="GREEN",
+            borderwidth=5,
+        )
 
         self.terminal.insert(tk.END, "thats it ...")
-        #self.terminal.grid(
+        # self.terminal.grid(
         #    column=0,
         #    row=0)
         self.book.add(self.terminal, text="test")
-        
+
         if DEBUGLEVEL > 0:
-            self.hidden_button = tk.Button(self.rootwin, text="", command=self.hidden_handler)
+            self.hidden_button = tk.Button(
+                self.rootwin, text="", command=self.hidden_handler
+            )
             self.hidden_button.grid(column=0, row=0)
-
-
 
         self.canvas = tk.Canvas(
             self.rootwin,
-            #height=800,
+            # height=800,
             width=200,
             scrollregion=(0, 0, 100, 100),
             background="RED",
-            borderwidth=5
-            )
-        self.canvas.grid(
-            column=0,
-            row=1,
-            sticky=tk.N+tk.S+tk.E+tk.W
-            )
+            borderwidth=5,
+        )
+        self.canvas.grid(column=0, row=1, sticky=tk.N + tk.S + tk.E + tk.W)
 
         self.scrollbar = tk.Scrollbar(
-            self.rootwin, orient=tk.VERTICAL, background="DARKGREEN",
-            highlightcolor="GREEN")
+            self.rootwin,
+            orient=tk.VERTICAL,
+            background="DARKGREEN",
+            highlightcolor="GREEN",
+        )
 
-        self.scrollbar.grid(row=1, column=1, sticky='ns')
+        self.scrollbar.grid(row=1, column=1, sticky="ns")
         self.scrollbar.config(command=self.canvas.yview)
         self.canvas.config(yscrollcommand=self.scrollbar.set)
 
         self.rootwin.rowconfigure(0, weight=0)
         self.rootwin.rowconfigure(1, weight=1)
         self.rootwin.columnconfigure(0, weight=1)
-        self.rootwin.columnconfigure(1, weight=0) #scrollbar
+        self.rootwin.columnconfigure(1, weight=0)  # scrollbar
         self.rootwin.columnconfigure(2, weight=1)
-        
-        #place where we add the run buttons
+
+        # place where we add the run buttons
         self.mainframe = tk.Frame(self.canvas, background="BLUE")
 
-
         self.runscrollbar = tk.Scrollbar(
-            self.rootwin, orient=tk.VERTICAL, background="DARKGREEN",
-            highlightcolor="GREEN")
+            self.rootwin,
+            orient=tk.VERTICAL,
+            background="DARKGREEN",
+            highlightcolor="GREEN",
+        )
 
-        self.runscrollbar.grid(row=1, column=3, sticky='ns')
-  
-
+        self.runscrollbar.grid(row=1, column=3, sticky="ns")
 
         self.proccanvas = tk.Canvas(
             self.rootwin,
-            #height=800,
+            # height=800,
             width=200,
             scrollregion=(0, 0, 100, 100),
             background="BLUE",
-            #borderwidth=5
-            )
-        self.proccanvas.grid(
-            column=2,
-            row=1,
-            sticky=tk.N+tk.S+tk.E+tk.W
-            )
+            # borderwidth=5
+        )
+        self.proccanvas.grid(column=2, row=1, sticky=tk.N + tk.S + tk.E + tk.W)
         self.runframe = tk.Frame(self.proccanvas, background="GREEN")
 
         self.proccanvas.config(yscrollcommand=self.runscrollbar.set)
 
         self.runscrollbar.config(command=self.proccanvas.yview)
-      
-  
+
         def scroll_wheel(event):
             """The mouse scroll event handler"""
             if DEBUGLEVEL > 0:
-                print('scroll_wheel %i'%event.num)
+                print("scroll_wheel %i" % event.num)
             if event.num == 4:
-                self.canvas.yview('scroll', -1, 'units')
+                self.canvas.yview("scroll", -1, "units")
             elif event.num == 5:
-                self.canvas.yview('scroll', 1, 'units')
-        
+                self.canvas.yview("scroll", 1, "units")
+
         def run_scroll_wheel(event):
             """The mouse scroll event handler"""
             if DEBUGLEVEL > 0:
-                print('scroll_wheel %i'%event.num)
+                print("scroll_wheel %i" % event.num)
             if event.num == 4:
-                self.proccanvas.yview('scroll', -1, 'units')
+                self.proccanvas.yview("scroll", -1, "units")
             elif event.num == 5:
-                self.proccanvas.yview('scroll', 1, 'units')
+                self.proccanvas.yview("scroll", 1, "units")
 
-        self.scrollbar.bind('<Button-4>', scroll_wheel)
-        self.scrollbar.bind('<Button-5>', scroll_wheel)
-        #self.canvas.bind_all('<Button-4>', scroll_wheel)
-        #self.canvas.bind_all('<Button-5>', scroll_wheel)
-        #self.rootwin.bind_all('<Button-4>', scroll_wheel)
-        #self.rootwin.bind_all('<Button-5>', scroll_wheel)
+        self.scrollbar.bind("<Button-4>", scroll_wheel)
+        self.scrollbar.bind("<Button-5>", scroll_wheel)
+        # self.canvas.bind_all('<Button-4>', scroll_wheel)
+        # self.canvas.bind_all('<Button-5>', scroll_wheel)
+        # self.rootwin.bind_all('<Button-4>', scroll_wheel)
+        # self.rootwin.bind_all('<Button-5>', scroll_wheel)
 
-        self.runscrollbar.bind('<Button-4>', run_scroll_wheel)
-        self.runscrollbar.bind('<Button-5>', run_scroll_wheel)
+        self.runscrollbar.bind("<Button-4>", run_scroll_wheel)
+        self.runscrollbar.bind("<Button-5>", run_scroll_wheel)
 
+        # paint the frame on to the canvas -> posibillity for global scrollbar
+        # http://tkinter.unpythonic.net/wiki/ScrolledFrame
+        self.canvas.create_window(0, 0, anchor="nw", window=self.mainframe)
+        # use wait visibility later and resize the Canvas
 
-        #paint the frame on to the canvas -> posibillity for global scrollbar
-        #http://tkinter.unpythonic.net/wiki/ScrolledFrame
-        self.canvas.create_window(0, 0, anchor='nw', window=self.mainframe)
-        #use wait visibility later and resize the Canvas
-        
-        self.proccanvas.create_window(0, 0, anchor='nw', window=self.runframe)
-        
-        
-        self.b1 = tk.Button(
-             self.runframe,
-            text= "b1",
+        self.proccanvas.create_window(0, 0, anchor="nw", window=self.runframe)
 
-            )
-        self.b1.grid(
-            column=0,
-            row=0,
-            sticky=tk.N+tk.S+tk.E+tk.W
-            )
-        self.b2 = tk.Button(
-            self.runframe,
-            text= "b2",
+        self.b1 = tk.Button(self.runframe, text="b1")
+        self.b1.grid(column=0, row=0, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.b2 = tk.Button(self.runframe, text="b2")
+        self.b2.grid(column=0, row=1, sticky=tk.N + tk.S + tk.E + tk.W)
 
-            )
-        self.b2.grid(
-            column=0,
-            row=1,
-            sticky=tk.N+tk.S+tk.E+tk.W
-            )
-        
-        
         self.use_row = 1
         self.use_row += 1
 
         for k in range(len(self.options)):
-        # generate an option field
+            # generate an option field
             option = self.options[k]
             self.generate_option(
-                parent=self.mainframe, row=self.use_row,
-                option=option, number=k)
+                parent=self.mainframe, row=self.use_row, option=option, number=k
+            )
             self.use_row += 1
 
         self.rootwin.wait_visibility(self.mainframe)
@@ -489,9 +463,13 @@ class AnyMateGUI(object):
         self.canvas.config(height=height, width=width)
         self.canvas.config(scrollregion=(0, 0, width, height))
         if DEBUGLEVEL > 0:
-            print(("The canvas should have now %ix%i pixels"%(width, height)))
-            print(("The rootwin has a size of %ix%i pixels"%
-                   (self.rootwin.winfo_width(), self.rootwin.winfo_height())))
+            print(("The canvas should have now %ix%i pixels" % (width, height)))
+            print(
+                (
+                    "The rootwin has a size of %ix%i pixels"
+                    % (self.rootwin.winfo_width(), self.rootwin.winfo_height())
+                )
+            )
 
     def hidden_handler(self):
         """Handler for hidden button (there in debug mode)
@@ -526,8 +504,8 @@ class AnyMateGUI(object):
     def quit(self):
         """Quit handler
         """
-        print('exiting...')
-        #killall clients
+        print("exiting...")
+        # killall clients
         sys.exit()
 
     def generate_option(self, parent, row, option, number):
@@ -535,7 +513,7 @@ class AnyMateGUI(object):
         """
         textfield_width = 80
 
-        #self.button = tk.Button(
+        # self.button = tk.Button(
         #    parent,
         #    text=option.name + '\n' + option.nick,
         #    #command= option.execute,
@@ -545,81 +523,73 @@ class AnyMateGUI(object):
         #    command=lambda: self.execute_option(number),
         #    bg=option.color
         #    )
-        #self.button.grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+        # self.button.grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
         self.run = tk.Button(
-            parent,
-            text= "run",
-            command=lambda: self.execute_option(number)
-
-            )
-        self.run.grid(column=1, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+            parent, text="run", command=lambda: self.execute_option(number)
+        )
+        self.run.grid(column=1, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
         self.print = tk.Button(
-            parent,
-            text= "print",
-            command=lambda: self.print_option(number, option.text)
-            )
-        self.print.grid(column=3, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+            parent, text="print", command=lambda: self.print_option(number, option.text)
+        )
+        self.print.grid(column=3, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
-        self.label = tk.Button(
-            parent, text =option.name, bg=option.color, borderwidth=2 )
-        self.label .grid(column=0,
-                         row=row,
-                         rowspan=1,
-                         sticky=tk.W+tk.E+tk.N+tk.S,
-                         )
+        self.label = tk.Button(parent, text=option.name, bg=option.color, borderwidth=2)
+        self.label.grid(column=0, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
-        self.label = tk.Label(parent, text = "state")
-        self.label .grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
+        self.label = tk.Label(parent, text="state")
+        self.label.grid(column=2, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
-        #self.buttons.append(self.button)
+        # self.buttons.append(self.button)
 
-        height = option.text.count('\n')
-        if height==0:
+        height = option.text.count("\n")
+        if height == 0:
             height = len(option.text) // textfield_width
         if not self.save_space:
-            height += 1 # looks a bit nicer
+            height += 1  # looks a bit nicer
 
-        #self.textfield = tk.Text(parent,
+        # self.textfield = tk.Text(parent,
         #        width=textfield_width, height=height)
-        #self.textfield.insert(tk.END, option.text)
-        #self.textfield.grid(
+        # self.textfield.insert(tk.END, option.text)
+        # self.textfield.grid(
         #    column=4,
         #    columnspan=1,
         #    row=row,
         #    rowspan=1,
         #    sticky=tk.W+tk.E
         #    )
-        #self.textfields.append(self.textfield)
+        # self.textfields.append(self.textfield)
 
     def print_option(self, number, text):
         """Handler for an option - button"""
         if DEBUGLEVEL > 0:
-            print('Executing %i'%number)
+            print("Executing %i" % number)
         print(text)
         self.terminal.insert(tk.END, text)
 
-        #self.options[number].execute()
+        # self.options[number].execute()
 
     def execute_option(self, number):
         """Handler for an option - button"""
         if DEBUGLEVEL > 0:
-            print('Executing %i'%number)
+            print("Executing %i" % number)
         self.options[number].execute()
-        #self.terminal.insert(tk.END, text)
+        # self.terminal.insert(tk.END, text)
 
 
 def print_help():
     """Helper message"""
-    print('Please use "AnyMate [--nogui <cmd>] <file.anymate>"'+\
-            ' to call anymate GUI.')
+    print(
+        'Please use "AnyMate [--nogui <cmd>] <file.anymate>"' + " to call anymate GUI."
+    )
+
 
 def main(argv):
     """Bam - Main"""
 
     if DEBUGLEVEL > 0:
-        print('Starting AnyMate from', sys.path[0], 'with argv', sys.argv)
+        print("Starting AnyMate from", sys.path[0], "with argv", sys.argv)
 
     if not isinstance(argv, list):
         print_help()
@@ -632,7 +602,7 @@ def main(argv):
     # Everything we do now happens in this directory
 
     if DEBUGLEVEL > 0:
-        print('Switching to directory ' + abspath)
+        print("Switching to directory " + abspath)
     os.chdir(abspath)
 
     # GUI version
@@ -644,17 +614,17 @@ def main(argv):
             sys.exit()
 
         anymate = AnyMate(filename)
-        #anymate.list()
-        #anymate.command_list()
+        # anymate.list()
+        # anymate.command_list()
         anymategui = AnyMateGUI(anymate, filename)
-        #Start the GTK Mainloop
+        # Start the GTK Mainloop
         anymategui.rootwin.mainloop()
         if DEBUGLEVEL > 0:
-            print('Exiting...')
+            print("Exiting...")
 
     # Commandline version
     elif len(argv) == 4:
-        if argv[1] == '--nogui':
+        if argv[1] == "--nogui":
             filename = argv[3]
 
             if os.path.isfile(filename):
@@ -676,5 +646,5 @@ def main(argv):
         sys.exit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv)
