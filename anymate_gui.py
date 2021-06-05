@@ -12,6 +12,7 @@ class AnyMateGui:
     def __init__(self, anymate, filename, debug=False):
         """Build the UI"""
 
+        self._anymate = anymate
         self.options = anymate.get_config_list()
 
         self.save_space = False
@@ -263,12 +264,12 @@ class AnyMateGui:
         button.grid(column=0, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
         runbutton = tk.Button(
-            parent, text="run", command=lambda: self.execute_option(number)
+            parent, text="run", command=lambda: self._anymate.execute(option.nick)
         )
         runbutton.grid(column=1, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
         printbutton = tk.Button(
-            parent, text="print", command=lambda: self.print_option(number, option.text)
+            parent, text="print", command=lambda: self._anymate.print_option(option.nick)
         )
         printbutton.grid(column=3, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
@@ -294,19 +295,3 @@ class AnyMateGui:
         #    sticky=tk.W+tk.E
         #    )
         # self.textfields.append(self.textfield)
-
-    def print_option(self, number, text):
-        """Handler for an option - button"""
-        if self.debug > 0:
-            print("Executing %i" % number)
-        print(text)
-        self.terminal.insert(tk.END, text)
-
-        # self.options[number].execute()
-
-    def execute_option(self, number):
-        """Handler for an option - button"""
-        if self.debug > 0:
-            print("Executing %i" % number)
-        self.options[number].execute()
-        # self.terminal.insert(tk.END, text)

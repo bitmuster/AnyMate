@@ -177,13 +177,17 @@ class AnyMate:
                 return True
 
         # when no item was found
-        print("Command not found")
+        print("Command not found %s"%command)
         raise SystemError("Command not found")
 
     def get_config_list(self):
         """Retrieve config list"""
         return self._config_list
 
+    def print_option(self, nick):
+        for item in self._config_list:
+            if item.nick == nick:
+                print(item)
 
 def print_help():
     """Helper message"""

@@ -86,12 +86,15 @@ class TestClassAnyMate(unittest.TestCase):
         osmock.assert_called_with(call)
 
     def test_get_config_list(self):
-        am = AnyMate("empty.anymate")
-        ret = am.get_config_list()
+        anymate = AnyMate("empty.anymate")
+        ret = anymate.get_config_list()
         self.assertTrue(isinstance(ret, list))
         self.assertEqual(len(ret), 1)
         self.assertTrue(isinstance(ret[0], aconf.Config))
 
+    def test_print_option(self):
+        anymate = AnyMate("empty.anymate")
+        anymate.print_option("hello")
 
 class AnyMateConfigReader(unittest.TestCase):
 
