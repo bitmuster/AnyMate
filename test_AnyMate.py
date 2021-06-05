@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 import unittest
 from unittest.mock import MagicMock, patch
 
 from AnyMate import AnyMate
-from interpreter import Interpreter
-from anymate_gui import AnyMateGui as gui
-from AnyMate import main, print_help
 import config as aconf
 
 

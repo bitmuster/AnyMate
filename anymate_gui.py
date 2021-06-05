@@ -5,7 +5,7 @@ import tkinter as tk
 import tkinter.scrolledtext as tks
 import tkinter.ttk as ttk
 
-# TODO: How can we write tests for this class?
+
 class AnyMateGui:
     """Responsible for creating the GUI"""
 
@@ -234,7 +234,8 @@ class AnyMateGui:
         # wait for the resize to prpopagate
         self.rootwin.after(50, self.resize_canvas)
 
-    def quit(self):
+    @staticmethod
+    def quit():
         """Quit handler
         """
         print("exiting...")
@@ -258,21 +259,21 @@ class AnyMateGui:
         #    )
         # self.button.grid(column=2, row=row, rowspan=1, sticky=tk.W+tk.E+tk.N+tk.S)
 
-        self.run = tk.Button(
+        button = tk.Button(parent, text=option.name, bg=option.color, borderwidth=2)
+        button.grid(column=0, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
+
+        runbutton = tk.Button(
             parent, text="run", command=lambda: self.execute_option(number)
         )
-        self.run.grid(column=1, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
+        runbutton.grid(column=1, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
-        self.print = tk.Button(
+        printbutton = tk.Button(
             parent, text="print", command=lambda: self.print_option(number, option.text)
         )
-        self.print.grid(column=3, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
+        printbutton.grid(column=3, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
-        self.label = tk.Button(parent, text=option.name, bg=option.color, borderwidth=2)
-        self.label.grid(column=0, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
-
-        self.label = tk.Label(parent, text="state")
-        self.label.grid(column=2, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
+        label = tk.Label(parent, text="state")
+        label.grid(column=2, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
         # self.buttons.append(self.button)
 

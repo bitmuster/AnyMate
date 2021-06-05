@@ -44,18 +44,15 @@
 # http://www.tkdocs.com/tutorial/grid.html
 
 # TODO: Avoid Problems with the ' Character
-# TODO: Add tests with full code coverage
-# TODO: Refractor all
-# TODO: Add Checkboxes to choose interpreter and or command window, rxvt,
-#    gnome-shell, cmd, mintty, python -> Why?
 # TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
 # TODO: Read / Store from/to XML or another suitable format
-# TODO: Buttons: Save, Revert, SaveAs, Open
-# TODO: Select terminal type per configuration
+# TODO: Select interpreter type per configuration
 # TODO: Switch to python logger
 # TODO: Rename Config command to nick
 # TODO: Read configs from separate files in subfolder
-# TODO: Windows: avoid \U : SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 45-46: truncated \UXXXXXXXX escape
+# TODO: Windows: avoid \U : SyntaxError: (unicode error)
+#       'unicodeescape' codec can't decode bytes in position
+#       45-46: truncated \UXXXXXXXX escape
 # TODO: Improve Windwos support
 # TODO: Support mulitple lines under Windows (^) ?
 
@@ -124,8 +121,7 @@ class AnyMate:
         elif color_string[0] == "#":
             if len(color_string) == 7:
                 return color_string
-            else:
-                raise SystemError("Unknown color")
+            raise SystemError("Unknown color")
         else:
             print("Color type %s not found" % color_string)
             color = None
@@ -138,7 +134,7 @@ class AnyMate:
         # Derive absolute path by current working directory
         name = os.path.abspath(filename)
 
-        # TODO Use fake global not the real one !
+        # TODO load from files
         exec(compile(open(name).read(), name, "exec"), globals())
 
         # Derive variable commandList from global dictionary
@@ -185,6 +181,7 @@ class AnyMate:
         raise SystemError("Command not found")
 
     def get_config_list(self):
+        """Retrieve config list"""
         return self._config_list
 
 
