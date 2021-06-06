@@ -33,7 +33,7 @@ class Config:
                 + "\" contains a ' sign, this might confuse bash"
             )
 
-    def execute(self):
+    def execute(self, callback):
         """Execute configuration Option inside an rxvt/SHELL window
         """
         if self.debug:
@@ -73,6 +73,7 @@ class Config:
             # print("gout", out)
             for line in proc.stdout:
                 print(line)
+                callback(str(line) + "\n")
         else:
             logging.info("The stream is already closed")
 

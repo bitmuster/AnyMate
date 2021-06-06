@@ -206,6 +206,7 @@ class AnyMateGui:
 
     def terminal_append(self, text):
         self.terminal.insert(tk.END, text)
+        self.terminal.update_idletasks()
 
     def resize_canvas(self):
         """Set the canvas size equal to the size of the mainframe"""
