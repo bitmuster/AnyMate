@@ -12,6 +12,15 @@ class Interpreter:
             else:
                 self.shell_suffix = """ echo "Sleeping 5 seconds"\n sleep 5' &"""
 
+        elif shell == "xtermpopen":
+            self.shell_prefix = """ ' """
+            if self.wait:
+                self.shell_suffix = (
+                    """echo "Press the Any-Key to Continue "\nread any-key' """
+                )
+            else:
+                self.shell_suffix = """ echo "Sleeping 5 seconds"\n sleep 5' """
+
         elif shell == "urxvt":
             self.shell_prefix = """urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
             self.shell_suffix = (
@@ -27,6 +36,10 @@ class Interpreter:
         elif shell == "none":
             self.shell_prefix = """/bin/bash -c ' \n"""
             self.shell_suffix = """ ' &"""
+
+        elif shell == "nonepopen":
+            self.shell_prefix = """ ' """
+            self.shell_suffix = """ ' """
 
         elif shell == "none_win":  # Windows cmd.exe without own window
             self.shell_prefix = """cmd.exe /C  """
@@ -46,6 +59,27 @@ class Interpreter:
     def decorate_command(self, command):
         """Add shell pre- and suffix"""
         return self.shell_prefix + command + self.shell_suffix
+
+    def decorate_command_none_popen(self, command):
+        """Add shell pre- and suffix"""
+        return ["/bin/bash", "-c", self.shell_prefix + command + self.shell_suffix]
+
+    def decorate_command_popen(self, command):
+        return [
+            "/usr/bin/xterm",
+            "-sl",
+            "10000",
+            "-cr",
+            "BLUE",
+            "-bg",
+            "lightblue",
+            "-fg",
+            "black",
+            "-e",
+            "/bin/bash",
+            "-c",
+            self.shell_prefix + command + self.shell_suffix,
+        ]
 
     def get_suffix(self):
         """Return current shell suffix"""

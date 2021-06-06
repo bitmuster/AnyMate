@@ -14,8 +14,6 @@ class AnyMateGui:
 
         self._anymate = anymate
 
-        self._anymate.register_gui(self)
-
         self.options = anymate.get_config_list()
 
         self.save_space = False
@@ -33,6 +31,8 @@ class AnyMateGui:
 
         self.rootwin.wait_visibility(self.mainframe)
         self.resize_canvas()
+        self._anymate.register_gui(self)
+        self._anymate.register_terminal(self.terminal_append)
 
     def build_rootwin(self, filename):
         """Build the main window"""
@@ -203,6 +203,9 @@ class AnyMateGui:
         #    column=0,
         #    row=0)
         self.book.add(self.terminal, text="test")
+
+    def terminal_append(self, text):
+        self.terminal.insert(tk.END, text)
 
     def resize_canvas(self):
         """Set the canvas size equal to the size of the mainframe"""

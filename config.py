@@ -1,8 +1,10 @@
+import logging
 import os
+import subprocess
 
 from interpreter import Interpreter
 
-SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
+SHELL = "none"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 
 
 class Config:
@@ -34,15 +36,43 @@ class Config:
     def execute(self):
         """Execute configuration Option inside an rxvt/SHELL window
         """
-        if self.debug > 0:
+        if self.debug:
             print('Executing:"' + self.name + '"')
-        command = self.interpreter.decorate_command(self.text)
+        command = self.interpreter.decorate_command_none_popen(self.text)
 
-        if self.debug > 0:
+        if self.debug:
             print("****************")
             print(command)
             print("****************")
-        os.system(command)
+        logging.info("****************")
+        logging.info(command)
+        logging.info("****************")
+
+        # os.system(command)
+        proc = subprocess.Popen(
+            command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        )
+
+        out = ""
+        try:
+            outs, errs = proc.communicate(timeout=5)
+            logging.info("Return %s", proc.returncode)
+            logging.info("Pid %s", proc.pid)
+            logging.info("Stdout %s", str(outs))
+            logging.info("Stderr %s", str(errs))
+            out += str(outs)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            logging.info("Timeout!")
+            outs, errs = proc.communicate()
+            out += str(outs)
+
+        logging.info("Return %s", proc.returncode)
+        logging.info("Stdout %s", str(outs))
+        logging.info("Stderr %s", str(errs))
+        out += str(outs)
+
+        return out
 
     def __str__(self):
         return ('Name: "%s"; Command: "%s"; Code: "%s";') % (

@@ -56,6 +56,7 @@
 # TODO: Improve Windwos support
 # TODO: Support mulitple lines under Windows (^) ?
 
+import logging
 import os.path
 import sys
 
@@ -94,6 +95,7 @@ class AnyMate:
         self._config_list = []
         self.debug = debug
         self._gui = None
+        self._terminal = None
 
         if os.path.isfile(filename) and filename[-8:] == ".anymate":
             print("Loading AnyMate configuration file " + filename)
@@ -173,9 +175,13 @@ class AnyMate:
 
         for item in self._config_list:
             if item.nick == command:
-                # print item
-                item.execute()
-                self._gui.build_new_run_entry(item.nick)
+                print(item)
+                # logging.error(item)
+                out = item.execute()
+                if self._gui:
+                    self._gui.build_new_run_entry(item.nick)
+                if self._terminal:
+                    self._gui.terminal_append(out + "\n")
                 return True
 
         # when no item was found
@@ -193,6 +199,9 @@ class AnyMate:
 
     def register_gui(self, gui):
         self._gui = gui
+
+    def register_terminal(self, terminal):
+        self._terminal = terminal
 
 
 def print_help():
@@ -264,4 +273,5 @@ def main(argv, debug=False):
 
 
 if __name__ == "__main__":
-    main(sys.argv, DEBUGLEVEL)
+    logging.basicConfig(level=logging.DEBUG)
+    main(sys.argv, DEBUG)
