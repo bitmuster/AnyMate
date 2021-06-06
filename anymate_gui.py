@@ -13,6 +13,9 @@ class AnyMateGui:
         """Build the UI"""
 
         self._anymate = anymate
+
+        self._anymate.register_gui(self)
+
         self.options = anymate.get_config_list()
 
         self.save_space = False
@@ -21,6 +24,7 @@ class AnyMateGui:
         self.textfields = []
         self.options_hidden = False
         self.debug = debug
+        self.running = 0
 
         self.build_rootwin(filename)
         self.build_option_menue()
@@ -156,10 +160,20 @@ class AnyMateGui:
 
         self.proccanvas.create_window(0, 0, anchor="nw", window=self.runframe)
 
-        self.b1 = tk.Button(self.runframe, text="b1")
-        self.b1.grid(column=0, row=0, sticky=tk.N + tk.S + tk.E + tk.W)
-        self.b2 = tk.Button(self.runframe, text="b2")
-        self.b2.grid(column=0, row=1, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.build_new_run_entry("run 1")
+        self.build_new_run_entry("run 2")
+        self.build_new_run_entry("run 3")
+        self.build_new_run_entry("run 4")
+
+    def build_new_run_entry(self, name):
+        button = tk.Button(self.runframe, text=name)
+        # command=lambda: self._anymate.execute(option.nick)
+        button.grid(column=0, row=self.running, sticky=tk.N + tk.S + tk.E + tk.W)
+        button = tk.Button(self.runframe, text="show")
+        button.grid(column=1, row=self.running, sticky=tk.N + tk.S + tk.E + tk.W)
+        button = tk.Button(self.runframe, text="kill")
+        button.grid(column=2, row=self.running, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.running += 1
 
     def build_terminal(self):
         """Build the terminal on the right"""
@@ -269,7 +283,9 @@ class AnyMateGui:
         runbutton.grid(column=1, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 
         printbutton = tk.Button(
-            parent, text="print", command=lambda: self._anymate.print_option(option.nick)
+            parent,
+            text="print",
+            command=lambda: self._anymate.print_option(option.nick),
         )
         printbutton.grid(column=3, row=row, rowspan=1, sticky=tk.W + tk.E + tk.N + tk.S)
 

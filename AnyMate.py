@@ -93,6 +93,7 @@ class AnyMate:
         # Central list for configration options
         self._config_list = []
         self.debug = debug
+        self._gui = None
 
         if os.path.isfile(filename) and filename[-8:] == ".anymate":
             print("Loading AnyMate configuration file " + filename)
@@ -174,10 +175,11 @@ class AnyMate:
             if item.nick == command:
                 # print item
                 item.execute()
+                self._gui.build_new_run_entry(item.nick)
                 return True
 
         # when no item was found
-        print("Command not found %s"%command)
+        print("Command not found %s" % command)
         raise SystemError("Command not found")
 
     def get_config_list(self):
@@ -188,6 +190,10 @@ class AnyMate:
         for item in self._config_list:
             if item.nick == nick:
                 print(item)
+
+    def register_gui(self, gui):
+        self._gui = gui
+
 
 def print_help():
     """Helper message"""

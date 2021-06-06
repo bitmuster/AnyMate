@@ -96,6 +96,7 @@ class TestClassAnyMate(unittest.TestCase):
         anymate = AnyMate("empty.anymate")
         anymate.print_option("hello")
 
+
 class AnyMateConfigReader(unittest.TestCase):
 
     # pain
