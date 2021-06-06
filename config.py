@@ -4,7 +4,7 @@ import subprocess
 
 from interpreter import Interpreter
 
-SHELL = "none"  # := xterm | urxvt | gnome-terminal | none | win | none_win
+SHELL = "nonepopen"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 
 
 class Config:
@@ -54,23 +54,32 @@ class Config:
         )
 
         out = ""
-        try:
-            outs, errs = proc.communicate(timeout=5)
-            logging.info("Return %s", proc.returncode)
-            logging.info("Pid %s", proc.pid)
-            logging.info("Stdout %s", str(outs))
-            logging.info("Stderr %s", str(errs))
-            out += str(outs)
-        except subprocess.TimeoutExpired:
-            proc.kill()
-            logging.info("Timeout!")
-            outs, errs = proc.communicate()
-            out += str(outs)
+        # while not self.poll():
+        #    try:
+        #        outs, errs = proc.communicate(timeout=1)
+        #        logging.info("Return %s", proc.returncode)
+        #        logging.info("Pid %s", proc.pid)
+        #        logging.info("Stdout %s", str(outs))
+        #        logging.info("Stderr %s", str(errs))
+        #        out += str(outs)
+        #    except subprocess.TimeoutExpired:
+        #        #proc.kill()
+        #        logging.info("Timeout!")
+        #        #outs, errs = proc.communicate()
+        #        #out += str(outs)
 
-        logging.info("Return %s", proc.returncode)
-        logging.info("Stdout %s", str(outs))
-        logging.info("Stderr %s", str(errs))
-        out += str(outs)
+        if not proc.stdout.closed:
+            # out += str(proc.stdout.read())
+            # print("gout", out)
+            for line in proc.stdout:
+                print(line)
+        else:
+            logging.info("The stream is already closed")
+
+        # logging.info("Return %s", proc.returncode)
+        # logging.info("Stdout %s", str(outs))
+        # logging.info("Stderr %s", str(errs))
+        # out += str(outs)
 
         return out
 

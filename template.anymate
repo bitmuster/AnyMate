@@ -53,6 +53,13 @@ xclock
 """
 ], 
 
+[ 
+'ping8888', 'ping', 'green',
+"""
+ping -c 5 8.8.8.8
+"""
+], 
+
 [
 'Edit', 'edit', 'red',
 '# Edit this file.\n# This path is dynamically generated:\n'+

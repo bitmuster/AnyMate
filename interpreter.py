@@ -38,8 +38,8 @@ class Interpreter:
             self.shell_suffix = """ ' &"""
 
         elif shell == "nonepopen":
-            self.shell_prefix = """ ' """
-            self.shell_suffix = """ ' """
+            self.shell_prefix = """ """
+            self.shell_suffix = """ """
 
         elif shell == "none_win":  # Windows cmd.exe without own window
             self.shell_prefix = """cmd.exe /C  """
