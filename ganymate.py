@@ -13,6 +13,9 @@ https://docs.gtk.org/gtk3/class.Builder.html
 
 https://www.gtk.org/docs/getting-started/index
 
+# PyGObject API Reference
+http://lazka.github.io/pgi-docs/
+
 https://pygobject.readthedocs.io/en/latest/guide/testing.html
 
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/builder.html
@@ -35,7 +38,24 @@ class AnyMateGtkGui:
 
     def __init__(self, anymate, filename):
 
+        self.textbuffer = None
+
         self.build(anymate, filename)
+
+    def on_click_run_button(self, button):
+        print(f"Run Button {button}")
+        print(f"Run Button {button.get_label()}")
+        print(f"Run Button {button.get_name()}")
+        k = int(button.get_name()[-2:])
+        self.textbuffer.set_text(self.options[k].execute(None))
+
+    def on_click_show_button(self, button):
+        print(f"Show Button {button}")
+        print(f"Show Button {button.get_label()}")
+        print(f"Show Button {button.get_name()}")
+
+        k = int(button.get_name()[-2:])
+        self.textbuffer.set_text(self.options[k].get_command())
 
     def build(self, anymate, filename):
 
@@ -60,8 +80,8 @@ class AnyMateGtkGui:
 
         #        self.textview = Gtk.TextView()
 
-        textbuffer = textview.get_buffer()
-        textbuffer.set_text(
+        self.textbuffer = textview.get_buffer()
+        self.textbuffer.set_text(
             "This is some text inside of a Gtk.TextView. "
             + "Select text and click one of the buttons 'bold', 'italic', "
             + "or 'underline' to modify the text accordingly."
@@ -75,17 +95,15 @@ class AnyMateGtkGui:
         #         )
         #        self.tag_found = self.textbuffer.create_tag("found", background="yellow")
 
-        store = Gtk.TreeStore(str, str, float)
+        store = Gtk.TreeStore(str, str, str)
 
         treeiter = store.append(
-            None, ["The Art of Computer Programming", "Donald E. Knuth", 25.46]
+            None, ["The Art of Computer Programming", "Donald E. Knuth", "25.46"]
         )
 
-        treeiter = store.append(
-            None, ["The Art of Computer Programming", "Donald E. Knuth", 25.46]
-        )
+        treeiter = store.append(None, ["Commands", "This", "That"])
 
-        treeiter = store.append(treeiter, ["Stuff", "That", 25.46])
+        # treeiter = store.append(treeiter, ["Stuff", "That", 25.46])
 
         treeview.set_model(store)
 
@@ -112,12 +130,21 @@ class AnyMateGtkGui:
             # )
             # self.use_row += 1
             print(option)
+
             label = Gtk.Label(label=option.name)
-            statuslabel = Gtk.Label(label=option.nick)
-            button = Gtk.Button(label=option.name)
+            # statuslabel = Gtk.Label(label=option.nick)
+            runbutton = Gtk.Button(label="run", name=f"runbutton{k:3}")
+            showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
+
+            # not sure if the lambda really works here
+            runbutton.connect("clicked", lambda x: self.on_click_run_button(x))
+            showbutton.connect("clicked", lambda x: self.on_click_show_button(x))
+
             commandgrid.attach(label, 0, k, 1, 1)  # left top with height
-            commandgrid.attach(button, 1, k, 1, 1)  # left top with height
-            commandgrid.attach(statuslabel, 2, k, 1, 1)  # left top with height
+            commandgrid.attach(runbutton, 1, k, 1, 1)  # left top with height
+            commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
+
+            store.append(treeiter, [option.name, "That", "This"])
 
         controlgrid.attach(commandgrid, 0, 1, 1, 1)  # left top with height
 

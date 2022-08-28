@@ -4,7 +4,8 @@ import subprocess
 
 from interpreter import Interpreter
 
-SHELL = "nonepopen"  # := xterm | urxvt | gnome-terminal | none | win | none_win
+# SHELL = "nonepopen"  # := xterm | urxvt | gnome-terminal | none | win | none_win
+SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 
 
 class Config:
@@ -36,7 +37,9 @@ class Config:
         """Execute configuration Option inside an rxvt/SHELL window"""
         if self.debug:
             print('Executing:"' + self.name + '"')
-        command = self.interpreter.decorate_command_none_popen(self.text)
+
+        # command = self.interpreter.decorate_command_none_popen(self.text)
+        command = self.interpreter.decorate_command(self.text)
 
         if self.debug:
             print("****************")
@@ -46,10 +49,10 @@ class Config:
         logging.info(command)
         logging.info("****************")
 
-        # os.system(command)
-        proc = subprocess.Popen(
-            command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-        )
+        os.system(command)
+        # proc = subprocess.Popen(
+        #    command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        # )
 
         out = ""
         # while not self.poll():
