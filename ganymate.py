@@ -38,6 +38,11 @@ class AnyMateGtkGui:
         self.build(anymate, filename)
 
     def build(self, anymate, filename):
+
+        self._anymate = anymate
+
+        self.options = anymate.get_config_list()
+
         builder = Gtk.Builder()
         builder.add_from_file("anymate_gui.xml")
 
@@ -91,14 +96,28 @@ class AnyMateGtkGui:
         button1 = Gtk.Button(label="Button 1")
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
 
-        for i in range(10):
+        # for i in range(10):
+        #    label = Gtk.Label(label="Its")
+        #    statuslabel = Gtk.Label(label="dead")
+        #    button = Gtk.Button(label=f"Button {i}")
+        #    commandgrid.attach(label, 0, i, 1, 1)  # left top with height
+        #    commandgrid.attach(button, 1, i, 1, 1)  # left top with height
+        #    commandgrid.attach(statuslabel, 2, i, 1, 1)  # left top with height
 
-            label = Gtk.Label(label="Its")
-            statuslabel = Gtk.Label(label="dead")
-            button = Gtk.Button(label=f"Button {i}")
-            commandgrid.attach(label, 0, i, 1, 1)  # left top with height
-            commandgrid.attach(button, 1, i, 1, 1)  # left top with height
-            commandgrid.attach(statuslabel, 2, i, 1, 1)  # left top with height
+        for k in range(len(self.options)):
+            # generate an option field
+            option = self.options[k]
+            # self.generate_option(
+            #    parent=self.mainframe, row=self.use_row, option=option, number=k
+            # )
+            # self.use_row += 1
+            print(option)
+            label = Gtk.Label(label=option.name)
+            statuslabel = Gtk.Label(label=option.nick)
+            button = Gtk.Button(label=option.name)
+            commandgrid.attach(label, 0, k, 1, 1)  # left top with height
+            commandgrid.attach(button, 1, k, 1, 1)  # left top with height
+            commandgrid.attach(statuslabel, 2, k, 1, 1)  # left top with height
 
         controlgrid.attach(commandgrid, 0, 1, 1, 1)  # left top with height
 
@@ -109,8 +128,3 @@ class AnyMateGtkGui:
 
     def mainloop(self):
         Gtk.main()
-
-
-if __name__ == "__main__":
-    gui = AnyMateGtkGui(None, None)
-    gui.mainloop()

@@ -60,7 +60,9 @@ import logging
 import os.path
 import sys
 
-from anymate_gui import AnyMateGui as gui
+# from anymate_gui import AnyMateGui as gui
+from ganymate import AnyMateGtkGui as gui
+
 import config as aconf
 
 DEBUG = True
@@ -247,7 +249,7 @@ def main(argv, debug=False):
         # anymate.command_list()
         anymategui = gui(anymate, filename)
         # Start the TK Mainloop
-        anymategui.rootwin.mainloop()
+        anymategui.mainloop()
         if debug > 0:
             print("Exiting...")
 
