@@ -73,7 +73,8 @@ class Config:
             # print("gout", out)
             for line in proc.stdout:
                 print(line)
-                callback(str(line) + "\n")
+                if callback:
+                    callback(str(line) + "\n")
         else:
             logging.info("The stream is already closed")
 

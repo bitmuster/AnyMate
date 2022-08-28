@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, call
 
 import config as aconf
 
@@ -15,22 +15,24 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(conf.nick, "nick")
         self.assertEqual(conf.color, "color")
 
-    @patch("os.system")
+    @patch("subprocess.Popen")
     def test_execute(self, osmock):
         # Setup
         conf = aconf.Config("ls -l", "name", "command", "color")
 
         # According to the current setting
-        call = (
-            "xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash "
-            + "-c ' \nls -l echo \"Sleeping 5 seconds\"\n sleep 5' &"
+        #call = (
+        #    "xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash "
+        #    + "-c ' \nls -l echo \"Sleeping 5 seconds\"\n sleep 5' &"
+        #)
+        thecall = call(['/bin/bash', '-c', ' ls -l '], stdout=-1, stderr=-2
         )
 
         # Execise
-        conf.execute()
+        conf.execute(None)
 
         # Verify
-        osmock.assert_called_once_with(call)
+        osmock.has_call(thecall)
 
     def test_str(self):
         # Setup

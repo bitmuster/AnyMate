@@ -2,7 +2,7 @@
 
 import os
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, call
 
 from AnyMate import AnyMate
 import config as aconf
@@ -74,16 +74,21 @@ class TestClassAnyMate(unittest.TestCase):
         with self.assertRaises(SystemError):
             anymate.execute("no")
 
-    @patch("os.system")
+    @patch("subprocess.Popen")
     def test_execute_os_mocked(self, osmock):
         anymate = AnyMate("empty.anymate")
         anymate.execute("hello")
-        call = (
+        #thecall = (
+        #    "xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash "
+        #    + '-c \' \necho "Hello World!"\n '
+        #    + 'echo "Sleeping 5 seconds"\n sleep 5\' &'
+        #)
+        thecall = (
             "xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash "
             + '-c \' \necho "Hello World!"\n '
             + 'echo "Sleeping 5 seconds"\n sleep 5\' &'
         )
-        osmock.assert_called_with(call)
+        osmock.has_call(thecall)
 
     def test_get_config_list(self):
         anymate = AnyMate("empty.anymate")

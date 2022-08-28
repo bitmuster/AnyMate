@@ -177,7 +177,11 @@ class AnyMate:
             if item.nick == command:
                 print(item)
                 # logging.error(item)
-                out = item.execute(self._gui.terminal_append)
+                if self._terminal:
+                    out = item.execute(self._gui.terminal_append)
+                else:
+                    out = item.execute(None)
+                
                 if self._gui:
                     self._gui.build_new_run_entry(item.nick)
                 if self._terminal:
