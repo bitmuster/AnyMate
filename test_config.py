@@ -21,12 +21,11 @@ class TestAnyMateConfig(unittest.TestCase):
         conf = aconf.Config("ls -l", "name", "command", "color")
 
         # According to the current setting
-        #call = (
+        # call = (
         #    "xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash "
         #    + "-c ' \nls -l echo \"Sleeping 5 seconds\"\n sleep 5' &"
-        #)
-        thecall = call(['/bin/bash', '-c', ' ls -l '], stdout=-1, stderr=-2
-        )
+        # )
+        thecall = call(["/bin/bash", "-c", " ls -l "], stdout=-1, stderr=-2)
 
         # Execise
         conf.execute(None)

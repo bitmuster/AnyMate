@@ -224,13 +224,11 @@ class AnyMateGui:
             )
 
     def hidden_handler(self):
-        """Handler for hidden button (there in debug mode)
-        """
+        """Handler for hidden button (there in debug mode)"""
         self.resize_canvas()
 
     def hide_handler(self):
-        """Handler for hide button
-        """
+        """Handler for hide button"""
         if self.options_hidden:
             if self.debug > 0:
                 print("Un-Hiding")
@@ -255,15 +253,13 @@ class AnyMateGui:
 
     @staticmethod
     def quit():
-        """Quit handler
-        """
+        """Quit handler"""
         print("exiting...")
         # killall clients
         sys.exit()
 
     def generate_option(self, parent, row, option, number):
-        """Generates an option to click on
-        """
+        """Generates an option to click on"""
         textfield_width = 80
 
         # self.button = tk.Button(

@@ -131,8 +131,7 @@ class AnyMate:
         return color
 
     def read_config(self, filename):
-        """Read config file from disk and parse
-        """
+        """Read config file from disk and parse"""
 
         # Derive absolute path by current working directory
         name = os.path.abspath(filename)
@@ -181,7 +180,7 @@ class AnyMate:
                     out = item.execute(self._gui.terminal_append)
                 else:
                     out = item.execute(None)
-                
+
                 if self._gui:
                     self._gui.build_new_run_entry(item.nick)
                 if self._terminal:

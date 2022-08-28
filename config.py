@@ -8,16 +8,15 @@ SHELL = "nonepopen"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 
 
 class Config:
-    """This class represents configuration objects
-    """
+    """This class represents configuration objects"""
 
     def __init__(self, text, name, nick, color, debug=False):
         """A configuration option
-       text:   The command text that is stored as configuration
-       name:   The name of the command
-       nick:   The nickname of the command
-       color:  The color of the execution button
-       """
+        text:   The command text that is stored as configuration
+        name:   The name of the command
+        nick:   The nickname of the command
+        color:  The color of the execution button
+        """
         self.text = text
         self.name = name
         self.nick = nick
@@ -34,8 +33,7 @@ class Config:
             )
 
     def execute(self, callback):
-        """Execute configuration Option inside an rxvt/SHELL window
-        """
+        """Execute configuration Option inside an rxvt/SHELL window"""
         if self.debug:
             print('Executing:"' + self.name + '"')
         command = self.interpreter.decorate_command_none_popen(self.text)
@@ -93,6 +91,5 @@ class Config:
         )
 
     def get_command(self):
-        """Get a command
-        """
+        """Get a command"""
         return self.text

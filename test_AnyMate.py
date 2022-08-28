@@ -78,11 +78,11 @@ class TestClassAnyMate(unittest.TestCase):
     def test_execute_os_mocked(self, osmock):
         anymate = AnyMate("empty.anymate")
         anymate.execute("hello")
-        #thecall = (
+        # thecall = (
         #    "xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash "
         #    + '-c \' \necho "Hello World!"\n '
         #    + 'echo "Sleeping 5 seconds"\n sleep 5\' &'
-        #)
+        # )
         thecall = (
             "xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash "
             + '-c \' \necho "Hello World!"\n '
