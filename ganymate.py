@@ -133,15 +133,20 @@ class AnyMateGtkGui:
         #attr.insert(Pango.Underline.SINGLE)
         fg = Pango.attr_foreground_new(65535, 0, 0)
         attr.insert(fg)
-        
+        #left = Pango.pango_layout_set_alignment(Pango.Alignment.RIGHT)
         
         button1 = Gtk.Button(label="Button 1")
         
-        layout = button1.create_pango_layout()
-        print("Layout", layout)
-        #layout.set_alignment(LEFT)
-        context = button1.create_pango_context()
-        print("Context", context)
+        alabel = Gtk.Label(label="Testlabel", attributes=attr)
+        controlgrid.attach(alabel, 1, 0, 1, 1)  # left top with height
+        
+        layout = alabel.create_pango_layout()
+        #print("Layout", layout)
+        #layout.set_alignment(Pango.Alignment.RIGHT)
+        #layout.set_text("Whee")
+        #context = alabel.create_pango_context()
+        #print("Context", context)
+        alabel.set_xalign(0.1)
         
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
 
@@ -168,7 +173,8 @@ class AnyMateGtkGui:
             # self.use_row += 1
             print(option)
 
-            label = Gtk.Label(label=option.name, attributes=attr)
+            label = Gtk.Label(label=option.name)
+            label.set_xalign(0.1)
             # statuslabel = Gtk.Label(label=option.nick)
             runbutton = Gtk.Button(label="run", name=f"runbutton{k:3}")
             showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
