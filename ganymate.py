@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Pango
 
 """
 PyGObject
@@ -126,7 +126,23 @@ class AnyMateGtkGui:
         column = Gtk.TreeViewColumn("Title", renderer, text=0, weight=1)
         self.treeview.append_column(column)
 
+        attr = Pango.AttrList()
+        #fg_color = Pango.AttrForeground(65535, 0, 0, 0, 6)
+        #wtf = Pango.Alignment.RIGHT
+        #attr.insert(wtf)
+        #attr.insert(Pango.Underline.SINGLE)
+        fg = Pango.attr_foreground_new(65535, 0, 0)
+        attr.insert(fg)
+        
+        
         button1 = Gtk.Button(label="Button 1")
+        
+        layout = button1.create_pango_layout()
+        print("Layout", layout)
+        #layout.set_alignment(LEFT)
+        context = button1.create_pango_context()
+        print("Context", context)
+        
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
 
         # for i in range(10):
@@ -152,7 +168,7 @@ class AnyMateGtkGui:
             # self.use_row += 1
             print(option)
 
-            label = Gtk.Label(label=option.name)
+            label = Gtk.Label(label=option.name, attributes=attr)
             # statuslabel = Gtk.Label(label=option.nick)
             runbutton = Gtk.Button(label="run", name=f"runbutton{k:3}")
             showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
