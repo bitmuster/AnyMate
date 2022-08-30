@@ -59,6 +59,7 @@
 import logging
 import os.path
 import sys
+import json
 
 # from anymate_gui import AnyMateGui as gui
 from ganymate import AnyMateGtkGui as gui
@@ -102,6 +103,9 @@ class AnyMate:
         if os.path.isfile(filename) and filename[-8:] == ".anymate":
             print("Loading AnyMate configuration file " + filename)
             self.read_config(filename)
+        elif os.path.isfile(filename) and filename.endswith(".json"):
+            print("Loading AnyMate configuration file " + filename)
+            self.read_json_config(filename)
         else:
             print("Unkown configuration file" + filename)
             raise SystemError("Unkown configuration file", filename)
@@ -145,6 +149,28 @@ class AnyMate:
         command_list = globals()["commandList"]
 
         for command in command_list:
+            if len(command) != 4:
+                print("Error in file " + filename)
+                print("near field containing " + command[0])
+                sys.exit()
+
+            color = self.get_color(command[2])
+            self._config_list.append(
+                aconf.Config(
+                    text=command[3],
+                    name=command[0],
+                    nick=command[1],
+                    color=color,
+                    debug=self.debug,
+                )
+            )
+
+    def read_json_config(self, filename):
+
+        command_list = json.load(filename)
+        print("CommandList", command_list)
+        for command in command_list:
+            print("Command", command)
             if len(command) != 4:
                 print("Error in file " + filename)
                 print("near field containing " + command[0])

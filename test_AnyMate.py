@@ -110,7 +110,7 @@ class AnyMateConfigReader(unittest.TestCase):
     @patch("builtins.compile")
     @patch("builtins.exec")
     @patch("AnyMate.AnyMate.__init__")
-    def test_read_config_notabs(self, imock, emock, cmock, omock, gmock):
+    def test_read_config(self, imock, emock, cmock, omock, gmock):
         filename = "afile"
         imock.return_value = None  # The constructor shall return None
         gmock.return_value = {"commandList": []}  # return empty commandList
@@ -124,13 +124,42 @@ class AnyMateConfigReader(unittest.TestCase):
     @patch("builtins.compile")
     @patch("builtins.exec")
     @patch("AnyMate.AnyMate.__init__")
-    def test_read_config_abs(self, imock, emock, cmock, omock, gmock):
+    def test_read_config_absent(self, imock, emock, cmock, omock, gmock):
         filename = "/home/user/whereever/afile.anymate"
         imock.return_value = None  # The constructor shall return None
         gmock.return_value = {"commandList": []}  # return empty commandList
         anymate = AnyMate()
         anymate.read_config(filename)
         omock.assert_called_once_with(os.path.abspath(filename))
+
+    @patch("json.load")
+    @patch("os.path.isfile")
+    def test_read_json_config_empty(self, fmock, jmock):
+        jmock.return_value = [["1", "2", "3", "4"]]
+        fmock.return_value = True
+        anymate = AnyMate("afile.json")
+        cfg = aconf.Config(text="4", name="1", nick="2", color="3", debug=False)
+
+        # self.assertEqual( anymate.get_config_list() , cfg )
+        self.assertEqual(anymate.get_config_list()[0].get_command(), "4")
+
+    @patch("json.load")
+    @patch("os.path.isfile")
+    def test_read_json_config(self, fmock, jmock):
+        jmock.return_value = [["Greetings", "greet", "green", "echo Hello World"]]
+        fmock.return_value = True
+        anymate = AnyMate("afile.json")
+
+        cfg = aconf.Config(
+            text="Greetings",
+            name="echo Hello World",
+            nick="greet",
+            color="green",
+            debug=False,
+        )
+
+        # self.assertEqual( anymate.get_config_list() , cfg  )
+        self.assertEqual(anymate.get_config_list()[0].get_command(), "echo Hello World")
 
 
 if __name__ == "__main__":
