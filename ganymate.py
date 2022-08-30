@@ -4,7 +4,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 """
-
+PyGObject
 https://pygobject.readthedocs.io/en/latest/index.html
 
 https://docs.gtk.org/gtk3/#BUILDER-UI
@@ -13,16 +13,17 @@ https://docs.gtk.org/gtk3/class.Builder.html
 
 https://www.gtk.org/docs/getting-started/index
 
-# PyGObject API Reference
+PyGObject API Reference
 http://lazka.github.io/pgi-docs/
+http://lazka.github.io/pgi-docs/#Gtk-3.0/hierarchy.html
 
 https://pygobject.readthedocs.io/en/latest/guide/testing.html
 
+The Python GTK+ 3 Tutorial
+https://python-gtk-3-tutorial.readthedocs.io/en/latest/index.html
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/builder.html
-
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/layout.html#grid
-
-https://python-gtk-3-tutorial.readthedocs.io/en/latest/textview.html
+https://python-gtk-3-tutorial.readthedocs.io/en/latest/self.textview.html
 
 """
 
@@ -41,6 +42,20 @@ class AnyMateGtkGui:
         self.textbuffer = None
 
         self.build(anymate, filename)
+        self.hidden = False
+
+    def on_click_hidebutton(self, button):
+        if self.hidden:
+            self.treeview.show()
+            self.textview.show()
+            self.hidden = False
+            self.hidebutton.set_label("hide")
+        else:
+            self.treeview.hide()
+            self.textview.hide()
+            self.hidden = True
+            self.hidebutton.set_label("show")
+            self.window.resize(0, 0)
 
     def on_click_run_button(self, button):
         print(f"Run Button {button}")
@@ -66,21 +81,21 @@ class AnyMateGtkGui:
         builder = Gtk.Builder()
         builder.add_from_file("anymate_gui.xml")
 
-        window = builder.get_object("anymategui")
+        self.window = builder.get_object("anymategui")
 
         controlgrid = builder.get_object("controlgrid")
         commandgrid = builder.get_object("commandgrid")
-        treeview = builder.get_object("treeview")
-        textview = builder.get_object("textview")
+        self.treeview = builder.get_object("treeview")
+        self.textview = builder.get_object("textview")
 
         #        scrolledwindow = Gtk.ScrolledWindow()
         #        scrolledwindow.set_hexpand(True)
         #        scrolledwindow.set_vexpand(True)
         #        self.grid.attach(scrolledwindow, 0, 1, 3, 1)
 
-        #        self.textview = Gtk.TextView()
+        #        self.self.textview = Gtk.TextView()
 
-        self.textbuffer = textview.get_buffer()
+        self.textbuffer = self.textview.get_buffer()
         self.textbuffer.set_text(
             "This is some text inside of a Gtk.TextView. "
             + "Select text and click one of the buttons 'bold', 'italic', "
@@ -105,11 +120,11 @@ class AnyMateGtkGui:
 
         # treeiter = store.append(treeiter, ["Stuff", "That", 25.46])
 
-        treeview.set_model(store)
+        self.treeview.set_model(store)
 
         renderer = Gtk.CellRendererText()
         column = Gtk.TreeViewColumn("Title", renderer, text=0, weight=1)
-        treeview.append_column(column)
+        self.treeview.append_column(column)
 
         button1 = Gtk.Button(label="Button 1")
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
@@ -121,6 +136,12 @@ class AnyMateGtkGui:
         #    commandgrid.attach(label, 0, i, 1, 1)  # left top with height
         #    commandgrid.attach(button, 1, i, 1, 1)  # left top with height
         #    commandgrid.attach(statuslabel, 2, i, 1, 1)  # left top with height
+
+        self.hidebutton = builder.get_object("hidebutton")
+        if self.hidebutton:
+            self.hidebutton.connect("clicked", self.on_click_hidebutton)
+        else:
+            raise SystemError("Can't connect hidebutton")
 
         for k in range(len(self.options)):
             # generate an option field
@@ -151,7 +172,7 @@ class AnyMateGtkGui:
         button3 = Gtk.Button(label="Button 3")
         controlgrid.attach(button3, 0, 2, 1, 1)  # left top with height
 
-        window.show_all()
+        self.window.show_all()
 
     def mainloop(self):
         Gtk.main()

@@ -172,8 +172,8 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">button a</property>
+              <object class="GtkButton" id="hidebutton">
+                <property name="label" translatable="yes">hide</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
