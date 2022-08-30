@@ -166,8 +166,8 @@ class AnyMate:
             )
 
     def read_json_config(self, filename):
-
-        command_list = json.load(filename)
+        thefile=open(filename)
+        command_list = json.load(thefile)
         print("CommandList", command_list)
         for command in command_list:
             print("Command", command)

@@ -132,9 +132,10 @@ class AnyMateConfigReader(unittest.TestCase):
         anymate.read_config(filename)
         omock.assert_called_once_with(os.path.abspath(filename))
 
+    @patch("builtins.open")
     @patch("json.load")
     @patch("os.path.isfile")
-    def test_read_json_config_empty(self, fmock, jmock):
+    def test_read_json_config_empty(self, fmock, jmock, omock):
         jmock.return_value = [["1", "2", "3", "4"]]
         fmock.return_value = True
         anymate = AnyMate("afile.json")
@@ -143,9 +144,10 @@ class AnyMateConfigReader(unittest.TestCase):
         # self.assertEqual( anymate.get_config_list() , cfg )
         self.assertEqual(anymate.get_config_list()[0].get_command(), "4")
 
+    @patch("builtins.open")
     @patch("json.load")
     @patch("os.path.isfile")
-    def test_read_json_config(self, fmock, jmock):
+    def test_read_json_config(self, fmock, jmock, omock):
         jmock.return_value = [["Greetings", "greet", "green", "echo Hello World"]]
         fmock.return_value = True
         anymate = AnyMate("afile.json")
