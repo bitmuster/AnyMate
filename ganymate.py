@@ -48,14 +48,16 @@ class AnyMateGtkGui:
         if self.hidden:
             self.treeview.show()
             self.textview.show()
+            self.alabel.show()
             self.hidden = False
             self.hidebutton.set_label("hide")
         else:
             self.treeview.hide()
             self.textview.hide()
+            self.alabel.hide()
             self.hidden = True
             self.hidebutton.set_label("show")
-            self.window.resize(0, 0)
+            self.window.resize(1, 1)
 
     def on_click_run_button(self, button):
         print(f"Run Button {button}")
@@ -137,16 +139,16 @@ class AnyMateGtkGui:
         
         button1 = Gtk.Button(label="Button 1")
         
-        alabel = Gtk.Label(label="Testlabel", attributes=attr)
-        controlgrid.attach(alabel, 1, 0, 1, 1)  # left top with height
+        self.alabel = Gtk.Label(label="Testlabel", attributes=attr)
+        controlgrid.attach(self.alabel, 1, 0, 1, 1)  # left top with height
         
-        layout = alabel.create_pango_layout()
+        layout = self.alabel.create_pango_layout()
         #print("Layout", layout)
         #layout.set_alignment(Pango.Alignment.RIGHT)
         #layout.set_text("Whee")
-        #context = alabel.create_pango_context()
+        #context = self.alabel.create_pango_context()
         #print("Context", context)
-        alabel.set_xalign(0.1)
+        self.alabel.set_xalign(0.1)
         
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
 
