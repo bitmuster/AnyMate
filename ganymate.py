@@ -129,27 +129,27 @@ class AnyMateGtkGui:
         self.treeview.append_column(column)
 
         attr = Pango.AttrList()
-        #fg_color = Pango.AttrForeground(65535, 0, 0, 0, 6)
-        #wtf = Pango.Alignment.RIGHT
-        #attr.insert(wtf)
-        #attr.insert(Pango.Underline.SINGLE)
+        # fg_color = Pango.AttrForeground(65535, 0, 0, 0, 6)
+        # wtf = Pango.Alignment.RIGHT
+        # attr.insert(wtf)
+        # attr.insert(Pango.Underline.SINGLE)
         fg = Pango.attr_foreground_new(65535, 0, 0)
         attr.insert(fg)
-        #left = Pango.pango_layout_set_alignment(Pango.Alignment.RIGHT)
-        
+        # left = Pango.pango_layout_set_alignment(Pango.Alignment.RIGHT)
+
         button1 = Gtk.Button(label="Button 1")
-        
+
         self.alabel = Gtk.Label(label="Testlabel", attributes=attr)
         controlgrid.attach(self.alabel, 1, 0, 1, 1)  # left top with height
-        
+
         layout = self.alabel.create_pango_layout()
-        #print("Layout", layout)
-        #layout.set_alignment(Pango.Alignment.RIGHT)
-        #layout.set_text("Whee")
-        #context = self.alabel.create_pango_context()
-        #print("Context", context)
+        # print("Layout", layout)
+        # layout.set_alignment(Pango.Alignment.RIGHT)
+        # layout.set_text("Whee")
+        # context = self.alabel.create_pango_context()
+        # print("Context", context)
         self.alabel.set_xalign(0.1)
-        
+
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
 
         # for i in range(10):
