@@ -49,10 +49,9 @@ class Config:
         logging.info(command)
         logging.info("****************")
 
-        os.system(command)
-        # proc = subprocess.Popen(
-        #    command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-        # )
+        proc = subprocess.Popen(
+           command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        )
 
         out = ""
         # while not self.poll():

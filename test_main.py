@@ -91,7 +91,7 @@ class TestMain(unittest.TestCase):
         main(["./AnyMate.py", myfile])
         # validate
         anymock.assert_called_once_with(myfile)
-        gui.rootwin.mainloop.assert_called_once_with()
+        gui.mainloop.assert_called_once_with()
 
     @patch("AnyMate.AnyMate")
     def test_main_four_real_param(self, mock):
