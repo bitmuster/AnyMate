@@ -38,8 +38,7 @@ class Config:
         if self.debug:
             print('Executing:"' + self.name + '"')
 
-        # command = self.interpreter.decorate_command_none_popen(self.text)
-        command = self.interpreter.decorate_command(self.text)
+        command = self.interpreter.decorate_command_popen(self.text)
 
         if self.debug:
             print("****************")
@@ -50,7 +49,7 @@ class Config:
         logging.info("****************")
 
         proc = subprocess.Popen(
-           command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+            command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
         )
 
         out = ""

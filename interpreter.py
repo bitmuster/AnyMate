@@ -57,14 +57,14 @@ class Interpreter:
             raise SystemError(msg)
 
     def decorate_command(self, command):
-        """Add shell pre- and suffix"""
+        """Add shell pre- and suffix for os.system"""
         return self.shell_prefix + command + self.shell_suffix
 
-    def decorate_command_none_popen(self, command):
+    def decorate_command_popen(self, command):
         """Add shell pre- and suffix"""
         return ["/bin/bash", "-c", self.shell_prefix + command + self.shell_suffix]
 
-    def decorate_command_popen(self, command):
+    def decorate_command_twice_popen(self, command):
         return [
             "/usr/bin/xterm",
             "-sl",
