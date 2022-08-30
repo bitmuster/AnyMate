@@ -1,0 +1,81 @@
+[
+[
+"Greetings", "greet", "green",
+"echo \"Hello World\""
+], 
+
+[ 
+"Top", "top", "green",
+"top"
+], 
+
+[ 
+"XClock", "xclock", "green",
+"xclock"
+], 
+
+[ 
+"ping8888", "ping", "green",
+"ping -c 5 8.8.8.8"
+], 
+
+[
+"Edit", "edit", "red",
+"# Edit this file.\n# This path is dynamically generated:\npluma template.anymate"
+],
+
+[
+"Test", "test", "red",
+"echo Test; echo $TEST"
+],
+
+[
+"Hello", "hello", "red",
+"echo \"Hello World\""
+],
+
+[
+"Dock Laptop", "dock", "cyan",
+"#xrandr --output TMDS-1 --mode 1600x1200\n#xrandr --output TMDS-1 --right-of  LVDS"
+],
+
+[
+"Status Kallisto", "gem", "gray",
+"ssh kallisto \"cd /home/wasteland/Gemeinsame_Dokumente; ls; git status\" "
+],
+
+[
+"Slic3r", "slic3r", "gray",
+"/home/micha/Dump/2016/2016_MeinePrusa/Slic3r/bin/slic3r"
+],
+
+[
+"UnDock Laptop", "undock", "blue",
+"#xrandr --output TMDS-1 --mode 1440x900\n#xrandr --output LVDS --same-as TMDS-1\n#xrandr --output TMDS-1 --off\n#xrandr --output VGA --off"
+],
+
+[
+"SshTunnel", "sshtunnel", "gray",
+"ssh -p 222 -L 12345:192.168.1.1:80  94.216.106.38\nssh -p 222 micha@kallistoweb"
+],
+
+[
+"RGB Color", "gray", "#ddddfd",
+"echo \"This is blue gray\""
+],
+
+[
+"wintest1", "wintest1", "green",
+" echo Winzigweich & echo Witzigweich & dir c:\\Users "
+],
+
+[
+"wintest2", "wintest2", "green",
+" echo Winzigweich & echo Witzigweich "
+],
+
+[
+"winlong", "winlong", "green",
+"echo thisisalonglonglonglonglonglonglonglonglonglonglonglonglong\nlonglonglonglonglonglonglonglinewe wan to see that it gets \nstill displayed it is sooooooooo long but this is a very trashy\nworkaround, yeah"
+]
+]
