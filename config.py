@@ -4,6 +4,8 @@ import subprocess
 
 from interpreter import Interpreter
 
+#import pysnooper
+
 # SHELL = "nonepopen"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 
@@ -33,6 +35,7 @@ class Config:
                 + "\" contains a ' sign, this might confuse bash"
             )
 
+    #@pysnooper.snoop()
     def execute(self, callback):
         """Execute configuration Option inside an rxvt/SHELL window"""
         if self.debug:
