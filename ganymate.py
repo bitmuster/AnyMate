@@ -25,6 +25,8 @@ https://python-gtk-3-tutorial.readthedocs.io/en/latest/builder.html
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/layout.html#grid
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/self.textview.html
 
+# pip install pygobject
+
 """
 
 
