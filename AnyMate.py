@@ -43,6 +43,11 @@
 # http://effbot.org/tkinterbook/
 # http://www.tkdocs.com/tutorial/grid.html
 
+# TODO: Solution needed: Some commands block in .anymate files. Seems
+#    to be related to ; and \n and # comments in the files.
+#    In json we have many \n. This issue style will hit us forever unless
+#    we find a good way to deal with it.
+
 # TODO: Avoid Problems with the ' Character
 # TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
 # TODO: Read / Store from/to XML or another suitable format
