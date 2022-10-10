@@ -70,15 +70,19 @@ class Config:
         #        #outs, errs = proc.communicate()
         #        #out += str(outs)
 
-        if not proc.stdout.closed:
-            # out += str(proc.stdout.read())
-            # print("gout", out)
-            for line in proc.stdout:
-                print(line)
-                if callback:
-                    callback(str(line) + "\n")
-        else:
-            logging.info("The stream is already closed")
+
+        # TODO This will block when we run everything in a subshell
+        subshell = True
+        if not subshell:
+            if not proc.stdout.closed:
+                # out += str(proc.stdout.read())
+                # print("gout", out)
+                for line in proc.stdout:
+                    print(line)
+                    if callback:
+                        callback(str(line) + "\n")
+            else:
+                logging.info("The stream is already closed")
 
         # logging.info("Return %s", proc.returncode)
         # logging.info("Stdout %s", str(outs))
