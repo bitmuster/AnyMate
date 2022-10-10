@@ -4,20 +4,30 @@
 "echo \"Hello World\""
 ], 
 
-[ 
+[
 "Top", "top", "green",
 "top"
-], 
+],
 
-[ 
+[
+"Test: Top with comment and semicolon", "top", "green",
+"#Comment;top"
+],
+
+[
+"Test: Top with comment and newline", "top", "green",
+"#Comment\ntop"
+],
+
+[
 "XClock", "xclock", "green",
 "xclock"
-], 
+],
 
-[ 
+[
 "ping8888", "ping", "green",
 "ping -c 5 8.8.8.8"
-], 
+],
 
 [
 "Edit", "edit", "red",

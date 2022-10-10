@@ -1,16 +1,17 @@
 class Interpreter:
     """Class used to hide interpreter properties"""
 
-    def __init__(self, shell):
-        self.wait = False  # wait with read for the any-key
+    def __init__(self, shell, wait=False):
+        self.wait = wait  # wait with read for the any-key
         if shell == "xterm":
-            self.shell_prefix = """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
+            delimiter = "\n" #";"
+            self.shell_prefix = f"""xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c '{delimiter}"""
             if self.wait:
                 self.shell_suffix = (
-                    """echo "Press the Any-Key to Continue "\nread any-key' &"""
+                    f"""{delimiter} echo "Press the Any-Key to Continue "{delimiter}read any-key' &"""
                 )
             else:
-                self.shell_suffix = """ echo "Sleeping 5 seconds"\n sleep 5' &"""
+                self.shell_suffix = f"""{delimiter} echo "Sleeping 5 seconds"{delimiter} sleep 5' &"""
 
 
 #        elif shell == "xtermpopen":
@@ -23,9 +24,10 @@ class Interpreter:
 #                self.shell_suffix = """ echo "Sleeping 5 seconds"\n sleep 5' """
 #
         elif shell == "urxvt":
-            self.shell_prefix = """urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' \n"""
+            delimiter = "\n" #";"
+            self.shell_prefix = f"""urxvt -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c ' {delimiter}"""
             self.shell_suffix = (
-                """echo "Press the Any-Key to Continue "\nread any-key' &"""
+                f"""{delimiter} echo "Press the Any-Key to Continue "{delimiter}read any-key' &"""
             )
 #
 #        elif shell == "gnome-terminal":
