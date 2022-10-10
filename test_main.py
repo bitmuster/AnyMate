@@ -46,7 +46,7 @@ class TestMain(unittest.TestCase):
     @patch("AnyMate.AnyMate")
     def test_main_two_real_param(self, mock, guimock):
         # setup
-        myfile = "template.anymate"
+        myfile = "template.json"
         mock.return_value = "Something"
         # exercise
         main(["./AnyMate.py", myfile])
@@ -96,7 +96,7 @@ class TestMain(unittest.TestCase):
     @patch("AnyMate.AnyMate")
     def test_main_four_real_param(self, mock):
         # setup
-        myfile = "template.anymate"
+        myfile = "template.json"
         conf = "hello"
         anym = MagicMock()
         mock.return_value = anym
@@ -109,7 +109,7 @@ class TestMain(unittest.TestCase):
     @patch("AnyMate.AnyMate")
     def test_main_four_wrong_param(self, mock):
         # setup
-        myfile = "template.anymate"
+        myfile = "template.json"
         conf = "hello"
         anym = MagicMock()
         mock.return_value = anym
@@ -132,7 +132,7 @@ class TestMain(unittest.TestCase):
     @patch("AnyMate.AnyMate")
     def test_main_four_wrong_file_mocked(self, mock, filemock):
         # setup
-        myfile = "template.anymate"
+        myfile = "template.json"
         conf = "hello"
         anym = MagicMock()
         mock.return_value = anym
