@@ -105,10 +105,7 @@ class AnyMate:
         self._gui = None
         self._terminal = None
 
-        if os.path.isfile(filename) and filename[-8:] == ".anymate":
-            print("Loading AnyMate configuration file " + filename)
-            self.read_config(filename)
-        elif os.path.isfile(filename) and filename.endswith(".json"):
+        if os.path.isfile(filename) and filename.endswith(".json"):
             print("Loading AnyMate configuration file " + filename)
             self.read_json_config(filename)
         else:
@@ -140,35 +137,6 @@ class AnyMate:
             print("Color type %s not found" % color_string)
             color = None
         return color
-
-    def read_config(self, filename):
-        """Read config file from disk and parse"""
-
-        # Derive absolute path by current working directory
-        name = os.path.abspath(filename)
-
-        # TODO load from files
-        exec(compile(open(name).read(), name, "exec"), globals())
-
-        # Derive variable commandList from global dictionary
-        command_list = globals()["commandList"]
-
-        for command in command_list:
-            if len(command) != 4:
-                print("Error in file " + filename)
-                print("near field containing " + command[0])
-                sys.exit()
-
-            color = self.get_color(command[2])
-            self._config_list.append(
-                aconf.Config(
-                    text=command[3],
-                    name=command[0],
-                    nick=command[1],
-                    color=color,
-                    debug=self.debug,
-                )
-            )
 
     def read_json_config(self, filename):
         thefile=open(filename)
