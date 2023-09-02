@@ -25,6 +25,12 @@ https://python-gtk-3-tutorial.readthedocs.io/en/latest/builder.html
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/layout.html#grid
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/self.textview.html
 
+https://python-gtk-3-tutorial.readthedocs.io/en/latest/cellrenderers.html
+->
+store.append(treeiter, [option.name, f"That {k}", f"This {k}", Gtk.Button(label=f"But {k}")])
+
+
+
 # pip install pygobject
 
 """
@@ -76,6 +82,10 @@ class AnyMateGtkGui:
         k = int(button.get_name()[-2:])
         self.textbuffer.set_text(self.options[k].get_command())
 
+    def on_row_activated(self, arg1, arg2, arg3):
+        print(f"row activated {arg1} {arg2} {arg3}")
+
+
     def build(self, anymate, filename):
 
         self._anymate = anymate
@@ -91,6 +101,7 @@ class AnyMateGtkGui:
         commandgrid = builder.get_object("commandgrid")
         self.treeview = builder.get_object("treeview")
         self.textview = builder.get_object("textview")
+        self.scrolledwindow = builder.get_object("scrolledwindow")
 
         #        scrolledwindow = Gtk.ScrolledWindow()
         #        scrolledwindow.set_hexpand(True)
@@ -129,6 +140,20 @@ class AnyMateGtkGui:
         renderer = Gtk.CellRendererText()
         column = Gtk.TreeViewColumn("Title", renderer, text=0, weight=1)
         self.treeview.append_column(column)
+
+        renderer = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn("What", renderer, text=1, weight=1)
+        self.treeview.append_column(column)
+
+        renderer = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn("Where", renderer, text=2, weight=1)
+        self.treeview.append_column(column)
+
+        renderer = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn("Buttons", renderer, text=3, weight=1)
+        self.treeview.append_column(column)
+
+        self.treeview.connect("row-activated", self.on_row_activated)
 
         attr = Pango.AttrList()
         # fg_color = Pango.AttrForeground(65535, 0, 0, 0, 6)
@@ -191,7 +216,8 @@ class AnyMateGtkGui:
             commandgrid.attach(runbutton, 1, k, 1, 1)  # left top with height
             commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
 
-            store.append(treeiter, [option.name, "That", "This"])
+            store.append(treeiter, [option.name, f"That {k}", f"This {k}"])
+            store.append(treeiter, [option.name, f"That {k}", f"This {k}"])
 
         controlgrid.attach(commandgrid, 0, 1, 1, 1)  # left top with height
 
