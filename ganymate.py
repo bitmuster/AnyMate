@@ -82,8 +82,22 @@ class AnyMateGtkGui:
         k = int(button.get_name()[-2:])
         self.textbuffer.set_text(self.options[k].get_command())
 
-    def on_row_activated(self, arg1, arg2, arg3):
-        print(f"row activated {arg1} {arg2} {arg3}")
+    def on_row_activated(self, view, path, column):
+        print(f"row activated {view} {path} {column}")
+        print(type(path))
+        treeiter = self.store.get_iter(path)
+        value = self.store.get_value(treeiter, 0)
+        print(value)
+        value = self.store.get_value(treeiter, 1)
+        print(value)
+
+        
+        path = Gtk.TreePath([1, 4])
+        treeiter = self.store.get_iter(path)
+        # Get value at 2nd column
+        value = self.store.get_value(treeiter, 1)
+        print(value)
+
 
 
     def build(self, anymate, filename):
@@ -126,7 +140,8 @@ class AnyMateGtkGui:
         #        self.tag_found = self.textbuffer.create_tag("found", background="yellow")
 
         store = Gtk.TreeStore(str, str, str)
-
+        self.store = store
+        
         treeiter = store.append(
             None, ["The Art of Computer Programming", "Donald E. Knuth", "25.46"]
         )
