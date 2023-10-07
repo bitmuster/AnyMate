@@ -147,17 +147,14 @@ class TestMain(unittest.TestCase):
             main(["./AnyMate.py", "BAM", conf, myfile])
 
 
-    #@patch("config.Config")
-    def test_main_hello(self):
-        # setup
+    @patch("AnyMate.AnyMate.execute")
+    def test_main_hello(self, mock):
+
         myfile = "template.json"
         conf = "greet"
-        # = MagicMock()
-        #mock.return_value = anym
-        ## exercise
+
         main(["./AnyMate.py", "--nogui", conf, myfile])
-        # validate
-        #mock.assert_called_once_with()
-        #anym.execute.assert_called_once_with(conf)
+
+        mock.assert_called_once_with(conf)
         
         
