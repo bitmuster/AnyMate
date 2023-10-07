@@ -13,7 +13,7 @@ SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 class Config:
     """This class represents configuration objects"""
 
-    def __init__(self, text, name, nick, color, debug=False):
+    def __init__(self, text, name, nick, color, bookmark, debug=False):
         """A configuration option
         text:   The command text that is stored as configuration
         name:   The name of the command
@@ -26,6 +26,7 @@ class Config:
         self.color = color
         self.interpreter = Interpreter(SHELL)
         self.debug = debug
+        self.bookmark = bookmark
 
         # check for ' signs
         if self.text.count("'") > 0:

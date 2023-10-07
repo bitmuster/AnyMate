@@ -9,16 +9,17 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(1, 1)
 
     def test_init(self):
-        conf = aconf.Config("text", "name", "nick", "color")
+        conf = aconf.Config("text", "name", "nick", "color", False)
         self.assertEqual(conf.text, "text")
         self.assertEqual(conf.name, "name")
         self.assertEqual(conf.nick, "nick")
         self.assertEqual(conf.color, "color")
+        self.assertEqual(conf.bookmark, False)
 
     @patch("subprocess.Popen")
     def test_execute(self, osmock):
         # Setup
-        conf = aconf.Config("ls -l", "name", "command", "color")
+        conf = aconf.Config("ls -l", "name", "command", "color", False)
 
         # According to the current setting
         # call = (
@@ -35,7 +36,7 @@ class TestAnyMateConfig(unittest.TestCase):
 
     def test_str(self):
         # Setup
-        conf = aconf.Config("text", "name", "command", "color")
+        conf = aconf.Config("text", "name", "command", "color", False)
         expected = 'Name: "name"; Command: "command"; Code: "text";'
 
         # Exercise
@@ -45,6 +46,6 @@ class TestAnyMateConfig(unittest.TestCase):
         self.assertEqual(ret, expected)
 
     def test_getters(self):
-        conf = aconf.Config("text", "name", "command", "color")
+        conf = aconf.Config("text", "name", "command", "color", False)
         ret = conf.get_command()
         self.assertEqual(ret, "text")
