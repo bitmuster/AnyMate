@@ -3,7 +3,12 @@ from unittest.mock import MagicMock, patch
 
 from AnyMate import main, print_help
 
-
+# In Spyder:
+#    unittest:
+#       !python3 -m unittest test_main.py
+#    pytest
+#       !pytest test_main.py::TestMain::test_main_hello -s
+    
 class TestMain(unittest.TestCase):
     """The main test class for AnyMate"""
 
@@ -142,17 +147,17 @@ class TestMain(unittest.TestCase):
             main(["./AnyMate.py", "BAM", conf, myfile])
 
 
-    #@patch("AnyMate.AnyMate")
+    #@patch("config.Config")
     def test_main_hello(self):
         # setup
         myfile = "template.json"
         conf = "greet"
-        #anym = MagicMock()
+        # = MagicMock()
         #mock.return_value = anym
         ## exercise
         main(["./AnyMate.py", "--nogui", conf, myfile])
         # validate
-        #mock.assert_called_once_with(myfile, False)
+        #mock.assert_called_once_with()
         #anym.execute.assert_called_once_with(conf)
         
         
