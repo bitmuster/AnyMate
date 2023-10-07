@@ -262,7 +262,7 @@ def main(argv, debug=False):
         # Start the TK Mainloop
         anymategui.mainloop()
         if debug:
-            print("Exiting...")
+            print("Exiting mainloop...")
 
     # Commandline version
     elif len(argv) == 4:

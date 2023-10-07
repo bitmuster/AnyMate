@@ -36,10 +36,6 @@ store.append(treeiter, [option.name, f"That {k}", f"This {k}", Gtk.Button(label=
 """
 
 
-# window = Gtk.Window(title="Hello World")
-# window.show()
-# window.connect("destroy", Gtk.main_quit)
-# Gtk.main()
 
 
 class AnyMateGtkGui:
@@ -51,6 +47,7 @@ class AnyMateGtkGui:
 
         self.build(anymate, filename)
         self.hidden = False
+        
 
     def on_click_hidebutton(self, button):
         if self.hidden:
@@ -114,7 +111,8 @@ class AnyMateGtkGui:
         builder.add_from_file("anymate_gui.xml")
 
         self.window = builder.get_object("anymategui")
-
+        self.window.connect("destroy", Gtk.main_quit)
+        
         controlgrid = builder.get_object("controlgrid")
         commandgrid = builder.get_object("commandgrid")
         self.treeview = builder.get_object("treeview")
