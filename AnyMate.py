@@ -157,6 +157,7 @@ class AnyMate:
                     nick=command[1],
                     color=color,
                     debug=self.debug,
+                    bookmark=False
                 )
             )
 

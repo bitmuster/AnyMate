@@ -140,3 +140,19 @@ class TestMain(unittest.TestCase):
         # exercise
         with self.assertRaises(SystemExit):
             main(["./AnyMate.py", "BAM", conf, myfile])
+
+
+    #@patch("AnyMate.AnyMate")
+    def test_main_hello(self):
+        # setup
+        myfile = "template.json"
+        conf = "greet"
+        #anym = MagicMock()
+        #mock.return_value = anym
+        ## exercise
+        main(["./AnyMate.py", "--nogui", conf, myfile])
+        # validate
+        #mock.assert_called_once_with(myfile, False)
+        #anym.execute.assert_called_once_with(conf)
+        
+        
