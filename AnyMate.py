@@ -92,7 +92,6 @@ class AnyMate:
     BLUE = "#BFBFEF"
 
     def __init__(self, filename, debug=False):
-
         # Central list for configration options
         self._config_list = []
         self.debug = debug
@@ -148,26 +147,23 @@ class AnyMate:
             nick=command.get("nick"),
             color=command.get("color"),
             bookmark=False,
-            debug=self.debug
-            )
+            debug=self.debug,
+        )
         return cfg
 
-                    
     def read_json_config(self, filename):
-        thefile=open(filename)
+        thefile = open(filename)
         command_list = json.load(thefile)
         print("CommandList", command_list)
-        
+
         for command in command_list:
             if self.debug:
                 print("    Command", command)
 
             cfg = self.parse_entry_to_config(command, filename)
-            
-            #color = self.get_color(command[2])
-            self._config_list.append(
-                cfg
-            )
+
+            # color = self.get_color(command[2])
+            self._config_list.append(cfg)
 
     def list(self):
         """just print what is inside here"""
@@ -247,7 +243,6 @@ def main(argv, debug=False):
 
     # GUI version
     if len(argv) == 2:
-
         filename = argv[1]
         if not os.path.isfile(filename):
             print("File not found.")

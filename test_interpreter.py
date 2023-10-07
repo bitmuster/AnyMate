@@ -46,9 +46,7 @@ class TestInterpreter(unittest.TestCase):
     def test_interpreter_prefix_xterm(self):
         interp = Interpreter("xterm")
         suff = interp.get_prefix()
-        exp = (
-            """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c '\n"""
-        )
+        exp = """xterm -sl 10000 -cr BLUE -bg lightblue -fg black -e /bin/bash -c '\n"""
         self.assertEqual(suff, exp)
 
     def test_interpreter_decorate_xterm(self):
@@ -56,4 +54,3 @@ class TestInterpreter(unittest.TestCase):
         cmd = interp.decorate_command("Mate, go hom yur drunk")
         exp = interp.get_prefix() + "Mate, go hom yur drunk" + interp.get_suffix()
         self.assertEqual(cmd, exp)
-

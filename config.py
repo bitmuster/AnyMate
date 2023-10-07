@@ -4,7 +4,7 @@ import subprocess
 
 from interpreter import Interpreter
 
-#import pysnooper
+# import pysnooper
 
 # SHELL = "nonepopen"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
@@ -36,7 +36,7 @@ class Config:
                 + "\" contains a ' sign, this might confuse bash"
             )
 
-    #@pysnooper.snoop()
+    # @pysnooper.snoop()
     def execute(self, callback):
         """Execute configuration Option inside an rxvt/SHELL window"""
         if self.debug:
@@ -70,7 +70,6 @@ class Config:
         #        logging.info("Timeout!")
         #        #outs, errs = proc.communicate()
         #        #out += str(outs)
-
 
         # TODO This will block when we run everything in a subshell
         subshell = True
@@ -109,4 +108,4 @@ class Config:
 
     def get_nick(self):
         """Get a nick"""
-        return self.nick    
+        return self.nick

@@ -36,18 +36,14 @@ store.append(treeiter, [option.name, f"That {k}", f"This {k}", Gtk.Button(label=
 """
 
 
-
-
 class AnyMateGtkGui:
     """Responsible for creating the GUI"""
 
     def __init__(self, anymate, filename):
-
         self.textbuffer = None
 
         self.build(anymate, filename)
         self.hidden = False
-        
 
     def on_click_hidebutton(self, button):
         if self.hidden:
@@ -93,16 +89,13 @@ class AnyMateGtkGui:
             if option.get_name() == name:
                 self.textbuffer.set_text(option.get_command())
 
-        #path = Gtk.TreePath([1, 4])
-        #treeiter = self.store.get_iter(path)
+        # path = Gtk.TreePath([1, 4])
+        # treeiter = self.store.get_iter(path)
         ## Get value at 2nd column
-        #value = self.store.get_value(treeiter, 1)
-        #print(value)
-
-
+        # value = self.store.get_value(treeiter, 1)
+        # print(value)
 
     def build(self, anymate, filename):
-
         self._anymate = anymate
 
         self.options = anymate.get_config_list()
@@ -112,7 +105,7 @@ class AnyMateGtkGui:
 
         self.window = builder.get_object("anymategui")
         self.window.connect("destroy", Gtk.main_quit)
-        
+
         controlgrid = builder.get_object("controlgrid")
         commandgrid = builder.get_object("commandgrid")
         self.treeview = builder.get_object("treeview")
@@ -127,9 +120,7 @@ class AnyMateGtkGui:
         #        self.self.textview = Gtk.TextView()
 
         self.textbuffer = self.textview.get_buffer()
-        self.textbuffer.set_text(
-            "*"*80 + "\n"  + "*"*80 + "\n" 
-        )
+        self.textbuffer.set_text("*" * 80 + "\n" + "*" * 80 + "\n")
         # scrolledwindow.add(self.textview)
 
         #         self.tag_bold = self.textbuffer.create_tag("bold", weight=Pango.Weight.BOLD)
@@ -142,10 +133,8 @@ class AnyMateGtkGui:
         # Title, Path
         store = Gtk.TreeStore(str, str)
         self.store = store
-        
-        treeiter = store.append(
-            None, ["Test title", "testpath"]
-        )
+
+        treeiter = store.append(None, ["Test title", "testpath"])
 
         treeiter = store.append(None, ["Command", "This"])
 
@@ -222,15 +211,15 @@ class AnyMateGtkGui:
             label.set_xalign(0.1)
             # statuslabel = Gtk.Label(label=option.nick)
             runbutton = Gtk.Button(label="run", name=f"runbutton{k:3}")
-            #showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
+            # showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
 
             # not sure if the lambda really works here
             runbutton.connect("clicked", lambda x: self.on_click_run_button(x))
-            #showbutton.connect("clicked", lambda x: self.on_click_show_button(x))
+            # showbutton.connect("clicked", lambda x: self.on_click_show_button(x))
 
             commandgrid.attach(label, 0, k, 1, 1)  # left top with height
             commandgrid.attach(runbutton, 1, k, 1, 1)  # left top with height
-            #commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
+            # commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
 
             store.append(treeiter, [option.name, f"That {k}"])
 
