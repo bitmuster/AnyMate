@@ -102,3 +102,11 @@ class Config:
     def get_command(self):
         """Get a command"""
         return self.text
+
+    def get_name(self):
+        """Get a name"""
+        return self.name
+
+    def get_nick(self):
+        """Get a nick"""
+        return self.nick    

@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from AnyMate import main, print_help
+from AnyMate import main, print_help, AnyMate
 
 # In Spyder:
 #    unittest:
@@ -146,9 +146,10 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(SystemExit):
             main(["./AnyMate.py", "BAM", conf, myfile])
 
+# Play with the main class
 
     @patch("AnyMate.AnyMate.execute")
-    def test_main_hello(self, mock):
+    def test_main_greet(self, mock):
 
         myfile = "template.json"
         conf = "greet"
@@ -157,4 +158,25 @@ class TestMain(unittest.TestCase):
 
         mock.assert_called_once_with(conf)
         
+    def test_main_config_list_name(self):
+
+        myfile = "template.json"
+
+        anymate = AnyMate(myfile)
+        
+        cfg = anymate.get_config_list()
+        expect = cfg[0].get_name()
+        
+        self.assertEqual(expect,"Greetings")
+        
+    def test_main_config_list_nick(self):
+
+        myfile = "template.json"
+
+        anymate = AnyMate(myfile)
+        
+        cfg = anymate.get_config_list()
+        expect = cfg[0].get_nick()
+        
+        self.assertEqual(expect,"greet")
         
