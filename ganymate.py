@@ -86,17 +86,21 @@ class AnyMateGtkGui:
         print(f"row activated {view} {path} {column}")
         print(type(path))
         treeiter = self.store.get_iter(path)
-        value = self.store.get_value(treeiter, 0)
-        print(value)
+        name = self.store.get_value(treeiter, 0)
+        print("Name", name)
         value = self.store.get_value(treeiter, 1)
-        print(value)
+        print("Stuff", value)
 
-        
-        path = Gtk.TreePath([1, 4])
-        treeiter = self.store.get_iter(path)
-        # Get value at 2nd column
-        value = self.store.get_value(treeiter, 1)
-        print(value)
+        # hackery
+        for option in self.options:
+            if option.get_name() == name:
+                self.textbuffer.set_text(option.get_command())
+
+        #path = Gtk.TreePath([1, 4])
+        #treeiter = self.store.get_iter(path)
+        ## Get value at 2nd column
+        #value = self.store.get_value(treeiter, 1)
+        #print(value)
 
 
 
@@ -220,15 +224,15 @@ class AnyMateGtkGui:
             label.set_xalign(0.1)
             # statuslabel = Gtk.Label(label=option.nick)
             runbutton = Gtk.Button(label="run", name=f"runbutton{k:3}")
-            showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
+            #showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
 
             # not sure if the lambda really works here
             runbutton.connect("clicked", lambda x: self.on_click_run_button(x))
-            showbutton.connect("clicked", lambda x: self.on_click_show_button(x))
+            #showbutton.connect("clicked", lambda x: self.on_click_show_button(x))
 
             commandgrid.attach(label, 0, k, 1, 1)  # left top with height
             commandgrid.attach(runbutton, 1, k, 1, 1)  # left top with height
-            commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
+            #commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
 
             store.append(treeiter, [option.name, f"That {k}"])
 
