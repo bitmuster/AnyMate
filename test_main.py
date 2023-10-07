@@ -188,3 +188,23 @@ class TestMain(unittest.TestCase):
         expect = 18
         value = len(cfg)
         self.assertEqual(expect,value)
+
+    def test_main_config_read_json(self):
+
+        myfile = "template.json"
+
+        anymate = AnyMate(myfile)
+        
+        cfg = anymate.get_config_list()
+        expect = 18
+        value = len(cfg)
+        self.assertEqual(expect,value)
+        
+    def test_parse_entry_to_config_empty(self):
+       
+        myfile = "template.json"
+        anymate = AnyMate(myfile)
+        entry = "[[]]"
+        
+        cfg = anymate.parse_entry_to_config(entry, myfile)
+        

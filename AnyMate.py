@@ -132,6 +132,22 @@ class AnyMate:
             color = None
         return color
 
+    def parse_entry_to_config(self, command, filename):
+        if len(command) != 4:
+            print("Error in file " + filename)
+            print("near field containing " + command[0])
+            sys.exit()
+        cfg = aconf.Config(
+            text=command[3],
+            name=command[0],
+            nick=command[1],
+            color=command[2],
+            bookmark=False,
+            debug=self.debug
+            )
+        return cfg
+
+                    
     def read_json_config(self, filename):
         thefile=open(filename)
         command_list = json.load(thefile)
@@ -139,21 +155,12 @@ class AnyMate:
         for command in command_list:
             if self.debug:
                 print("    Command", command)
-            if len(command) != 4:
-                print("Error in file " + filename)
-                print("near field containing " + command[0])
-                sys.exit()
 
-            color = self.get_color(command[2])
+            cfg = self.parse_entry_to_config(command, filename)
+            
+            #color = self.get_color(command[2])
             self._config_list.append(
-                aconf.Config(
-                    text=command[3],
-                    name=command[0],
-                    nick=command[1],
-                    color=color,
-                    bookmark=False,
-                    debug=self.debug
-                )
+                cfg
             )
 
     def list(self):
