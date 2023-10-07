@@ -52,13 +52,14 @@ class TestMain(unittest.TestCase):
     def test_main_two_real_param(self, mock, guimock):
         # setup
         myfile = "template.json"
-        mock.return_value = "Something"
+        mock.return_value = MagicMock()
+        mock.load_configuration = MagicMock()
         # exercise
         main(["./AnyMate.py", myfile])
         # validate
         mock.assert_called_once_with(myfile)
         # We expect the gui to be called with the return value of AnyMate()
-        guimock.assert_called_once_with("Something", myfile)
+        guimock.assert_called_once_with( mock(), myfile)
 
     @patch("os.path.isfile")
     def test_main_nofile(self, mock):
@@ -162,7 +163,8 @@ class TestMain(unittest.TestCase):
 
         myfile = "template.json"
         anymate = AnyMate(myfile)
-        
+        anymate.load_configuration()
+
         cfg = anymate.get_config_list()
         value = cfg[0].get_name()
         
@@ -172,7 +174,8 @@ class TestMain(unittest.TestCase):
 
         myfile = "template.json"
         anymate = AnyMate(myfile)
-        
+        anymate.load_configuration()
+
         cfg = anymate.get_config_list()
         value = cfg[0].get_nick()
         
@@ -183,7 +186,8 @@ class TestMain(unittest.TestCase):
         myfile = "template.json"
 
         anymate = AnyMate(myfile)
-        
+        anymate.load_configuration()
+
         cfg = anymate.get_config_list()
         expect = 18
         value = len(cfg)
@@ -194,7 +198,8 @@ class TestMain(unittest.TestCase):
         myfile = "template.json"
 
         anymate = AnyMate(myfile)
-        
+        anymate.load_configuration()
+
         cfg = anymate.get_config_list()
         expect = 18
         value = len(cfg)
@@ -212,18 +217,22 @@ class TestMain(unittest.TestCase):
        
         myfile = "template.json"
         anymate = AnyMate(myfile)
-        entry = ["Greetings", "greet", "green", "echo \"Hello World\""   ]
+        anymate.load_configuration()
+
+        entry = {"name":"Greetings", "nick":"greet", "color":"green", "cmd":"echo \"Hello World\""}
         
         cfg = anymate.parse_entry_to_config(entry, myfile)
-        self.assertEqual(entry[0],cfg.get_name())
+        self.assertEqual(entry.get("name"), cfg.get_name())
         
-    def test_parse_entry_to_config_single_get_name(self):
+    def test_parse_entry_to_config_single_get_nick(self):
        
         myfile = "template.json"
         anymate = AnyMate(myfile)
-        entry = ["Greetings", "greet", "green", "echo \"Hello World\""   ]
+        anymate.load_configuration()
+
+        entry = {"name":"Greetings", "nick":"greet", "color":"green", "cmd":"echo \"Hello World\""}
         
         cfg = anymate.parse_entry_to_config(entry, myfile)
-        self.assertEqual(entry[1],cfg.get_nick())
+        self.assertEqual(entry.get("nick"), cfg.get_nick())
         
         

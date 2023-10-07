@@ -1,91 +1,110 @@
 [
-[
-"Greetings", "greet", "green",
-"echo \"Hello World\""
-], 
-
-[
-"Top", "top", "green",
-"top"
-],
-
-[
-"Test: Top with comment and semicolon", "top", "green",
-"#Comment;top"
-],
-
-[
-"Test: Top with comment and newline", "top", "green",
-"#Comment\ntop"
-],
-
-[
-"XClock", "xclock", "green",
-"xclock"
-],
-
-[
-"ping8888", "ping", "green",
-"ping -c 5 8.8.8.8"
-],
-
-[
-"Edit", "edit", "red",
-"# Edit this file.\n# This path is dynamically generated:\npluma template.anymate"
-],
-
-[
-"Test", "test", "red",
-"echo Test; echo $TEST"
-],
-
-[
-"Hello", "hello", "red",
-"echo \"Hello World\""
-],
-
-[
-"Dock Laptop", "dock", "cyan",
-"#xrandr --output TMDS-1 --mode 1600x1200\n#xrandr --output TMDS-1 --right-of  LVDS"
-],
-
-[
-"Status Kallisto", "gem", "gray",
-"ssh kallisto \"cd /home/wasteland/Gemeinsame_Dokumente; ls; git status\" "
-],
-
-[
-"Slic3r", "slic3r", "gray",
-"/home/micha/Dump/2016/2016_MeinePrusa/Slic3r/bin/slic3r"
-],
-
-[
-"UnDock Laptop", "undock", "blue",
-"#xrandr --output TMDS-1 --mode 1440x900\n#xrandr --output LVDS --same-as TMDS-1\n#xrandr --output TMDS-1 --off\n#xrandr --output VGA --off"
-],
-
-[
-"SshTunnel", "sshtunnel", "gray",
-"ssh -p 222 -L 12345:192.168.1.1:80  94.216.106.38\nssh -p 222 micha@kallistoweb"
-],
-
-[
-"RGB Color", "gray", "#ddddfd",
-"echo \"This is blue gray\""
-],
-
-[
-"wintest1", "wintest1", "green",
-" echo Winzigweich & echo Witzigweich & dir c:\\Users "
-],
-
-[
-"wintest2", "wintest2", "green",
-" echo Winzigweich & echo Witzigweich "
-],
-
-[
-"winlong", "winlong", "green",
-"echo thisisalonglonglonglonglonglonglonglonglonglonglonglonglong\nlonglonglonglonglonglonglonglinewe want to see that it gets \nstill displayed it is sooooooooo long but this is a very trashy\nworkaround, yeah"
-]
+   {
+      "name": "Greetings",
+      "nick": "greet",
+      "color": "green",
+      "cmd": "echo \"Hello World\""
+   },
+   {
+      "name": "Top",
+      "nick": "top",
+      "color": "green",
+      "cmd": "top"
+   },
+   {
+      "name": "Test: Top with comment and semicolon",
+      "nick": "top",
+      "color": "green",
+      "cmd": "#Comment;top"
+   },
+   {
+      "name": "Test: Top with comment and newline",
+      "nick": "top",
+      "color": "green",
+      "cmd": "#Comment\ntop"
+   },
+   {
+      "name": "XClock",
+      "nick": "xclock",
+      "color": "green",
+      "cmd": "xclock"
+   },
+   {
+      "name": "ping8888",
+      "nick": "ping",
+      "color": "green",
+      "cmd": "ping -c 5 8.8.8.8"
+   },
+   {
+      "name": "Edit",
+      "nick": "edit",
+      "color": "red",
+      "cmd": "# Edit this file.\n# This path is dynamically generated:\npluma template.anymate"
+   },
+   {
+      "name": "Test",
+      "nick": "test",
+      "color": "red",
+      "cmd": "echo Test; echo $TEST"
+   },
+   {
+      "name": "Hello",
+      "nick": "hello",
+      "color": "red",
+      "cmd": "echo \"Hello World\""
+   },
+   {
+      "name": "Dock Laptop",
+      "nick": "dock",
+      "color": "cyan",
+      "cmd": "#xrandr --output TMDS-1 --mode 1600x1200\n#xrandr --output TMDS-1 --right-of  LVDS"
+   },
+   {
+      "name": "Status Kallisto",
+      "nick": "gem",
+      "color": "gray",
+      "cmd": "ssh kallisto \"cd /home/wasteland/Gemeinsame_Dokumente; ls; git status\" "
+   },
+   {
+      "name": "Slic3r",
+      "nick": "slic3r",
+      "color": "gray",
+      "cmd": "/home/micha/Dump/2016/2016_MeinePrusa/Slic3r/bin/slic3r"
+   },
+   {
+      "name": "UnDock Laptop",
+      "nick": "undock",
+      "color": "blue",
+      "cmd": "#xrandr --output TMDS-1 --mode 1440x900\n#xrandr --output LVDS --same-as TMDS-1\n#xrandr --output TMDS-1 --off\n#xrandr --output VGA --off"
+   },
+   {
+      "name": "SshTunnel",
+      "nick": "sshtunnel",
+      "color": "gray",
+      "cmd": "ssh -p 222 -L 12345:192.168.1.1:80  94.216.106.38\nssh -p 222 micha@kallistoweb"
+   },
+   {
+      "name": "RGB Color",
+      "nick": "gray",
+      "color": "#ddddfd",
+      "cmd": "echo \"This is blue gray\""
+   },
+   {
+      "name": "wintest1",
+      "nick": "wintest1",
+      "color": "green",
+      "cmd": " echo Winzigweich & echo Witzigweich & dir c:\\Users "
+   },
+   {
+      "name": "wintest2",
+      "nick": "wintest2",
+      "color": "green",
+      "cmd": " echo Winzigweich & echo Witzigweich "
+   },
+   {
+      "name": "winlong",
+      "nick": "winlong",
+      "color": "green",
+      "cmd": "echo thisisalonglonglonglonglonglonglonglonglonglonglonglonglong\nlonglonglonglonglonglonglonglinewe want to see that it gets \nstill displayed it is sooooooooo long but this is a very trashy\nworkaround, yeah"
+   }
 ]

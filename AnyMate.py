@@ -98,10 +98,12 @@ class AnyMate:
         self.debug = debug
         self._gui = None
         self._terminal = None
+        self._filename = filename
 
-        if os.path.isfile(filename) and filename.endswith(".json"):
-            print("Loading AnyMate configuration file " + filename)
-            self.read_json_config(filename)
+    def load_configuration(self):
+        if os.path.isfile(self._filename) and self._filename.endswith(".json"):
+            print("Loading AnyMate configuration file " + self._filename)
+            self.read_json_config(self._filename)
         else:
             print("Unkown configuration file" + filename)
             raise SystemError("Unkown configuration file", filename)
@@ -133,6 +135,7 @@ class AnyMate:
         return color
 
     def parse_entry_to_config(self, command, filename):
+        print(command)
         if not command:
             raise SystemError(f"Cannot parse {command}")
         if len(command) != 4:
@@ -140,10 +143,10 @@ class AnyMate:
             print("near field containing " + command[0])
             sys.exit()
         cfg = aconf.Config(
-            text=command[3],
-            name=command[0],
-            nick=command[1],
-            color=command[2],
+            text=command.get("cmd"),
+            name=command.get("name"),
+            nick=command.get("nick"),
+            color=command.get("color"),
             bookmark=False,
             debug=self.debug
             )
@@ -154,6 +157,7 @@ class AnyMate:
         thefile=open(filename)
         command_list = json.load(thefile)
         print("CommandList", command_list)
+        
         for command in command_list:
             if self.debug:
                 print("    Command", command)
@@ -250,6 +254,8 @@ def main(argv, debug=False):
             sys.exit()
 
         anymate = AnyMate(filename)
+        print("Ficken", anymate)
+        anymate.load_configuration()
         # anymate.list()
         # anymate.command_list()
         anymategui = gui(anymate, filename)
@@ -272,6 +278,8 @@ def main(argv, debug=False):
             command = argv[2]
 
             anymate = AnyMate(filename, debug)
+            print(anymate)
+            anymate.load_configuration()
             anymate.execute(command)
         else:
             print_help()
