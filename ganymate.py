@@ -139,14 +139,15 @@ class AnyMateGtkGui:
         #         )
         #        self.tag_found = self.textbuffer.create_tag("found", background="yellow")
 
-        store = Gtk.TreeStore(str, str, str)
+        # Title, Path
+        store = Gtk.TreeStore(str, str)
         self.store = store
         
         treeiter = store.append(
-            None, ["The Art of Computer Programming", "Donald E. Knuth", "25.46"]
+            None, ["Test title", "testpath"]
         )
 
-        treeiter = store.append(None, ["Commands", "This", "That"])
+        treeiter = store.append(None, ["Command", "This"])
 
         # treeiter = store.append(treeiter, ["Stuff", "That", 25.46])
 
@@ -157,16 +158,16 @@ class AnyMateGtkGui:
         self.treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("What", renderer, text=1, weight=1)
+        column = Gtk.TreeViewColumn("Path", renderer, text=1, weight=1)
         self.treeview.append_column(column)
 
-        renderer = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("Where", renderer, text=2, weight=1)
-        self.treeview.append_column(column)
+        # renderer = Gtk.CellRendererText()
+        # column = Gtk.TreeViewColumn("Where", renderer, text=2, weight=1)
+        # self.treeview.append_column(column)
 
-        renderer = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("Buttons", renderer, text=3, weight=1)
-        self.treeview.append_column(column)
+        # renderer = Gtk.CellRendererText()
+        # column = Gtk.TreeViewColumn("Buttons", renderer, text=3, weight=1)
+        # self.treeview.append_column(column)
 
         self.treeview.connect("row-activated", self.on_row_activated)
 
@@ -231,8 +232,7 @@ class AnyMateGtkGui:
             commandgrid.attach(runbutton, 1, k, 1, 1)  # left top with height
             commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
 
-            store.append(treeiter, [option.name, f"That {k}", f"This {k}"])
-            store.append(treeiter, [option.name, f"That {k}", f"This {k}"])
+            store.append(treeiter, [option.name, f"That {k}"])
 
         controlgrid.attach(commandgrid, 0, 1, 1, 1)  # left top with height
 
