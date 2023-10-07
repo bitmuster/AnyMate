@@ -133,6 +133,8 @@ class AnyMate:
         return color
 
     def parse_entry_to_config(self, command, filename):
+        if not command:
+            raise SystemError(f"Cannot parse {command}")
         if len(command) != 4:
             print("Error in file " + filename)
             print("near field containing " + command[0])

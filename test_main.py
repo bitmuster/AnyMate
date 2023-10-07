@@ -204,7 +204,26 @@ class TestMain(unittest.TestCase):
        
         myfile = "template.json"
         anymate = AnyMate(myfile)
-        entry = "[[]]"
+        entry = ""
+        
+        self.assertRaises(SystemError)
+
+    def test_parse_entry_to_config_single_get_name(self):
+       
+        myfile = "template.json"
+        anymate = AnyMate(myfile)
+        entry = ["Greetings", "greet", "green", "echo \"Hello World\""   ]
         
         cfg = anymate.parse_entry_to_config(entry, myfile)
+        self.assertEqual(entry[0],cfg.get_name())
+        
+    def test_parse_entry_to_config_single_get_name(self):
+       
+        myfile = "template.json"
+        anymate = AnyMate(myfile)
+        entry = ["Greetings", "greet", "green", "echo \"Hello World\""   ]
+        
+        cfg = anymate.parse_entry_to_config(entry, myfile)
+        self.assertEqual(entry[1],cfg.get_nick())
+        
         
