@@ -12,13 +12,13 @@
       "cmd": "top"
    },
    {
-      "name": "Test: Top with comment and semicolon",
+      "name": "Test: comment and semicolon",
       "nick": "top",
       "color": "green",
       "cmd": "#Comment;top"
    },
    {
-      "name": "Test: Top with comment and newline",
+      "name": "Test: comment and newline",
       "nick": "top",
       "color": "green",
       "cmd": "#Comment\ntop"
