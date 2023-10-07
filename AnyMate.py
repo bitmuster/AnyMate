@@ -73,12 +73,6 @@ import config as aconf
 
 DEBUG = True
 
-# Debuglevel 0: No debugging outputs, 1: debugging outputs
-if DEBUG:
-    DEBUGLEVEL = 1
-else:
-    DEBUGLEVEL = 0
-
 if sys.version_info.major < 3:
     print(
         "Error: Please use python3 to execute. "
@@ -143,7 +137,8 @@ class AnyMate:
         command_list = json.load(thefile)
         print("CommandList", command_list)
         for command in command_list:
-            print("Command", command)
+            if self.debug:
+                print("    Command", command)
             if len(command) != 4:
                 print("Error in file " + filename)
                 print("near field containing " + command[0])
@@ -156,8 +151,8 @@ class AnyMate:
                     name=command[0],
                     nick=command[1],
                     color=color,
-                    debug=self.debug,
-                    bookmark=False
+                    bookmark=False,
+                    debug=self.debug
                 )
             )
 
@@ -219,7 +214,7 @@ def print_help():
 def main(argv, debug=False):
     """Bam - Main"""
 
-    if debug > 0:
+    if debug:
         print("Starting AnyMate from", sys.path[0], "with argv", sys.argv)
 
     if not isinstance(argv, list):
@@ -232,8 +227,9 @@ def main(argv, debug=False):
     abspath = os.path.abspath(os.path.dirname(argv[0]))
     # Everything we do now happens in this directory
 
-    if debug > 0:
+    if debug:
         print("Switching to directory " + abspath)
+
     os.chdir(abspath)
 
     # GUI version
@@ -250,7 +246,7 @@ def main(argv, debug=False):
         anymategui = gui(anymate, filename)
         # Start the TK Mainloop
         anymategui.mainloop()
-        if debug > 0:
+        if debug:
             print("Exiting...")
 
     # Commandline version
