@@ -126,9 +126,7 @@ class AnyMateGtkGui:
 
         self.textbuffer = self.textview.get_buffer()
         self.textbuffer.set_text(
-            "This is some text inside of a Gtk.TextView. "
-            + "Select text and click one of the buttons 'bold', 'italic', "
-            + "or 'underline' to modify the text accordingly."
+            "*"*80 + "\n"  + "*"*80 + "\n" 
         )
         # scrolledwindow.add(self.textview)
 
