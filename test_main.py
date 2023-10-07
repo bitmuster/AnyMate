@@ -161,22 +161,30 @@ class TestMain(unittest.TestCase):
     def test_main_config_list_name(self):
 
         myfile = "template.json"
-
         anymate = AnyMate(myfile)
         
         cfg = anymate.get_config_list()
-        expect = cfg[0].get_name()
+        value = cfg[0].get_name()
         
-        self.assertEqual(expect,"Greetings")
+        self.assertEqual(value,"Greetings")
         
     def test_main_config_list_nick(self):
+
+        myfile = "template.json"
+        anymate = AnyMate(myfile)
+        
+        cfg = anymate.get_config_list()
+        value = cfg[0].get_nick()
+        
+        self.assertEqual(value,"greet")
+
+    def test_main_config_list_length(self):
 
         myfile = "template.json"
 
         anymate = AnyMate(myfile)
         
         cfg = anymate.get_config_list()
-        expect = cfg[0].get_nick()
-        
-        self.assertEqual(expect,"greet")
-        
+        expect = 18
+        value = len(cfg)
+        self.assertEqual(expect,value)
