@@ -220,7 +220,7 @@ class AnyMateGtkGui:
             # self.use_row += 1
             print(option)
 
-            label = Gtk.Label(label=option.name)
+            label = Gtk.Label(label=option.get_nick())
             label.set_xalign(0.1)
             # statuslabel = Gtk.Label(label=option.nick)
             runbutton = Gtk.Button(label="run", name=f"runbutton{k:3}")
