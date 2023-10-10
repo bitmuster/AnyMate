@@ -52,6 +52,9 @@ class AnyMateGtkGui:
             self.alabel.show()
             self.hidden = False
             self.hidebutton.set_label("hide")
+            self.controlbox_1.show()
+            self.controlbox_2.show()
+            self.treeview_container.show()
         else:
             self.treeview.hide()
             self.textview.hide()
@@ -59,6 +62,9 @@ class AnyMateGtkGui:
             self.hidden = True
             self.hidebutton.set_label("show")
             self.window.resize(1, 1)
+            self.controlbox_1.hide()
+            self.controlbox_2.hide()
+            self.treeview_container.hide()
 
     def on_click_run_button(self, button):
         print(f"Run Button {button}")
@@ -111,6 +117,12 @@ class AnyMateGtkGui:
         self.treeview = builder.get_object("treeview")
         self.textview = builder.get_object("textview")
         self.scrolledwindow = builder.get_object("scrolledwindow")
+        
+        self.scrolledwindow = builder.get_object("scrolledwindow")
+        
+        self.controlbox_1 = builder.get_object("controlbox_1")
+        self.controlbox_2 = builder.get_object("controlbox_2")
+        self.treeview_container = builder.get_object("treeview_container")
 
         #        scrolledwindow = Gtk.ScrolledWindow()
         #        scrolledwindow.set_hexpand(True)
