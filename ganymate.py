@@ -117,7 +117,19 @@ class AnyMateGtkGui:
         self.treeview = builder.get_object("treeview")
         self.textview = builder.get_object("textview")
         self.scrolledwindow = builder.get_object("scrolledwindow")
-        
+
+        self.nameentry = builder.get_object("nameentry")
+        self.filenameentry = builder.get_object("filenameentry")
+        self.interpreterentry = builder.get_object("interpreterentry")
+
+        self.runbutton = builder.get_object("runbutton")
+        self.runbutton.connect("clicked", self.on_click_runbutton)
+
+        self.statuslabel = builder.get_object("statuslabel")
+        self.stopbutton = builder.get_object("stopbutton")
+        self.pidlabel = builder.get_object("pidlabel")
+        self.bookmark_checkbox = builder.get_object("bookmark_checkbox")
+
         self.scrolledwindow = builder.get_object("scrolledwindow")
         
         self.controlbox_1 = builder.get_object("controlbox_1")
