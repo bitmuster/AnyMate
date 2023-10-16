@@ -21,6 +21,7 @@ https://pygobject.readthedocs.io/en/latest/guide/testing.html
 
 The Python GTK+ 3 Tutorial
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/index.html
+https://python-gtk-3-tutorial.readthedocs.io/en/latest/gallery.html
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/builder.html
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/layout.html#grid
 https://python-gtk-3-tutorial.readthedocs.io/en/latest/self.textview.html
@@ -29,6 +30,7 @@ https://python-gtk-3-tutorial.readthedocs.io/en/latest/cellrenderers.html
 ->
 store.append(treeiter, [option.name, f"That {k}", f"This {k}", Gtk.Button(label=f"But {k}")])
 
+https://lazka.github.io/pgi-docs/#Gtk-4.0/classes/TreeView.html#Gtk.TreeView
 
 
 # pip install pygobject
@@ -142,7 +144,7 @@ class AnyMateGtkGui:
         self.bookmark_checkbox = builder.get_object("bookmark_checkbox")
 
         self.scrolledwindow = builder.get_object("scrolledwindow")
-        
+
         self.controlbox_1 = builder.get_object("controlbox_1")
         self.controlbox_2 = builder.get_object("controlbox_2")
         self.treeview_container = builder.get_object("treeview_container")
@@ -194,6 +196,9 @@ class AnyMateGtkGui:
         # self.treeview.append_column(column)
 
         self.treeview.connect("row-activated", self.on_row_activated)
+
+        # Does not work right
+        self.treeview.expand_all()
 
         attr = Pango.AttrList()
         # fg_color = Pango.AttrForeground(65535, 0, 0, 0, 6)
