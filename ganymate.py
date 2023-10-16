@@ -45,6 +45,8 @@ class AnyMateGtkGui:
         self.build(anymate, filename)
         self.hidden = False
 
+        self.active_option = None
+
     def on_click_hidebutton(self, button):
         if self.hidden:
             self.treeview.show()
@@ -65,6 +67,12 @@ class AnyMateGtkGui:
             self.controlbox_1.hide()
             self.controlbox_2.hide()
             self.treeview_container.hide()
+
+    def on_click_runbutton(self, button):
+        # hackery
+        for option in self.options:
+            if option.get_name() == self.active_option:
+                option.execute(None)
 
     def on_click_run_button(self, button):
         print(f"Run Button {button}")
@@ -94,6 +102,9 @@ class AnyMateGtkGui:
         for option in self.options:
             if option.get_name() == name:
                 self.textbuffer.set_text(option.get_command())
+                self.active_option = name
+                self.nameentry.set_text(name)
+                break
 
         # path = Gtk.TreePath([1, 4])
         # treeiter = self.store.get_iter(path)
