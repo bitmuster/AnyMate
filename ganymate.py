@@ -198,7 +198,7 @@ class AnyMateGtkGui:
         self.treeview.connect("row-activated", self.on_row_activated)
 
         # Does not work right
-        self.treeview.expand_all()
+        # self.treeview.expand_all()
 
         attr = Pango.AttrList()
         # fg_color = Pango.AttrForeground(65535, 0, 0, 0, 6)
@@ -267,6 +267,8 @@ class AnyMateGtkGui:
 
         button3 = Gtk.Button(label="Button 3")
         controlgrid.attach(button3, 0, 2, 1, 1)  # left top with height
+
+        self.treeview.expand_all()
 
         self.window.show_all()
 
