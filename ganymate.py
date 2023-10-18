@@ -184,7 +184,7 @@ class AnyMateGtkGui:
         self.treeview.append_column(column)
 
         renderer = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("Path", renderer, text=1, weight=1)
+        column = Gtk.TreeViewColumn("Nick", renderer, text=1, weight=1)
         self.treeview.append_column(column)
 
         # renderer = Gtk.CellRendererText()
@@ -261,7 +261,7 @@ class AnyMateGtkGui:
             commandgrid.attach(runbutton, 1, k, 1, 1)  # left top with height
             # commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
 
-            store.append(treeiter, [option.name, f"That {k}"])
+            store.append(treeiter, [option.name, option.nick])
 
         controlgrid.attach(commandgrid, 0, 1, 1, 1)  # left top with height
 
