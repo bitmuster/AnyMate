@@ -65,13 +65,6 @@ if sys.version_info.major < 3:
 class AnyMate:
     """Class for Command execution"""
 
-    # predefined colors (Anymate)
-    RED = "#EFBFBF"
-    GREEN = "#BFEFBF"
-    CYAN = "#BFEFEF"
-    GREY = "#BFBFBF"
-    BLUE = "#BFBFEF"
-
     def __init__(self, filename, debug=False):
         # Central list for configration options
         self._config_list = []
@@ -88,32 +81,6 @@ class AnyMate:
             print("Unkown configuration file" + filename)
             raise SystemError("Unkown configuration file", filename)
 
-    def get_color(self, color_string):
-        """Returns predefined color string
-        TODO: currently returns None when none was found -> Exeption ?
-        """
-
-        if color_string is None:
-            color = None
-        elif color_string == "red":
-            color = self.RED
-        elif color_string == "green":
-            color = self.GREEN
-        elif color_string == "blue":
-            color = self.BLUE
-        elif color_string == "gray":
-            color = self.GREY
-        elif color_string == "cyan":
-            color = self.CYAN
-        elif color_string[0] == "#":
-            if len(color_string) == 7:
-                return color_string
-            raise SystemError("Unknown color")
-        else:
-            print("Color type %s not found" % color_string)
-            color = None
-        return color
-
     def parse_entry_to_config(self, command, filename):
         print(command)
         if not command:
@@ -126,7 +93,7 @@ class AnyMate:
             text=command.get("cmd"),
             name=command.get("name"),
             nick=command.get("nick"),
-            color=command.get("color"),
+            color=None,
             bookmark=False,
             debug=self.debug,
         )
@@ -143,7 +110,6 @@ class AnyMate:
 
             cfg = self.parse_entry_to_config(command, filename)
 
-            # color = self.get_color(command[2])
             self._config_list.append(cfg)
 
     def list(self):
