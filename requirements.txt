@@ -1,0 +1,8 @@
+PyGObject
+
+# Development
+pytest
+black
+pylama
+coverage
+mypy

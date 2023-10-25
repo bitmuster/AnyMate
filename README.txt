@@ -28,7 +28,7 @@ Prerequisites
 -------------
 AnyMate needs
 - python3
-- python3-gi : Python 3 bindings for gobject-introspection libraries
+- python3-gi / PyGObject : Python 3 bindings for gobject-introspection libraries
 
 
 Commandline:

@@ -8,4 +8,4 @@ __pycache__/
 *.pyc
 .cache
 .mypy_cache
-
+venv
