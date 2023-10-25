@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# AnyMate: Automate Anything - Version 1.2 beta
+# AnyMate: Automate Anything - Version 1.3 beta
 #
-# Automated execution of bash code snippets via Tkinter-GUI or command-line.
-# Copyright (C) 2009 - 2017 Michael Abel
+# Automated execution of bash code snippets via GTK-GUI or command-line.
+# Copyright (C) 2009 - 2023 Michael Abel
 #
 # See the README file for further explanation.
 #
@@ -36,30 +36,10 @@
 #  * To avoid Problems in commands please avoid the ' Character,
 #     this would confuse bash.
 #
-# rxvt micro snippet with integrated waiting:
 
 # Links:
-# http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
-# http://effbot.org/tkinterbook/
-# http://www.tkdocs.com/tutorial/grid.html
-
-# TODO: Solution needed: Some commands block in .anymate files. Seems
-#    to be related to ; and \n and # comments in the files.
-#    In json we have many \n. This issue style will hit us forever unless
-#    we find a good way to deal with it.
-
-# TODO: Avoid Problems with the ' Character
-# TODO: Add Windows / Cygwin profile to avoid ongoing pain with Windows OS
-# TODO: Read / Store from/to XML or another suitable format
-# TODO: Select interpreter type per configuration
-# TODO: Switch to python logger
-# TODO: Rename Config command to nick
-# TODO: Read configs from separate files in subfolder
-# TODO: Windows: avoid \U : SyntaxError: (unicode error)
-#       'unicodeescape' codec can't decode bytes in position
-#       45-46: truncated \UXXXXXXXX escape
-# TODO: Improve Windwos support
-# TODO: Support mulitple lines under Windows (^) ?
+# * https://github.com/bitmuster/AnyMate
+# * https://gitlab.com/bitmuster/anymate
 
 import logging
 import os.path
