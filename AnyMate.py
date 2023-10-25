@@ -1,45 +1,46 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# AnyMate: Automate Anything - Version 1.3 beta
-#
-# Automated execution of bash code snippets via GTK-GUI or command-line.
-# Copyright (C) 2009 - 2023 Michael Abel
-#
-# See the README file for further explanation.
-#
-# Licence:
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
+"""
+AnyMate: Automate Anything - Version 1.3 beta
 
-# Infos:
-#
-#  * Call it like :
-#       python3 AnyMate.py empty.anymate
-#       python3 AnyMate.py --nogui xclock template.anymate
-#
-#  * Use this as as example for creating a button at the gnome panel
-#     xterm -e /bin/bash -c 'cd /home/micha/Koffer/Projects/AnyMate;
-#         ./AnyMate.py Koffer.anymate; read any_key'
-#
-#  * To avoid Problems in commands please avoid the ' Character,
-#     this would confuse bash.
-#
+Automated execution of bash code snippets via GTK-GUI or command-line.
+Copyright (C) 2009 - 2023 Michael Abel
 
-# Links:
-# * https://github.com/bitmuster/AnyMate
-# * https://gitlab.com/bitmuster/anymate
+See the README file for further explanation.
+
+Licence:
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+Infos:
+
+  * Call it like :
+      python3 AnyMate.py empty.anymate
+      python3 AnyMate.py --nogui xclock template.anymate
+
+  * Use this as as example for creating a button at the gnome panel
+    xterm -e /bin/bash -c 'cd /home/micha/Koffer/Projects/AnyMate;
+        ./AnyMate.py Koffer.anymate; read any_key'
+
+  * To avoid Problems in commands please avoid the ' Character,
+    this would confuse bash.
+
+Links:
+* https://github.com/bitmuster/AnyMate
+* https://gitlab.com/bitmuster/anymate
+"""
 
 import logging
 import os.path
