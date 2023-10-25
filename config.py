@@ -6,7 +6,6 @@ from interpreter import Interpreter
 
 # import pysnooper
 
-# SHELL = "nonepopen"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 SHELL = "xterm"  # := xterm | urxvt | gnome-terminal | none | win | none_win
 
 
@@ -57,19 +56,7 @@ class Config:
         )
 
         out = ""
-        # while not self.poll():
-        #    try:
-        #        outs, errs = proc.communicate(timeout=1)
-        #        logging.info("Return %s", proc.returncode)
-        #        logging.info("Pid %s", proc.pid)
-        #        logging.info("Stdout %s", str(outs))
-        #        logging.info("Stderr %s", str(errs))
-        #        out += str(outs)
-        #    except subprocess.TimeoutExpired:
-        #        #proc.kill()
-        #        logging.info("Timeout!")
-        #        #outs, errs = proc.communicate()
-        #        #out += str(outs)
+
 
         # TODO This will block when we run everything in a subshell
         subshell = True
@@ -83,11 +70,6 @@ class Config:
                         callback(str(line) + "\n")
             else:
                 logging.info("The stream is already closed")
-
-        # logging.info("Return %s", proc.returncode)
-        # logging.info("Stdout %s", str(outs))
-        # logging.info("Stderr %s", str(errs))
-        # out += str(outs)
 
         return out
 

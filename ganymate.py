@@ -108,12 +108,6 @@ class AnyMateGtkGui:
                 self.nameentry.set_text(name)
                 break
 
-        # path = Gtk.TreePath([1, 4])
-        # treeiter = self.store.get_iter(path)
-        ## Get value at 2nd column
-        # value = self.store.get_value(treeiter, 1)
-        # print(value)
-
     def build(self, anymate, filename):
         self._anymate = anymate
 
@@ -149,23 +143,8 @@ class AnyMateGtkGui:
         self.controlbox_2 = builder.get_object("controlbox_2")
         self.treeview_container = builder.get_object("treeview_container")
 
-        #        scrolledwindow = Gtk.ScrolledWindow()
-        #        scrolledwindow.set_hexpand(True)
-        #        scrolledwindow.set_vexpand(True)
-        #        self.grid.attach(scrolledwindow, 0, 1, 3, 1)
-
-        #        self.self.textview = Gtk.TextView()
-
         self.textbuffer = self.textview.get_buffer()
         self.textbuffer.set_text("*" * 80 + "\n" + "*" * 80 + "\n")
-        # scrolledwindow.add(self.textview)
-
-        #         self.tag_bold = self.textbuffer.create_tag("bold", weight=Pango.Weight.BOLD)
-        #         self.tag_italic = self.textbuffer.create_tag("italic", style=Pango.Style.ITALIC)
-        #         self.tag_underline = self.textbuffer.create_tag(
-        #             "underline", underline=Pango.Underline.SINGLE
-        #         )
-        #        self.tag_found = self.textbuffer.create_tag("found", background="yellow")
 
         # Title, Path
         store = Gtk.TreeStore(str, str)
