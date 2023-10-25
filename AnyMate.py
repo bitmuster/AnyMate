@@ -48,7 +48,7 @@ import sys
 import json
 
 # from anymate_gui import AnyMateGui as gui
-from ganymate import AnyMateGtkGui as gui
+from ganymate import AnyMateGtkGui as anymate_gui
 
 import config as aconf
 
@@ -78,8 +78,8 @@ class AnyMate:
             print("Loading AnyMate configuration file " + self._filename)
             self.read_json_config(self._filename)
         else:
-            print("Unkown configuration file" + filename)
-            raise SystemError("Unkown configuration file", filename)
+            print("Unkown configuration file" + self._filename)
+            raise SystemError("Unkown configuration file", self._filename)
 
     def parse_entry_to_config(self, command, filename):
         print(command)
@@ -100,9 +100,9 @@ class AnyMate:
         return cfg
 
     def read_json_config(self, filename):
-        thefile = open(filename)
-        command_list = json.load(thefile)
-        print("CommandList", command_list)
+        with open(filename, encoding="utf-8") as thefile:
+            command_list = json.load(thefile)
+            print("CommandList", command_list)
 
         for command in command_list:
             if self.debug:
@@ -141,7 +141,7 @@ class AnyMate:
                 return True
 
         # when no item was found
-        print("Command not found %s" % command)
+        print(f"Command not found {command}")
         raise SystemError("Command not found")
 
     def get_config_list(self):
@@ -200,7 +200,7 @@ def main(argv, debug=False):
         anymate.load_configuration()
         # anymate.list()
         # anymate.command_list()
-        anymategui = gui(anymate, filename)
+        anymategui = anymate_gui(anymate, filename)
         # Start the TK Mainloop
         anymategui.mainloop()
         if debug:
