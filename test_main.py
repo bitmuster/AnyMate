@@ -48,7 +48,7 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(SystemExit):
             main(["bad"] * 5)
 
-    @patch("AnyMate.gui")
+    @patch("AnyMate.anymate_gui")
     @patch("AnyMate.AnyMate")
     def test_main_two_real_param(self, mock, guimock):
         # setup
@@ -72,7 +72,7 @@ class TestMain(unittest.TestCase):
             main(["./AnyMate.py", myfile])
 
     @patch("os.path.isfile")
-    @patch("AnyMate.gui")
+    @patch("AnyMate.anymate_gui")
     @patch("AnyMate.AnyMate")
     def test_main_mockedfile(self, anymock, guimock, filemock):
         # setup
@@ -84,7 +84,7 @@ class TestMain(unittest.TestCase):
         anymock.assert_called_once_with(myfile)
 
     @patch("os.path.isfile")
-    @patch("AnyMate.gui")
+    @patch("AnyMate.anymate_gui")
     @patch("AnyMate.AnyMate")
     def test_main_mainloop(self, anymock, guimock, filemock):
         # setup

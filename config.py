@@ -1,5 +1,4 @@
 import logging
-import os
 import subprocess
 
 from interpreter import Interpreter
@@ -73,11 +72,7 @@ class Config:
         return out
 
     def __str__(self):
-        return ('Name: "%s"; Command: "%s"; Code: "%s";') % (
-            self.name,
-            self.nick,
-            self.text,
-        )
+        return (f'Name: "{self.name}"; Command: "{self.nick}"; Code: "{self.text}";')
 
     def get_command(self):
         """Get a command"""
