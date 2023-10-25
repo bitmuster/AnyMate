@@ -154,8 +154,6 @@ class AnyMateGtkGui:
 
         treeiter = store.append(None, ["Command", "This"])
 
-        # treeiter = store.append(treeiter, ["Stuff", "That", 25.46])
-
         self.treeview.set_model(store)
 
         renderer = Gtk.CellRendererText()
@@ -166,24 +164,13 @@ class AnyMateGtkGui:
         column = Gtk.TreeViewColumn("Nick", renderer, text=1, weight=1)
         self.treeview.append_column(column)
 
-        # renderer = Gtk.CellRendererText()
-        # column = Gtk.TreeViewColumn("Where", renderer, text=2, weight=1)
-        # self.treeview.append_column(column)
-
-        # renderer = Gtk.CellRendererText()
-        # column = Gtk.TreeViewColumn("Buttons", renderer, text=3, weight=1)
-        # self.treeview.append_column(column)
-
         self.treeview.connect("row-activated", self.on_row_activated)
 
         # Does not work right
         # self.treeview.expand_all()
 
         attr = Pango.AttrList()
-        # fg_color = Pango.AttrForeground(65535, 0, 0, 0, 6)
-        # wtf = Pango.Alignment.RIGHT
-        # attr.insert(wtf)
-        # attr.insert(Pango.Underline.SINGLE)
+
         fg = Pango.attr_foreground_new(65535, 0, 0)
         attr.insert(fg)
         # left = Pango.pango_layout_set_alignment(Pango.Alignment.RIGHT)
@@ -194,22 +181,11 @@ class AnyMateGtkGui:
         controlgrid.attach(self.alabel, 1, 0, 1, 1)  # left top with height
 
         layout = self.alabel.create_pango_layout()
-        # print("Layout", layout)
-        # layout.set_alignment(Pango.Alignment.RIGHT)
-        # layout.set_text("Whee")
-        # context = self.alabel.create_pango_context()
-        # print("Context", context)
+
         self.alabel.set_xalign(0.1)
 
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
 
-        # for i in range(10):
-        #    label = Gtk.Label(label="Its")
-        #    statuslabel = Gtk.Label(label="dead")
-        #    button = Gtk.Button(label=f"Button {i}")
-        #    commandgrid.attach(label, 0, i, 1, 1)  # left top with height
-        #    commandgrid.attach(button, 1, i, 1, 1)  # left top with height
-        #    commandgrid.attach(statuslabel, 2, i, 1, 1)  # left top with height
 
         self.hidebutton = builder.get_object("hidebutton")
         if self.hidebutton:
@@ -220,25 +196,18 @@ class AnyMateGtkGui:
         for k in range(len(self.options)):
             # generate an option field
             option = self.options[k]
-            # self.generate_option(
-            #    parent=self.mainframe, row=self.use_row, option=option, number=k
-            # )
-            # self.use_row += 1
+
             print(option)
 
             label = Gtk.Label(label=option.get_nick())
             label.set_xalign(0.1)
-            # statuslabel = Gtk.Label(label=option.nick)
             runbutton = Gtk.Button(label="run", name=f"runbutton{k:3}")
-            # showbutton = Gtk.Button(label="show", name=f"showbutton{k:3}")
 
             # not sure if the lambda really works here
             runbutton.connect("clicked", lambda x: self.on_click_run_button(x))
-            # showbutton.connect("clicked", lambda x: self.on_click_show_button(x))
 
             commandgrid.attach(label, 0, k, 1, 1)  # left top with height
             commandgrid.attach(runbutton, 1, k, 1, 1)  # left top with height
-            # commandgrid.attach(showbutton, 2, k, 1, 1)  # left top with height
 
             store.append(treeiter, [option.name, option.nick])
 
