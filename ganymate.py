@@ -186,7 +186,6 @@ class AnyMateGtkGui:
 
         controlgrid.attach(button1, 0, 0, 1, 1)  # left top with height
 
-
         self.hidebutton = builder.get_object("hidebutton")
         if self.hidebutton:
             self.hidebutton.connect("clicked", self.on_click_hidebutton)

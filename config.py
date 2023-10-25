@@ -57,7 +57,6 @@ class Config:
 
         out = ""
 
-
         # TODO This will block when we run everything in a subshell
         subshell = True
         if not subshell:
